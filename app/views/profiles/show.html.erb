@@ -1,0 +1,7 @@
+<div class="container">
+  <%= render "profiles/infos" %>
+  <br>
+  <hr>
+  <hr>
+  <%= button_to "Delete my account", registration_path(current_user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger btn-sm" %>
+</div>
