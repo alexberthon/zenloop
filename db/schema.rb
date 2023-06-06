@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_05_103009) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_06_101048) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_05_103009) do
     t.datetime "dt_end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "duration"
     t.index ["station_end_id"], name: "index_lines_on_station_end_id"
     t.index ["station_start_id"], name: "index_lines_on_station_start_id"
   end
@@ -65,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_05_103009) do
     t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "db_stop_id"
     t.index ["city_id"], name: "index_stations_on_city_id"
   end
 
@@ -74,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_05_103009) do
     t.bigint "city_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "duration"
     t.index ["city_id"], name: "index_stays_on_city_id"
   end
 
