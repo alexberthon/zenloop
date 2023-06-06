@@ -7,10 +7,10 @@ class JourneysController < ApplicationController
     if @search.present?
       @name = @search["name"]
       @querystation = Station.find_by(name: @name)
-      @stationchoisie = Station.where(["id = #{@querystation.id}"])
+      @selected_station = Station.where(["id = #{@querystation.id}"])
     end
 
-    @markers = @stationchoisie.geocoded.map do |station|
+    @markers = @selected_station.map do |station|
       {
         lat: station.latitude,
         lng: station.longitude
