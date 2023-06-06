@@ -1,6 +1,5 @@
 require "json"
 require "open-uri"
-require "pry-byebug"
 
 DB_BASE_URL = "https://zenloop-db-rest.herokuapp.com"
 # DB_BASE_URL = "http://localhost:3001"
