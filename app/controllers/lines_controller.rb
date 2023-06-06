@@ -4,11 +4,11 @@ class LinesController < ApplicationController
 
   def show
     @line = Line.find(params[:id])
-    @linestart = Station.find(@line.station_start_id)
-    @lineend = Station.find(@line.station_end_id)
-    @stations = Station.where(["id = #{@linestart.id} or id = #{@lineend.id}"])
+    @line_start = Station.find(@line.station_start_id)
+    @line_end = Station.find(@line.station_end_id)
+    @stations = Station.where(["id = #{@line_start.id} or id = #{@line_end.id}"])
 
-    @markers = @stations.geocoded.map do |station|
+    @markers = @stations.map do |station|
       {
         lat: station.latitude,
         lng: station.longitude
