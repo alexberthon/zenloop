@@ -1,0 +1,12 @@
+Beginning of the line: <br>
+<%= @line_start.name.capitalize %>
+<br>
+End of the line: <br>
+<%= @line_end.name.capitalize  %>
+<br>
+<div style="width: 70%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+  >
+</div>

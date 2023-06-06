@@ -1,1 +1,21 @@
-index
+<br>
+Previous step:
+<% @selected_station.each do |station| %>
+  <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
+<% end %>
+  <br>
+Next step is:
+<select class="form-select" aria-label="Default select example">
+  <% @stations.each do |station| %>
+    <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
+  <% end %>
+</select>
+  <br>
+  <br>
+  <br>
+<div
+  style="width: 70%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+</div>
