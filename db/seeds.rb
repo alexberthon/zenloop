@@ -29,8 +29,16 @@ CITIES = [
   }
 ]
 
+User.destroy_all
 Station.destroy_all
 City.destroy_all
+
+puts "Seeding database..."
+
+User.create(name: 'Alexis', email: 'alexis@gmail.com', password: 'azerty')
+User.create(name: 'Antoine', email: 'antoine@gmail.com', password: 'azerty')
+User.create(name: 'Alexandre', email: 'alexandre@gmail.com', password: 'azerty')
+User.create(name: 'Lenny', email: 'lenny@gmail.com', password: 'azerty')
 
 def fetch_stations(name, results)
   stations_url = "#{DB_BASE_URL}/locations?query=#{name}&poi=false&fuzzy=false&addresses=false&results=#{results}"
@@ -116,3 +124,5 @@ Station.all.each do |station|
     puts "[#{station.name}] #{index + 1}/#{trips.count} trips fetched"
   end
 end
+
+puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations and #{Line.count} lines"

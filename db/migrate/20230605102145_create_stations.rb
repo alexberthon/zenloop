@@ -5,7 +5,6 @@ class CreateStations < ActiveRecord::Migration[7.0]
       t.references :city, null: false, foreign_key: true
       t.float :latitude
       t.float :longitude
-
       t.timestamps
     end
   end
