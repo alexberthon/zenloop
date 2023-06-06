@@ -1,8 +1,18 @@
 <br>
 Previous station:
 <% @stationchoisie.each do |station| %>
+
   <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
+<% end %>
+  <br>
+Next step is:
+<select class="form-select" aria-label="Default select example">
+  <% @stations.each do |station| %>
+    <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
   <% end %>
+</select>
+  <br>
+  <br>
   <br>
   Next station is:
   <div data-controller="newstep" >
@@ -29,3 +39,9 @@ Previous station:
       <% end %>
     </div>
   </select>
+<div
+  style="width: 70%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+</div>

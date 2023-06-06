@@ -1,5 +1,36 @@
+require "json"
+require "open-uri"
+
+# DB_BASE_URL = "http://localhost:3001"
+DB_BASE_URL = "https://zenloop-db-rest.herokuapp.com"
+DELAY = 0
+STATIONS_PER_CITY = 10
+DEPARTURES_PER_STATION = 20
+CITIES = [
+  {
+    name: "Paris",
+    population: 2_145_906
+  },
+  {
+    name: "Marseille",
+    population: 870_321
+  },
+  {
+    name: "Lyon",
+    population: 522_228
+  },
+  {
+    name: "Toulouse",
+    population: 498_003
+  },
+  {
+    name: "Nice",
+    population: 343_477
+  }
+]
+DATE = URI.encode_www_form_component(Time.now.next_day.beginning_of_day.strftime("%Y-%m-%dT%H:%M:%S%:z"))
+
 User.destroy_all
-Line.destroy_all
 Station.destroy_all
 City.destroy_all
 
@@ -10,19 +41,89 @@ User.create(name: 'Antoine', email: 'antoine@gmail.com', password: 'azerty')
 User.create(name: 'Alexandre', email: 'alexandre@gmail.com', password: 'azerty')
 User.create(name: 'Lenny', email: 'lenny@gmail.com', password: 'azerty')
 
-paris = City.create(name: "Paris", country: "France", population: 2000)
-lyon = City.create(name: "Lyon", country: "France", population: 1000)
-marseille = City.create(name: "Marseille", country: "France", population: 3000)
+def fetch_stations(name, results)
+  stations_url = "#{DB_BASE_URL}/locations?query=#{name}&poi=false&fuzzy=false&addresses=false&results=#{results}"
+  stations_data_serialized = URI.open(stations_url).read
+  stations_data = JSON.parse(stations_data_serialized).map(&:deep_symbolize_keys!)
+  stations_data.reject do |station|
+    station[:type] != "stop" ||
+      station[:isMeta] ||
+      (!station[:products][:nationalExpress] && station[:products][:national])
+  end
+end
 
-parisnord = Station.create(name: "gare du nord", city_id: paris.id, address: "18 Rue de Dunkerque, 75010 Paris")
-parisest = Station.create(name: "gare de l'est", city_id: paris.id, address: "Rue du 8 Mai 1945, 75010 Paris")
-parislyon = Station.create(name: "gare de lyon", city_id: paris.id, address: "Pl. Louis-Armand, 75012 Paris")
-partdieu = Station.create(name: "gare lyon part-dieu", city_id: lyon.id, address: "5, place Charles Béraudier 69003 Lyon")
-saintcharles = Station.create(name: "gare marseille saint-charles", city_id: marseille.id, address: "Square Narvik 13232 Marseille")
+def fetch_trips(station, results)
+  departures_url = "#{DB_BASE_URL}/stops/#{station.db_stop_id}/departures?duration=1440&subway=false&regional=false&suburban=false&when=#{DATE}&results=#{results}"
+  departures_data_serialized = URI.open(departures_url).read
+  departures_data = JSON.parse(departures_data_serialized).deep_symbolize_keys[:departures]
+  departures_data
+    .uniq { |departure| "#{departure[:stop][:id]}_#{departure[:destination][:id]}" }
+    .map { |departure| departure[:tripId] }
+end
 
-Line.create(station_start_id: parislyon.id, station_end_id: saintcharles.id)
-Line.create(station_start_id: saintcharles.id, station_end_id: parislyon.id)
-Line.create(station_start_id: parislyon.id, station_end_id: partdieu.id)
-Line.create(station_start_id: partdieu.id, station_end_id: parislyon.id)
+def fetch_trip(trip_id)
+  trip_id = URI.encode_www_form_component(trip_id)
+  trip_url = "#{DB_BASE_URL}/trips/#{trip_id}?remarks=false"
+  trip_data_serialized = URI.open(trip_url).read
+  JSON.parse(trip_data_serialized).deep_symbolize_keys[:trip]
+end
+
+# Create cities
+CITIES.each do |city|
+  City.create!(
+    name: city[:name],
+    country: "France",
+    population: city[:population]
+  )
+end
+
+# Create stations
+City.all.each do |city|
+  stations_data = fetch_stations(city.name, STATIONS_PER_CITY)
+  stations_data.each do |station|
+    Station.create(
+      name: station[:name],
+      latitude: station[:location][:latitude],
+      longitude: station[:location][:longitude],
+      db_stop_id: station[:id],
+      city: city
+    )
+  end
+end
+
+Station.all.each do |station|
+  trips = fetch_trips(station, DEPARTURES_PER_STATION)
+  trips.each_with_index do |trip_id, index|
+    sleep(DELAY)
+    trip = fetch_trip(trip_id)
+
+    trip[:stopovers].each do |stopover|
+      next if stopover[:stop][:id] == station.db_stop_id || stopover[:arrival].blank?
+
+      if Station.exists?(db_stop_id: stopover[:stop][:id])
+        next_station = Station.where(db_stop_id: stopover[:stop][:id]).first
+      else
+        next_station = Station.create!(
+          name: stopover[:stop][:name],
+          latitude: stopover[:stop][:location][:latitude],
+          longitude: stopover[:stop][:location][:longitude],
+          db_stop_id: stopover[:stop][:id],
+          city: station.city
+        )
+      end
+
+      line = Line.new(
+        station_start: station,
+        station_end: next_station,
+        dt_start: Time.parse(trip[:departure]),
+        dt_end: Time.parse(stopover[:arrival])
+      )
+      line.duration = ((line.dt_end - line.dt_start) / 60).to_i
+      line.save
+    end
+
+    puts "[#{station.name}] #{index + 1}/#{trips.count} trips fetched"
+  end
+end
 
 puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations and #{Line.count} lines"
