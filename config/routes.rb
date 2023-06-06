@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   resources :journeys
   resources :cities
   resources :stations
+  resources :lines
 
 end
