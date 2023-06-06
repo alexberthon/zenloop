@@ -1,10 +1,11 @@
 require "json"
 require "open-uri"
 
-DB_BASE_URL = "https://zenloop-db-rest.herokuapp.com"
 # DB_BASE_URL = "http://localhost:3001"
+DB_BASE_URL = "https://zenloop-db-rest.herokuapp.com"
 DELAY = 0
-DATE = URI.encode_www_form_component(Time.now.next_day.beginning_of_day.strftime("%Y-%m-%dT%H:%M:%S%:z"))
+STATIONS_PER_CITY = 10
+DEPARTURES_PER_STATION = 20
 CITIES = [
   {
     name: "Paris",
@@ -27,6 +28,7 @@ CITIES = [
     population: 343_477
   }
 ]
+DATE = URI.encode_www_form_component(Time.now.next_day.beginning_of_day.strftime("%Y-%m-%dT%H:%M:%S%:z"))
 
 User.destroy_all
 Station.destroy_all
@@ -77,7 +79,7 @@ end
 
 # Create stations
 City.all.each do |city|
-  stations_data = fetch_stations(city.name, 10)
+  stations_data = fetch_stations(city.name, STATIONS_PER_CITY)
   stations_data.each do |station|
     Station.create(
       name: station[:name],
@@ -90,7 +92,7 @@ City.all.each do |city|
 end
 
 Station.all.each do |station|
-  trips = fetch_trips(station, 1000)
+  trips = fetch_trips(station, DEPARTURES_PER_STATION)
   trips.each_with_index do |trip_id, index|
     sleep(DELAY)
     trip = fetch_trip(trip_id)
