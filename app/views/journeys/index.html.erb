@@ -1,21 +1,46 @@
 <br>
-Previous step:
+Previous station:
 <% @selected_station.each do |station| %>
   <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
-<% end %>
-  <br>
-Next step is:
-<select class="form-select" aria-label="Default select example">
-  <% @stations.each do |station| %>
-    <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
   <% end %>
-</select>
   <br>
-  <br>
-  <br>
-<div
+  Next step is:
+  <select class="form-select" aria-label="Default select example">
+    <% @stations.each do |station| %>
+      <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
+      <% end %>
+    </select>
+    <br>
+    <br>
+    <br>
+    Next station is:
+    <div data-controller="newstep" >
+      <%= simple_form_for :journey, method: "GET", html: { class: 'form-inline' } do |f| %>
+        <div class="form-group" data-action="click->newstep#newmarker">
+          <%= f.input :station, collection: ['option1', 'option2'],  input_html: {
+          data: { newstep_target: "station"}} %>
+        </div>
+        <%= f.submit "Search" %>
+      <% end %>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div style="width: 70%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+    </div>
+    <select class="form-select" aria-label="Default select example" >
+      <div>
+        <% @stations.each do |station| %>
+          <option data-action="click->newstep#newmarker"  data-newstep-target="station" value= <%="#{station.id}"%>> <%="#{station.name}"%></option>
+        <% end %>
+      </div>
+    </select>
+    <div
   style="width: 70%; height: 600px;"
   data-controller="map"
   data-map-markers-value="<%= @markers.to_json %>"
   data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
-</div>
+    </div>
