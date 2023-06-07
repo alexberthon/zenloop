@@ -2,11 +2,11 @@
 <br>
 <div class="container">
   <h2 class="text-center">Define your dream itinerary!</h2>
-  <%= simple_form_for :search, url: 'journeys', method: "GET", html: { class: 'form-inline' } do |f| %>
+  <%= simple_form_for @journey, html: { class: "form-inline" } do |f| %>
     <div class="form-group">
-      <%= f.collection_select :name, @stations, :name, :name, {}, class: 'form-control mr-sm-2' %>
+      <%= f.input :station_start_id, collection: @stations, class: "form-control mr-sm-2" %>
     </div>
-    <%= f.submit "Search", class: "btn btn-primary my-2 my-sm-0" %>
+    <%= f.submit "Let's go!", class: "btn btn-primary my-2 my-sm-0" %>
   <% end %>
 </div>
 <br>
