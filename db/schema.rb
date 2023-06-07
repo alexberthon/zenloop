@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_06_153948) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_07_091339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,13 +65,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_06_153948) do
     t.string "name"
     t.bigint "user_id", null: false
     t.integer "likes"
-    t.bigint "city_start_id", null: false
-    t.bigint "city_end_id", null: false
     t.integer "duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["city_end_id"], name: "index_journeys_on_city_end_id"
-    t.index ["city_start_id"], name: "index_journeys_on_city_start_id"
+    t.bigint "station_start_id", null: false
+    t.bigint "station_end_id", null: false
+    t.index ["station_end_id"], name: "index_journeys_on_station_end_id"
+    t.index ["station_start_id"], name: "index_journeys_on_station_start_id"
     t.index ["user_id"], name: "index_journeys_on_user_id"
   end
 
@@ -138,8 +138,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_06_153948) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activities", "cities"
-  add_foreign_key "journeys", "cities", column: "city_end_id"
-  add_foreign_key "journeys", "cities", column: "city_start_id"
+  add_foreign_key "journeys", "stations", column: "station_end_id"
+  add_foreign_key "journeys", "stations", column: "station_start_id"
   add_foreign_key "journeys", "users"
   add_foreign_key "lines", "stations", column: "station_end_id"
   add_foreign_key "lines", "stations", column: "station_start_id"

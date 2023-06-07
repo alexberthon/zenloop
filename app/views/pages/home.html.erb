@@ -5,8 +5,8 @@
   <br>
   <%# search form journey start %>
   <div class='petitcontainer' >
-    <%= simple_form_for :search,  url: 'journeys', method: "GET"  do |f| %>
-      <%= f.select :name,
+    <%= simple_form_for @journey do |f| %>
+      <%= f.select :station_start_id,
               Station.to_select,
               { include_blank: true },
               data: {
