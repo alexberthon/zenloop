@@ -116,7 +116,8 @@ Station.all.each do |station|
         station_start: station,
         station_end: next_station,
         dt_start: Time.parse(trip[:departure]),
-        dt_end: Time.parse(stopover[:arrival])
+        dt_end: Time.parse(stopover[:arrival]),
+        db_trip_id: trip_id
       )
       line.duration = ((line.dt_end - line.dt_start) / 60).to_i
       line.save

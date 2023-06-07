@@ -14,6 +14,8 @@ export default class extends Controller {
   connect() {
     mapboxgl.accessToken = this.apiKeyValue;
 
+    console.log(this.strokesValue);
+
     this.map = new mapboxgl.Map({
       container: this.element,
       style: "mapbox://styles/mapbox/streets-v10"
@@ -80,7 +82,8 @@ export default class extends Controller {
 
       // Copy coordinates array.
       const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
+      const name = e.features[0].properties.name;
+      const duration = e.features[0].properties.duration || "";
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -89,9 +92,11 @@ export default class extends Controller {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
 
+      const html = `<div class="popup"><div>${name}</div><div>${duration} mins</div></div>`
+
       // Populate the popup and set its coordinates
       // based on the feature found.
-      popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
+      popup.setLngLat(coordinates).setHTML(html).addTo(this.map);
     });
 
     this.map.on('mouseleave', layer, () => {
