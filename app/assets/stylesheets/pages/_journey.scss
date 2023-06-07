@@ -13,4 +13,12 @@
   .marker.selected-station path {
     fill: red;
   }
+
+  .popup {
+    text-align: center;
+  }
+
+  .popup div:last-child {
+    font-weight: bold;
+  }
 }
