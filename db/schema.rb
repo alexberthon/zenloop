@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_07_141322) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_124210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -112,9 +112,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_07_141322) do
   create_table "steps", force: :cascade do |t|
     t.integer "order"
     t.bigint "journey_id", null: false
-    t.string "type"
-    t.bigint "line_id", null: false
-    t.bigint "stay_id", null: false
+    t.string "kind"
+    t.bigint "line_id"
+    t.bigint "stay_id"
     t.integer "duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

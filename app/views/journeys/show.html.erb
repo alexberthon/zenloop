@@ -7,7 +7,9 @@
   data-journey-selected-stations-value="<%= @selected_stations %>"
   data-journey-reachable-stations-value="<%= @reachable_stations %>"
   data-journey-strokes-value="<%= @strokes %>"
-  data-journey-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+  data-journey-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+  data-journey-journey-value="<%= @journey.to_json %>"
+  >
     <div id="journey-map"></div>
   </div>
   <div class="left-side text-center ">

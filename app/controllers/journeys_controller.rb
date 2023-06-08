@@ -7,16 +7,24 @@ class JourneysController < ApplicationController
   end
 
   def show
-    @journey = Journey.find(params[:id])
-    @station = @journey.station_start
     @stations = Station.all
-    @lines = Line.where(station_start: @station).includes(:station_end)
 
-    @reachable_stations = geojson_reachable(@lines)
-    @selected_stations = geojson_selected([@station])
+    @journey = Journey.find(params[:id])
+    @visited_stations = @journey.steps
+                                .includes(line: :station_end)
+                                .map { |step| step.line.station_end }
+                                .unshift(@journey.station_start)
+    @station = @visited_stations.last
+
+    @lines = Line.where(station_start: @station)
+                 .includes(:station_end)
+                 .reject { |line| @visited_stations.include?(line.station_end) }
+
+    @reachable_stations = helpers.geojson_reachable(@lines)
+    @selected_stations = helpers.geojson_selected(@visited_stations)
 
     trips = @lines.group_by(&:db_trip_id) # hash of arrays
-    @strokes = geojson_trips(@station, trips)
+    @strokes = helpers.geojson_trips(@station, trips)
   end
 
   def create
@@ -42,60 +50,5 @@ class JourneysController < ApplicationController
 
   def set_journey
     @journey = Journey.find(params[:id])
-  end
-
-  def geojson_selected(stations)
-    Jbuilder.new do |json|
-      json.type "FeatureCollection"
-      json.features stations do |station|
-        json.type "Feature"
-        json.id station.id
-        json.properties do
-          json.name station.name
-        end
-        json.geometry do
-          json.type "Point"
-          json.coordinates [station.longitude, station.latitude]
-        end
-      end
-    end.attributes!.to_json
-  end
-
-  def geojson_reachable(lines)
-    Jbuilder.new do |json|
-      json.type "FeatureCollection"
-      json.features lines do |line|
-        json.type "Feature"
-        json.id line.station_end.id
-        json.properties do
-          json.name line.station_end.name
-          json.duration line.duration
-          json.db_trip_id line.db_trip_id.gsub("|", "").to_i
-        end
-        json.geometry do
-          json.type "Point"
-          json.coordinates [line.station_end.longitude, line.station_end.latitude]
-        end
-      end
-    end.attributes!.to_json
-  end
-
-  def geojson_trips(station_start, trips)
-    Jbuilder.new do |json|
-      json.type "FeatureCollection"
-      json.features trips.values do |trip|
-        json.type "Feature"
-        json.id trip.first.db_trip_id.gsub("|", "").to_i
-        json.geometry do
-          json.type "LineString"
-          json.coordinates(
-            trip
-              .map(&:station_end)
-              .map { |station| [station.longitude, station.latitude] }
-              .unshift([station_start.longitude, station_start.latitude])
-          )
-        end
-      end
-    end.attributes!.to_json
   end
 end
