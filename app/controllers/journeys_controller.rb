@@ -24,6 +24,7 @@ class JourneysController < ApplicationController
       station_start: @station_start,
       station_end: @station_start,
       user: current_user,
+      duration: 0,
       name: "trip starting from " + @station_start.name
     )
     if @journey.save!
