@@ -1,15 +1,16 @@
 .left-side {
   width:250px;
-  height: 90vh;
+  height: 80vh;
   background: white;
-  display:inline-block;
-  position:sticky;
+  display: inline-block;
+  position: relative;
   top:40px;
   left: 60px;
   border-radius: 15px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   display: flex;
-  justify-content: center;
+  z-index: 100;
+  flex-direction: column;
 }
 
 
@@ -38,3 +39,18 @@
 
 input::placeholder {
   color: rgb(180, 180, 180) !important;}
+
+.station-list {
+  margin-top: 10px;
+  padding-left: 0px;
+  overflow: auto;
+}
+
+.station-list li {
+  list-style-type: none;
+  padding: 10px;
+  margin: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid #E7E7E7;
+  border-radius: 10px;
+}

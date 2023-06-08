@@ -1,6 +1,7 @@
 #journey-map {
   width: 100vw;
   height: calc(100vh - 70px);
+  position: absolute;
 
   .marker {
     width: 20px;
@@ -31,4 +32,8 @@
   .popup div:last-child {
     font-weight: bold;
   }
+}
+
+.map-side-bar {
+  margin-top: 20px;
 }
