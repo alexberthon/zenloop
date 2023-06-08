@@ -3,8 +3,9 @@ class JourneysController < ApplicationController
   before_action :set_journey, only: %i[show]
 
   def index
-    @journeys = Journey.all
+    @journeys = Journey.where(:user_id => current_user.id )
   end
+
 
   def show
     @journey = Journey.find(params[:id])
