@@ -1,0 +1,8 @@
+<br>
+<br>
+<br>
+<h1>New name for your journey:</h1>
+<%= simple_form_for(@journey) do |f| %>
+  <%= f.input :name, :label_html => { :class => 'simple-form-label' } %>
+  <%= f.button :submit, "Add your name", class: "btn btn-primary btn-lg" %>
+<% end %>
