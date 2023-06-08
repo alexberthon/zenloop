@@ -1,25 +1,19 @@
-    
-<h1>Your journeys</h1>
-<% @journeys.each do |journey| %>
-  <div class="container">
-    <br>
-    <hr>
+<div class="container">
+  <h1>Your journeys</h1>
+  <% @journeys.each do |journey| %>
     <ul>
-      <li><strong>
-          <h3><%= journey.name.upcase %> (ID:<%= journey.id %>)</h3>
-        </strong></li>
-      <br>
-      <li>Likes: <%= journey.likes %></li>
-      <li>Duration: <%= journey.duration %></li>
-      <li>Start station: <%= journey.station_start.name %></li>
-      <li>End station: <%= journey.station_end.name %></li>
-      <br>
-      <ul>
-      </div>
-    </select>
-    <hr>
-  </ul>
-</ul>
-<hr>
-<% end %>
+      <% if journey.user == current_user %>
+        <br>
+        <hr>
+        <h3><%= journey.name.upcase %> (ID:<%= journey.id %>)</h3></li>
+        <br>
+          <li>Likes: <%= journey.likes %></li>
+          <li>Duration: <%= journey.duration %></li>
+          <li>Start station: <%= journey.station_start.name %></li>
+          <li>End station: <%= journey.station_end.name %></li>
+          <br>
+        <hr>
+      </ul>
+    <% end %>
+  <% end %>
 </div>
