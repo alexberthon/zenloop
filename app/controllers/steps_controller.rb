@@ -37,6 +37,13 @@ class StepsController < ApplicationController
     end
   end
 
+  def destroy
+    @step = Step.find(params[:id])
+    @step.destroy
+    @journey = @step.journey
+    redirect_to journey_path(@journey)
+  end
+
   private
 
   def step_params
