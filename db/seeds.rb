@@ -127,4 +127,12 @@ Station.all.each do |station|
   end
 end
 
-puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations and #{Line.count} lines"
+
+Journey.create(name:'bumble rumble', user_id: User.first.id, likes: 5, duration: 200, station_start_id: Station.last.id, station_end_id: Station.first.id)
+Journey.create(name:'balkan pigeon', user_id: User.first.id, likes: 5, duration: 200, station_start_id: Station.last.id, station_end_id: Station.last.id)
+Journey.create(name:'saucisse seche', user_id: User.first.id, likes: 5, duration: 200, station_start_id: Station.last.id, station_end_id: Station.first.id)
+Journey.create(name:'escapade entre potes', user_id: User.last.id, likes: 5, duration: 200, station_start_id: Station.first.id, station_end_id: Station.last.id)
+Journey.create(name:'tarte au thon', user_id: User.last.id, likes: 5, duration: 200, station_start_id: Station.first.id, station_end_id: Station.first.id)
+Journey.create(name:'scandinavie en amoureux', user_id: User.last.id, likes: 5, duration: 200, station_start_id: Station.first.id, station_end_id: Station.first.id)
+
+puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations, #{Line.count} lines and #{Journey.count} "

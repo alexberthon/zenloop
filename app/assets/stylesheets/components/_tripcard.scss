@@ -1,40 +1,65 @@
-.card-trip {
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  width: 20%
+#journeys {
+  .card {
+    width: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  .card-img-container {
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .card-img-top {
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .card-avatar {
+    width: 50px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    // box-shadow: 0px 0px 6px 2px #ffffff7d;
+  }
+
+  .card-description {
+    color: black;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card,
+  .card-footer {
+    background-color: white;
+    color: black;
+    transition: .2s ease;
+  }
+
+  .card:hover,
+  .card.active {
+    background-color: $purple;
+    color: white;
+
+    .card-footer {
+      background-color: $purple;
+      color: white;
+    }
+
+    .card-description {
+      color: white;
+    }
+  }
 }
 
-.card-trip>img {
-  height: 200px;
-  width: 100%;
-  object-fit: cover;
-}
-
-.card-trip h2 {
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0;
-}
-
-.card-trip p {
-  font-size: 12px;
-  opacity: .7;
-  margin: 0;
-}
-
-
-.card-trip .card-trip-infos {
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  position: relative;
-}
-
-.card-trip-infos .card-trip-user {
-  position: absolute;
-  right: 16px;
-  top: -20px;
-  width: 40px;
+#journeys {
+  justify-content: space-around;
 }

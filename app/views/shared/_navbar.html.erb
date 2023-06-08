@@ -1,8 +1,10 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <div class="container-fluid">
-    <%= link_to "/", class: "navbar-brand" do %>
-      <%= image_tag "logo.png" %>
-    <% end %>
+    <div class="title-brand">
+      <%= link_to "/", class: "navbar-brand" do %>
+        <h1 class="main-title">Zenloop</h1>
+      <% end %>
+    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -10,7 +12,7 @@
       <ul class="navbar-nav me-auto">
         <% if user_signed_in? %>
           <li class="nav-item dropdown">
-            <%= image_tag("pigeon.png", crop: :fill, class: "avatar dropdown-toggle avatar-large", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false )%>
+            <%= image_tag("harvey.jpg", crop: :fill, class: "avatar dropdown-toggle avatar-large", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false )%>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Your account", "/profiles/#{current_user.id}", class: "dropdown-item" %>
               <%= link_to "Create a loop", "/loops/new", class: "dropdown-item" %>
