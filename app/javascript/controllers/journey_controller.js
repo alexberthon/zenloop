@@ -116,7 +116,6 @@ export default class extends Controller {
     this.map.on("click", "reachableStations", (e) => {
       this.clickedStationId = e.features[0].id;
       this.lineId = e.features[0].properties.line_id;
-      this.#fetchReachableStations(this.clickedStationId);
       this.#addStepToJourney(this.lineId);
     });
   }
@@ -228,13 +227,6 @@ export default class extends Controller {
         line_id: line_id,
         credentials: "same-origin"
       })
-    })
-  }
-
-  #fetchReachableStations(station_id) {
-    const url = `/lines/search?station_id=${station_id}`;
-    fetch(url, {
-      headers: { "Accept": "application/json" }
     })
       .then(response => response.json())
       .then((data) => {

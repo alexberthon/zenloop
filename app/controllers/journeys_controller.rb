@@ -17,7 +17,9 @@ class JourneysController < ApplicationController
                                 .unshift(@journey.station_start)
     @station = @visited_stations.last
 
-    @lines = Line.where(station_start: @station).includes(:station_end)
+    @lines = Line.where(station_start: @station)
+                 .includes(:station_end)
+                 .reject { |line| @visited_stations.include?(line.station_end) }
 
     @reachable_stations = helpers.geojson_reachable(@lines)
     @selected_stations = helpers.geojson_selected(@visited_stations)
