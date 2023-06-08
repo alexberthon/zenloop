@@ -111,6 +111,11 @@ export default class extends Controller {
         this.#setHoverStates(e);
       }
     });
+
+    this.map.on("click", "reachableStations", (e) => {
+      this.clickedStationId = e.features[0].id;
+      this.#fetchReachableStations(this.clickedStationId);
+    });
   }
 
   #addStrokesToMap() {
@@ -205,7 +210,20 @@ export default class extends Controller {
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 6, duration: 0 });
   }
 
-  #fetchReachableStations() {
+  #addStepToJourney(station_id) {
 
+  }
+
+  #fetchReachableStations(station_id) {
+    const url = `/lines/search?station_id=${station_id}`;
+    fetch(url, {
+      headers: { "Accept": "application/json" }
+    })
+      .then(response => response.json())
+      .then((data) => {
+        this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
+        this.map.getSource("reachableStations").setData(JSON.parse(data.reachable_stations));
+        this.map.getSource("strokes").setData(JSON.parse(data.strokes));
+      })
   }
 }

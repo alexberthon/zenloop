@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   resources :journeys
   resources :cities
   resources :stations
-  resources :lines
+
+  get "lines/search", to: "lines#search"
+  resources :lines, only: [:index, :show]
 end
