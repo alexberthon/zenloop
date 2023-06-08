@@ -7,7 +7,8 @@ export default class extends Controller {
     journey: Object,
     selectedStations: Object,
     reachableStations: Object,
-    strokes: Object
+    existingLines: Object,
+    tripLines: Object
   }
 
   connect() {
@@ -21,7 +22,8 @@ export default class extends Controller {
     this.map.on("load", () => {
       this.#addSelectedStationsToMap();
       this.#addReachableStationsToMap();
-      this.#addStrokesToMap();
+      this.#addExistingLinesToMap();
+      this.#addTripLinesToMap();
     })
 
     this.#fitMapToMarkers();
@@ -61,6 +63,14 @@ export default class extends Controller {
     this.map.on("mouseleave", "selectedStations", () => {
       this.map.getCanvas().style.cursor = "";
       popup.remove();
+    });
+
+    this.map.on("mousemove", "selectedStations", (e) => {
+      // cursor moves from one station to another, without leaving the layer
+      if(e.features[0].id !== this.hoveredStationId) {
+        popup.remove();
+        this.#addPopup(popup, e);
+      }
     });
   }
 
@@ -120,16 +130,33 @@ export default class extends Controller {
     });
   }
 
-  #addStrokesToMap() {
-    this.map.addSource("strokes", {
+  #addExistingLinesToMap() {
+    this.map.addSource("existingLines", {
       type: "geojson",
-      data: this.strokesValue
+      data: this.existingLinesValue
     });
 
     this.map.addLayer({
-      "id": "strokesBackground",
+      "id": "existingLines",
       "type": "line",
-      "source": "strokes",
+      "source": "existingLines",
+      "paint": {
+        "line-color": "#000",
+        "line-width": 2
+      }
+    });
+  }
+
+  #addTripLinesToMap() {
+    this.map.addSource("tripLines", {
+      type: "geojson",
+      data: this.tripLinesValue
+    });
+
+    this.map.addLayer({
+      "id": "tripLinesBackground",
+      "type": "line",
+      "source": "tripLines",
       "paint": {
         "line-color": "#777",
         "line-width": 4,
@@ -143,9 +170,9 @@ export default class extends Controller {
     });
 
     this.map.addLayer({
-      "id": "strokesDash",
+      "id": "tripLinesDash",
       "type": "line",
-      "source": "strokes",
+      "source": "tripLines",
       "paint": {
         "line-color": "#fff",
         "line-width": 2,
@@ -179,7 +206,7 @@ export default class extends Controller {
 
   #clearHoverStates() {
     this.map.setFeatureState(
-      { source: "strokes", id: this.hoveredTripId },
+      { source: "tripLines", id: this.hoveredTripId },
       { hover: false }
     );
     this.map.setFeatureState(
@@ -198,7 +225,7 @@ export default class extends Controller {
       { hover: true }
     );
     this.map.setFeatureState(
-      { source: "strokes", id: this.hoveredTripId },
+      { source: "tripLines", id: this.hoveredTripId },
       { hover: true }
     );
   }
@@ -233,7 +260,8 @@ export default class extends Controller {
       .then((data) => {
         this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
         this.map.getSource("reachableStations").setData(JSON.parse(data.reachable_stations));
-        this.map.getSource("strokes").setData(JSON.parse(data.strokes));
+        this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
+        this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
       })
   }
 }
