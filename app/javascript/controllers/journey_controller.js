@@ -2,13 +2,16 @@ import { Controller } from "@hotwired/stimulus";
 import mapboxgl from "mapbox-gl";
 
 export default class extends Controller {
+  static targets = ["stations"]
+
   static values = {
     apiKey: String,
     journey: Object,
     selectedStations: Object,
     reachableStations: Object,
     existingLines: Object,
-    tripLines: Object
+    tripLines: Object,
+    stationListHTML: String
   }
 
   connect() {
@@ -262,6 +265,8 @@ export default class extends Controller {
         this.map.getSource("reachableStations").setData(JSON.parse(data.reachable_stations));
         this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
         this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
+        console.log(data)
+        this.stationsTarget.innerHTML = data.station_list_html
       })
   }
 }
