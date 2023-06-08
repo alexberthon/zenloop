@@ -3,9 +3,11 @@ class JourneysController < ApplicationController
   before_action :set_journey, only: %i[show]
 
   def index
+    @journeys = Journey.all
   end
 
   def show
+    @journey = Journey.find(params[:id])
     @station = @journey.station_start
     @stations = Station.all
     @lines = Line.where(station_start: @station).includes(:station_end)
@@ -23,7 +25,8 @@ class JourneysController < ApplicationController
     @journey = Journey.new(
       station_start: @station_start,
       station_end: @station_start,
-      user: current_user
+      user: current_user,
+      name: "trip starting from " + @station_start.name
     )
     if @journey.save!
       redirect_to journey_path(@journey)
@@ -111,7 +114,8 @@ class JourneysController < ApplicationController
           json.type "Feature"
           json.geometry do
             json.type "LineString"
-            json.coordinates [[station_start.longitude, station_start.latitude], [reachable_station.longitude, reachable_station.latitude]]
+            json.coordinates [[station_start.longitude, station_start.latitude],
+                              [reachable_station.longitude, reachable_station.latitude]]
           end
         end
       end
