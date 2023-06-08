@@ -29,6 +29,14 @@
       </div>
       <ul class="station-list ">
         <li><%= @journey.station_start.name %></li>
+        <% @journey.steps.each do |step| %>
+        <li>
+          <%= step.line.station_end.name %>
+          <%= link_to step_path(step), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} do %>
+            <i class="fa-solid fa-trash"></i>
+          <% end %>
+        </li>
+        <% end %>
       </ul>
     </div>
   </div>

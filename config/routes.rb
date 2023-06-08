@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   resources :journeys do
     resources :steps, only: [:create]
   end
+  resources :steps, only: [:destroy]
 end
