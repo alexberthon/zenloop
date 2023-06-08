@@ -1,6 +1,6 @@
 class JourneysController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_journey, only: %i[show]
+  before_action :set_journey, only: %i[show update]
 
   def index
     @journeys = Journey.where(user_id: current_user.id)
@@ -42,10 +42,24 @@ class JourneysController < ApplicationController
     end
   end
 
+  def edit
+    @journey = Journey.find(params[:id])
+  end
+
+  def update
+    @journey = Journey.find(params[:id])
+
+    if @journey.update(journey_params)
+      redirect_to @journey
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def journey_params
-    params.require(:journey).permit(:station_start_id)
+    params.require(:journey).permit(:station_start_id, :name)
   end
 
   def set_journey
