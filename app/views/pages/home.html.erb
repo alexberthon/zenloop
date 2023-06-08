@@ -1,53 +1,31 @@
 <%= render "shared/banner" %>
 
 <div class="container">
-  <br>
-  <h2 class="text-center">From which train station will you be departing?</h2>
-  <hr>
-  <br>
-  <%# search form journey start %>
-  <div class='petitcontainer' >
-    <%= simple_form_for @journey do |f| %>
-      <%= f.select :station_start_id,
-              Station.to_select,
-              { include_blank: true },
-              data: {
-                controller: 'tom-select',
-                placeholder: "Lyon, Bruxelles, Nice..."
-              }%>
-      <br>
-      <%= f.submit "Lets build this journey!", class: "btn btn-primary my-2 my-sm-0 formcity" %>
-    <% end %>
-  </div>
-
-  <br>
-  <br>
-  <br>
-
-    <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
-      <% @journeys.each do |journey| %>
-        <li class="col">
-          <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
-            <div class="card h-100">
-              <div class="card-img-container">
-                <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
-                <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
-              </div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title fw-bold"><%= journey.name %></h5>
-                  <span><i class="fa-solid fa-heart" style="color: #ff0000;"></i> <%= journey.likes %></span>
+  <h2 class="text-center home-text">Some great loops</h2>
+      <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
+        <% @journeys.each do |journey| %>
+          <li class="col">
+            <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
+              <div class="card h-100">
+                <div class="card-img-container">
+                  <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
+                  <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
                 </div>
-                <p class="card-description">
-                  From <strong><%= journey.station_start.name %></strong> <br> to <strong><%= journey.station_end.name %></strong>
-                </p>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <h5 class="card-title fw-bold"><%= journey.name %></h5>
+                    <span><i class="fa-solid fa-heart" style="color: #ff0000;"></i> <%= journey.likes %></span>
+                  </div>
+                  <p class="card-description">
+                    From <strong><%= journey.station_start.name %></strong> <br> to <strong><%= journey.station_end.name %></strong>
+                  </p>
+                </div>
+                <%# <div class="card-footer">
+                  <p class="card-text"><strong>per day</strong></p>
+                </div> %>
               </div>
-              <%# <div class="card-footer">
-                <p class="card-text"><strong>per day</strong></p>
-              </div> %>
-            </div>
-          <% end %>
-        </li>
-    <% end %>
-  </ul>
+            <% end %>
+          </li>
+      <% end %>
+    </ul>
 </div>
