@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <meta name="turbo-visit-control" content="reload">
+<% end %>
+
 Select your next stop:
 <select class="form-select" aria-label="Default select example">
   <% @stations.each do |station| %>
@@ -5,10 +9,10 @@ Select your next stop:
   <% end %>
 </select>
 <div
-  id="map"
-  data-controller="map"
-  data-map-selected-stations-value="<%= @selected_stations %>"
-  data-map-reachable-stations-value="<%= @reachable_stations %>"
-  data-map-strokes-value="<%= @strokes %>"
-  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+  data-controller="journey"
+  data-journey-selected-stations-value="<%= @selected_stations %>"
+  data-journey-reachable-stations-value="<%= @reachable_stations %>"
+  data-journey-strokes-value="<%= @strokes %>"
+  data-journey-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+  <div id="journey-map"></div>
 </div>
