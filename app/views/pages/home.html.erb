@@ -1,3 +1,5 @@
+<%= render "shared/banner" %>
+
 <div class="container">
   <br>
   <h2 class="text-center">From which train station will you be departing?</h2>
@@ -17,46 +19,35 @@
       <%= f.submit "Lets build this journey!", class: "btn btn-primary my-2 my-sm-0 " %>
     <% end %>
   </div>
+
   <br>
   <br>
   <br>
-  <%#  most popular loops %>
-  <h2 class="text-center"> Browse the most popular loops</h2>
-  <hr>
-  <br>
-  <div class="d-flex justify-content-center">
-    <div class="card-trip me-3">
-      <img src="https://www.eurail.com/content/dam/maps/European%20Highlights%20Itinerary%20Map.adaptive.767.1659462408507.png" />
-      <div class="card-trip-infos">
-        <div>
-          <h2>Title here</h2>
-          <p>Short description here!</p>
-        </div>
-        <h2 class="card-trip-pricing">£99.99</h2>
-        <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" />
-      </div>
-    </div>
-    <div class="card-trip me-3">
-      <img src="https://www.eurail.com/content/dam/maps/European%20Highlights%20Itinerary%20Map.adaptive.767.1659462408507.png" />
-      <div class="card-trip-infos">
-        <div>
-          <h2>Title here</h2>
-          <p>Short description here!</p>
-        </div>
-        <h2 class="card-trip-pricing">£99.99</h2>
-        <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" />
-      </div>
-    </div>
-    <div class="card-trip me-3">
-      <img src="https://www.eurail.com/content/dam/maps/European%20Highlights%20Itinerary%20Map.adaptive.767.1659462408507.png" />
-      <div class="card-trip-infos">
-        <div>
-          <h2>Title here</h2>
-          <p>Short description here!</p>
-        </div>
-        <h2 class="card-trip-pricing">£99.99</h2>
-        <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" />
-      </div>
-    </div>
-  </div>
+
+    <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
+      <% @journeys.each do |journey| %>
+        <li class="col">
+          <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
+            <div class="card h-100">
+              <div class="card-img-container">
+                <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
+                <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
+              </div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <h5 class="card-title fw-bold"><%= journey.name %></h5>
+                  <span><i class="fa-solid fa-heart" style="color: #ff0000;"></i> <%= journey.likes %></span>
+                </div>
+                <p class="card-description">
+                  From <strong><%= journey.station_start.name %></strong> <br> to <strong><%= journey.station_end.name %></strong>
+                </p>
+              </div>
+              <%# <div class="card-footer">
+                <p class="card-text"><strong>per day</strong></p>
+              </div> %>
+            </div>
+          <% end %>
+        </li>
+    <% end %>
+  </ul>
 </div>
