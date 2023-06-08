@@ -1,11 +1,11 @@
 .left-side {
-  width:250px;
+  width: 250px;
   height: 80vh;
   background: white;
   display: inline-block;
   position: relative;
-  top:40px;
-  left: 60px;
+  top: 40px;
+  left: 20px;
   border-radius: 15px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
   display: flex;
@@ -38,10 +38,11 @@
 }
 
 input::placeholder {
-  color: rgb(180, 180, 180) !important;}
+  color: rgb(180, 180, 180) !important;
+}
 
 .station-list {
-  margin-top: 10px;
+  margin-top: 40px;
   padding-left: 0px;
   overflow: auto;
 }
@@ -53,4 +54,16 @@ input::placeholder {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   border: 1px solid #E7E7E7;
   border-radius: 10px;
+}
+
+#dropdown-show {
+  width: 83%;
+  margin-left: 23px;
+}
+
+#small-button {
+  margin-top: 40px;
+  width: 90px;
+  height: 30px;
+  margin-right: 73px;
 }

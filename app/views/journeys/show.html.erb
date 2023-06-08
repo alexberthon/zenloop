@@ -1,14 +1,6 @@
 <% content_for :head do %>
   <meta name="turbo-visit-control" content="reload">
 <% end %>
-
-Select your next stop:
-<select class="form-select" aria-label="Default select example">
-  <% @stations.each do |station| %>
-    <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
-  <% end %>
-</select>
-
 <div class="map-side-bar">
   <div
   data-controller="journey"
@@ -18,17 +10,23 @@ Select your next stop:
   data-journey-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
     <div id="journey-map"></div>
   </div>
-
-  <div class="left-side">
-
-    <%= simple_form_for :search, url: root_path, method: :get do |f| %>
-      <div id="side-search" class="search-form-control form-group">
-        <input class="form-control string required" type="text" name="search[query]" id="search_query" placeholder="Paris..."/>
+  <div class="left-side text-center ">
+    <p class="mt-2">Next step:</p>
+    <%= simple_form_for @journey do |f| %>
+      <div class="side-search search-form-control form-group ">
+        <div id="dropdown-show">
+          <%= f.select :station_start_id,
+              Station.to_select,
+              { include_blank: true },
+              data: {
+                controller: 'tom-select',
+                placeholder: "Paris..."
+              }%>
+          <%= f.submit "Add step!", class: "btn btn-primary btn-sm", id:"small-button" %>
+        <% end %>
       </div>
-    <% end %>
-
-      <ul class="station-list">
+      <ul class="station-list ">
         <li><%= @journey.station_start.name %></li>
       </ul>
+    </div>
   </div>
-</div>
