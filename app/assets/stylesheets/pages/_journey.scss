@@ -1,0 +1,24 @@
+#map {
+  width: 100vw;
+  height: calc(100vh - 70px);
+
+  .marker {
+    width: 20px;
+  }
+
+  .marker.reachable-station {
+    fill: blue;
+  }
+
+  .marker.selected-station path {
+    fill: red;
+  }
+
+  .popup {
+    text-align: center;
+  }
+
+  .popup div:last-child {
+    font-weight: bold;
+  }
+}

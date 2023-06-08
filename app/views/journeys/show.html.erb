@@ -1,0 +1,14 @@
+Select your next stop:
+<select class="form-select" aria-label="Default select example">
+  <% @stations.each do |station| %>
+    <option value= <%="#{station.name}"%>> <%="#{station.name}"%></option>
+  <% end %>
+</select>
+<div
+  id="map"
+  data-controller="map"
+  data-map-selected-stations-value="<%= @selected_stations %>"
+  data-map-reachable-stations-value="<%= @reachable_stations %>"
+  data-map-strokes-value="<%= @strokes %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+</div>
