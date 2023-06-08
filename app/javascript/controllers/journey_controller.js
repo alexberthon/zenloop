@@ -13,7 +13,7 @@ export default class extends Controller {
     mapboxgl.accessToken = this.apiKeyValue;
 
     this.map = new mapboxgl.Map({
-      container: this.element,
+      container: "journey-map",
       style: "mapbox://styles/mapbox/streets-v10"
     });
 
@@ -24,6 +24,10 @@ export default class extends Controller {
     })
 
     this.#fitMapToMarkers();
+  }
+
+  disconnect() {
+    this.map.remove();
   }
 
   #addSelectedStationsToMap() {
@@ -89,51 +93,22 @@ export default class extends Controller {
 
     this.map.on("mouseenter", "reachableStations", (e) => {
       this.#addPopup(popup, e);
-
-      this.hoveredStationId = e.features[0].id;
-      this.map.setFeatureState(
-        { source: "reachableStations", id: this.hoveredStationId },
-        { hover: true }
-      );
-
-      this.hoveredTripId = e.features[0].properties.db_trip_id;
-      this.map.setFeatureState(
-        { source: "strokes", id: this.hoveredTripId },
-        { hover: true }
-      );
+      this.#setHoverStates(e);
     });
 
     this.map.on("mouseleave", "reachableStations", () => {
       this.map.getCanvas().style.cursor = "";
       popup.remove();
-
-      this.map.setFeatureState(
-        { source: "strokes", id: this.hoveredTripId },
-        { hover: false }
-      );
-      this.map.setFeatureState(
-        { source: "reachableStations", id: this.hoveredStationId },
-        { hover: false }
-      );
-      this.hoveredTripId = null;
-      this.hoveredStationId = null;
+      this.#clearHoverStates();
     });
 
     this.map.on("mousemove", "reachableStations", (e) => {
       // cursor moves from one station to another, without leaving the layer
       if(e.features[0].id !== this.hoveredStationId) {
         popup.remove();
-        this.map.setFeatureState(
-          { source: "reachableStations", id: this.hoveredStationId },
-          { hover: false }
-        );
-
-        this.hoveredStationId = e.features[0].id;
         this.#addPopup(popup, e);
-        this.map.setFeatureState(
-          { source: "reachableStations", id: this.hoveredStationId },
-          { hover: true }
-        );
+        this.#clearHoverStates();
+        this.#setHoverStates(e);
       }
     });
   }
@@ -145,24 +120,33 @@ export default class extends Controller {
     });
 
     this.map.addLayer({
-      "id": "strokes",
+      "id": "strokesBackground",
       "type": "line",
       "source": "strokes",
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
       "paint": {
-        "line-color": [
+        "line-color": "#777",
+        "line-width": 4,
+        "line-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          "#000",
-          "#888",
-        ],
-        "line-width": [
+          1,
+          0,
+        ]
+      }
+    });
+
+    this.map.addLayer({
+      "id": "strokesDash",
+      "type": "line",
+      "source": "strokes",
+      "paint": {
+        "line-color": "#fff",
+        "line-width": 2,
+        "line-dasharray": [4, 4],
+        "line-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          2,
+          1,
           0,
         ]
       }
@@ -184,6 +168,32 @@ export default class extends Controller {
 
     const html = `<div class="popup"><div>${name}</div><div>${duration}</div></div>`
     popup.setLngLat(coordinates).setHTML(html).addTo(this.map);
+  }
+
+  #clearHoverStates() {
+    this.map.setFeatureState(
+      { source: "strokes", id: this.hoveredTripId },
+      { hover: false }
+    );
+    this.map.setFeatureState(
+      { source: "reachableStations", id: this.hoveredStationId },
+      { hover: false }
+    );
+    this.hoveredTripId = null;
+    this.hoveredStationId = null;
+  }
+
+  #setHoverStates(e) {
+    this.hoveredStationId = e.features[0].id;
+    this.hoveredTripId = e.features[0].properties.db_trip_id;
+    this.map.setFeatureState(
+      { source: "reachableStations", id: this.hoveredStationId },
+      { hover: true }
+    );
+    this.map.setFeatureState(
+      { source: "strokes", id: this.hoveredTripId },
+      { hover: true }
+    );
   }
 
   #fitMapToMarkers() {
