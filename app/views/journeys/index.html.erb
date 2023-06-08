@@ -1,19 +1,29 @@
+<br>
+<br>
+<br>
 <div class="container">
   <h1>Your journeys</h1>
-  <% @journeys.each do |journey| %>
-    <ul>
-      <% if journey.user == current_user %>
-        <br>
-        <hr>
-        <h3><%= journey.name.upcase %> (ID:<%= journey.id %>)</h3></li>
-        <br>
-          <li>Likes: <%= journey.likes %></li>
-          <li>Duration: <%= journey.duration %></li>
-          <li>Start station: <%= journey.station_start.name %></li>
-          <li>End station: <%= journey.station_end.name %></li>
-          <br>
-        <hr>
-      </ul>
+  <br>
+  <br>
+  <br>
+  <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
+    <% @journeys.each do |journey| %>
+      <li class="col">
+        <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title fw-bold"><%= journey.name.capitalize %></h5>
+                <%= link_to "Edit", edit_journey_path(journey), class: "link-dark sm" %>
+              </div>
+              <p class="card-description">
+                From <strong><%= journey.station_start.name %></strong> to <strong><%= journey.station_end.name %></strong> <br>
+                Travel time: <strong><%= ((journey.duration) / 60) %></strong> hours and <strong><%= ((journey.duration) % 60) %></strong> minutes <br>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </li>
     <% end %>
-  <% end %>
+  </ul>
 </div>

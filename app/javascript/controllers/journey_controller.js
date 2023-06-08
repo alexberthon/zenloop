@@ -4,6 +4,7 @@ import mapboxgl from "mapbox-gl";
 export default class extends Controller {
   static values = {
     apiKey: String,
+    journey: Object,
     selectedStations: Object,
     reachableStations: Object,
     strokes: Object
@@ -111,6 +112,12 @@ export default class extends Controller {
         this.#setHoverStates(e);
       }
     });
+
+    this.map.on("click", "reachableStations", (e) => {
+      this.clickedStationId = e.features[0].id;
+      this.lineId = e.features[0].properties.line_id;
+      this.#addStepToJourney(this.lineId);
+    });
   }
 
   #addStrokesToMap() {
@@ -205,7 +212,27 @@ export default class extends Controller {
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 6, duration: 0 });
   }
 
-  #fetchReachableStations() {
+  #addStepToJourney(line_id) {
+    const url = `/journeys/${this.journeyValue.id}/steps`;
+    const csrfToken = document.head.querySelector("[name='csrf-token']").content;
 
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-Token": csrfToken
+      },
+      body: JSON.stringify({
+        line_id: line_id,
+        credentials: "same-origin"
+      })
+    })
+      .then(response => response.json())
+      .then((data) => {
+        this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
+        this.map.getSource("reachableStations").setData(JSON.parse(data.reachable_stations));
+        this.map.getSource("strokes").setData(JSON.parse(data.strokes));
+      })
   }
 }
