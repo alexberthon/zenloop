@@ -10,21 +10,12 @@ class JourneysController < ApplicationController
     @stations = Station.all
 
     @journey = Journey.find(params[:id])
-    @visited_stations = @journey.steps
-                                .includes(line: :station_end)
-                                .map { |step| step.line.station_end }
-                                .unshift(@journey.station_start)
-    @station = @visited_stations.last
+    data = helpers.build_map_data(@journey)
 
-    @lines = Line.where(station_start: @station)
-                 .includes(:station_end)
-                 .reject { |line| @visited_stations.include?(line.station_end) }
-
-    @reachable_stations = helpers.geojson_reachable(@lines)
-    @selected_stations = helpers.geojson_selected(@visited_stations)
-
-    trips = @lines.group_by(&:db_trip_id) # hash of arrays
-    @strokes = helpers.geojson_trips(@station, trips)
+    @selected_stations = data[:selected_stations]
+    @reachable_stations = data[:reachable_stations]
+    @trip_lines = data[:trip_lines]
+    @existing_lines = data[:existing_lines]
   end
 
   def create

@@ -55,16 +55,18 @@ module GeojsonHelper
     end.attributes!.to_json
   end
 
-  # def geojson_lines(station_start, reachable_stations)
-  #   Jbuilder.new do |json|
-  #     json.type "FeatureCollection"
-  #     json.features reachable_stations do |reachable_station|
-  #       json.type "Feature"
-  #       json.geometry do
-  #         json.type "LineString"
-  #         json.coordinates [[station_start.longitude, station_start.latitude], [reachable_station.longitude, reachable_station.latitude]]
-  #       end
-  #     end
-  #   end.attributes!.to_json
-  # end
+  def geojson_lines(stations)
+    Jbuilder.new do |json|
+      json.type "FeatureCollection"
+      json.features [nil] do |_|
+        json.type "Feature"
+        json.geometry do
+          json.type "LineString"
+          json.coordinates(
+            stations.map { |station| [station.longitude, station.latitude] }
+          )
+        end
+      end
+    end.attributes!.to_json
+  end
 end
