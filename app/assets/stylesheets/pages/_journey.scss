@@ -35,5 +35,13 @@
 }
 
 .map-side-bar {
-  margin-top: 20px;
+  position: relative;
+
+  #cta {
+    z-index: 100;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
