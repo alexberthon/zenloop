@@ -1,4 +1,4 @@
-#map {
+#journey-map {
   width: 100vw;
   height: calc(100vh - 70px);
   position: absolute;
@@ -13,6 +13,16 @@
 
   .marker.selected-station path {
     fill: red;
+  }
+
+  .mapboxgl-popup-tip {
+    visibility: hidden;
+  }
+
+  .mapboxgl-popup-content {
+    background-color: white;
+    padding: 4px 10px;
+    border-radius: 10px;
   }
 
   .popup {
