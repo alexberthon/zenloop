@@ -5,4 +5,5 @@ class Journey < ApplicationRecord
 
   has_many :steps
   has_many :cities
+  has_many :activities
 end

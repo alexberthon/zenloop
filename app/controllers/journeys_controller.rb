@@ -3,9 +3,11 @@ class JourneysController < ApplicationController
   before_action :set_journey, only: %i[show]
 
   def index
+    @journeys = Journey.all
   end
 
   def show
+    @journey = Journey.find(params[:id])
     @station = @journey.station_start
     @stations = Station.all
     @lines = Line.where(station_start: @station).includes(:station_end)
@@ -15,7 +17,6 @@ class JourneysController < ApplicationController
 
     trips = @lines.group_by(&:db_trip_id) # hash of arrays
     @strokes = geojson_trips(@station, trips)
-    # @strokes = geojson_lines(@station, @lines.map(&:station_end))
   end
 
   def create
@@ -23,7 +24,8 @@ class JourneysController < ApplicationController
     @journey = Journey.new(
       station_start: @station_start,
       station_end: @station_start,
-      user: current_user
+      user: current_user,
+      name: "trip starting from " + @station_start.name
     )
     if @journey.save!
       redirect_to journey_path(@journey)
@@ -96,17 +98,4 @@ class JourneysController < ApplicationController
       end
     end.attributes!.to_json
   end
-
-  # def geojson_lines(station_start, reachable_stations)
-  #   Jbuilder.new do |json|
-  #     json.type "FeatureCollection"
-  #     json.features reachable_stations do |reachable_station|
-  #       json.type "Feature"
-  #       json.geometry do
-  #         json.type "LineString"
-  #         json.coordinates [[station_start.longitude, station_start.latitude], [reachable_station.longitude, reachable_station.latitude]]
-  #       end
-  #     end
-  #   end.attributes!.to_json
-  # end
 end
