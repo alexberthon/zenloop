@@ -7,13 +7,19 @@ class JourneysController < ApplicationController
   end
 
   def show
-    @journey = Journey.find(params[:id])
-    @station = @journey.station_start
     @stations = Station.all
+
+    @journey = Journey.find(params[:id])
+    @visited_stations = @journey.steps
+                                .includes(line: :station_end)
+                                .map { |step| step.line.station_end }
+                                .unshift(@journey.station_start)
+    @station = @visited_stations.last
+
     @lines = Line.where(station_start: @station).includes(:station_end)
 
     @reachable_stations = helpers.geojson_reachable(@lines)
-    @selected_stations = helpers.geojson_selected([@station])
+    @selected_stations = helpers.geojson_selected(@visited_stations)
 
     trips = @lines.group_by(&:db_trip_id) # hash of arrays
     @strokes = helpers.geojson_trips(@station, trips)

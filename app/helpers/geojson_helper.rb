@@ -25,6 +25,7 @@ module GeojsonHelper
         json.properties do
           json.name line.station_end.name
           json.duration line.duration
+          json.line_id line.id.to_i
           json.db_trip_id line.db_trip_id.gsub("|", "").to_i
         end
         json.geometry do
