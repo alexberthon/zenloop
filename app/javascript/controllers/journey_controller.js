@@ -205,7 +205,8 @@ export default class extends Controller {
 
   #fitMapToMarkers() {
     const bounds = new mapboxgl.LngLatBounds();
-    bounds.extend(this.selectedStationsValue.features[0].geometry.coordinates)
+    const selectedFeatures = this.selectedStationsValue.features;
+    bounds.extend(selectedFeatures[selectedFeatures.length - 1].geometry.coordinates)
     this.reachableStationsValue.features.forEach(feature => {
       bounds.extend(feature.geometry.coordinates)
     });
