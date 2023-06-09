@@ -3,42 +3,33 @@
 <% end %>
 <div class="map-side-bar">
   <div
-  data-controller="journey"
-  data-journey-selected-stations-value="<%= @selected_stations %>"
-  data-journey-reachable-stations-value="<%= @reachable_stations %>"
-  data-journey-existing-lines-value="<%= @existing_lines %>"
-  data-journey-trip-lines-value="<%= @trip_lines %>"
-  data-journey-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
-  data-journey-journey-value="<%= @journey.to_json %>"
-  >
+    data-controller="journey"
+    data-journey-selected-stations-value="<%= @selected_stations %>"
+    data-journey-reachable-stations-value="<%= @reachable_stations %>"
+    data-journey-existing-lines-value="<%= @existing_lines %>"
+    data-journey-trip-lines-value="<%= @trip_lines %>"
+    data-journey-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+    data-journey-journey-value="<%= @journey.to_json %>"
+    >
     <div id="journey-map"></div>
-  </div>
-  <div class="left-side text-center ">
-  <br>
-    <%= simple_form_for @journey do |f| %>
-      <div class="side-search search-form-control form-group ">
-        <div id="dropdown-show">
-          <%= f.select :station_start_id,
-              Station.to_select,
-              { include_blank: true },
-              data: {
-                controller: 'tom-select',
-                placeholder: "Paris..."
-              }%>
-          <%= f.submit "Add step!", class: "btn btn-primary btn-sm", id:"small-button" %>
-        <% end %>
-      </div>
-      <ul class="station-list ">
-        <li><%= @journey.station_start.name %></li>
-        <% @journey.steps.each do |step| %>
-        <li>
-          <%= step.line.station_end.name %>
-          <%= link_to step_path(step), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} do %>
-            <i class="fa-solid fa-trash"></i>
+
+    <div class="left-side text-center ">
+      <p class="mt-2">Next step:</p>
+      <%= simple_form_for @journey do |f| %>
+        <div class="side-search search-form-control form-group ">
+          <div id="dropdown-show">
+            <%= f.select :station_start_id,
+                Station.to_select,
+                { include_blank: true },
+                data: {
+                  controller: 'tom-select',
+                  placeholder: "Paris..."
+                }%>
+            <%= f.submit "Add step!", class: "btn btn-primary btn-sm", id:"small-button" %>
           <% end %>
-        </li>
-        <% end %>
-      </ul>
+        </div>
+        <%= render "shared/station_list", journey: @journey %>
+      </div>
     </div>
   </div>
   <%= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>

@@ -2,17 +2,21 @@ import { Controller } from "@hotwired/stimulus";
 import mapboxgl from "mapbox-gl";
 
 export default class extends Controller {
+  static targets = ["stations"]
+
   static values = {
     apiKey: String,
     journey: Object,
     selectedStations: Object,
     reachableStations: Object,
     existingLines: Object,
-    tripLines: Object
+    tripLines: Object,
+    stationListHTML: String
   }
 
   connect() {
     mapboxgl.accessToken = this.apiKeyValue;
+    this.transitionDuration = 300;
 
     this.map = new mapboxgl.Map({
       container: "journey-map",
@@ -93,9 +97,22 @@ export default class extends Controller {
         ],
         "circle-radius": 6,
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#ffffff"
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-opacity": 0,
+        "circle-opacity": 0,
+        "circle-opacity-transition": {
+          "duration": this.transitionDuration,
+          "delay": 0
+        },
+        "circle-stroke-opacity-transition": {
+          "duration": this.transitionDuration,
+          "delay": 0
+        }
       }
     });
+
+    this.map.setPaintProperty("reachableStations", "circle-opacity", 1);
+    this.map.setPaintProperty("reachableStations", "circle-stroke-opacity", 1);
 
     const popup = new mapboxgl.Popup({
       closeButton: false,
@@ -140,9 +157,14 @@ export default class extends Controller {
       "id": "existingLines",
       "type": "line",
       "source": "existingLines",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
       "paint": {
-        "line-color": "#000",
-        "line-width": 2
+        "line-color": "#333",
+        "line-width": 2,
+        "line-dasharray": [3, 3]
       }
     });
   }
@@ -259,9 +281,21 @@ export default class extends Controller {
       .then(response => response.json())
       .then((data) => {
         this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
-        this.map.getSource("reachableStations").setData(JSON.parse(data.reachable_stations));
+        this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
         this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
         this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
+        console.log(data)
+        this.stationsTarget.innerHTML = data.station_list_html
       })
+  }
+
+  #updateData(layer, data) {
+    this.map.setPaintProperty(layer, "circle-opacity", 0);
+    this.map.setPaintProperty(layer, "circle-stroke-opacity", 0);
+    setTimeout(() => {
+      this.map.getSource(layer).setData(data);
+      this.map.setPaintProperty(layer, "circle-opacity", 1);
+      this.map.setPaintProperty(layer, "circle-stroke-opacity", 1);
+    }, this.transitionDuration);
   }
 }
