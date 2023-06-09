@@ -20,7 +20,8 @@ module JourneyMapHelper
     reachable_stations = geojson_reachable(lines)
     selected_stations = geojson_selected(visited_stations)
     existing_lines = geojson_lines(visited_stations)
+    station_list_html = render_to_string(partial: "shared/station_list", locals: { journey: journey }, layout: false, formats: :html)
 
-    { selected_stations:, reachable_stations:, trip_lines:, existing_lines: }
+    { selected_stations:, reachable_stations:, trip_lines:, existing_lines:, station_list_html: }
   end
 end
