@@ -11,6 +11,7 @@ class StepsController < ApplicationController
 
     respond_to do |format|
       if @step.save
+        @journey.update(station_end: @step.line.station_end)
         response = helpers.build_map_data(@journey)
         format.json { render json: response }
       else
