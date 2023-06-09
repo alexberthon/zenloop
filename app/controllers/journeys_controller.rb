@@ -1,4 +1,7 @@
 class JourneysController < ApplicationController
+  include JourneyMapHelper
+  include GeojsonHelper
+
   before_action :authenticate_user!
   before_action :set_journey, only: %i[show update]
 
@@ -7,10 +10,8 @@ class JourneysController < ApplicationController
   end
 
   def show
-    @stations = Station.all
-
     @journey = Journey.find(params[:id])
-    data = helpers.build_map_data(@journey)
+    data = build_map_data(@journey)
 
     @selected_stations = data[:selected_stations]
     @reachable_stations = data[:reachable_stations]
