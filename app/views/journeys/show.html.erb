@@ -13,10 +13,10 @@
     >
     <div id="journey-map"></div>
 
-    <div class="left-side text-center ">
-      <p class="mt-2">Next step:</p>
+    <div class="left-side text-center pt-4">
+      <h4 class="fw-bold">Steps</h4>
       <%= simple_form_for @journey do |f| %>
-        <div class="side-search search-form-control form-group ">
+        <div class="side-search search-form-control form-group d-none">
           <div id="dropdown-show">
             <%= f.select :station_start_id,
                 Station.to_select,
@@ -26,10 +26,10 @@
                   placeholder: "Paris..."
                 }%>
             <%= f.submit "Add step!", class: "btn btn-primary btn-sm", id:"small-button" %>
-          <% end %>
+          </div>
         </div>
-        <%= render "shared/station_list", journey: @journey %>
-      </div>
+      <% end %>
+      <%= render "shared/station_list", journey: @journey %>
     </div>
   </div>
   <%= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>

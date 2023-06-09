@@ -26,7 +26,7 @@ class JourneysController < ApplicationController
       station_end: @station_start,
       user: current_user,
       duration: 0,
-      name: "trip starting from " + @station_start.name
+      name: "Trip starting from " + @station_start.name
     )
     if @journey.save!
       redirect_to journey_path(@journey)

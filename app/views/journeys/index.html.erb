@@ -1,41 +1,33 @@
-<br>
-<br>
-<br>
-<div class="container">
-<h1 class="text-center">Take a look at your journeys</h1>
-  <br>
-  <br>
-  <br>
-
-<div class="container">
-      <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
-        <% @journeys.each do |journey| %>
-          <li class="col">
-            <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
-              <div class="card h-100">
-                <div class="card-img-container">
-                  <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
-                </div>
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <h5 class="card-title fw-bold"><%= journey.name %></h5>
-                    <span><i class="fa-solid fa-heart" style="color: #ff0000;"></i> <%= journey.likes %></span>
-                  </div>
-                  <p class="card-description">
-                    From <strong><%= journey.station_start.name %></strong> <br> to <strong><%= journey.station_end.name %></strong>
-                  </p>
-                </div>
-                <div class="card-footer">
-                <p>Travel time: <strong><%= ((journey.duration) / 60) %></strong> hours and <strong><%= ((journey.duration) % 60) %></strong> minutes <br></p>
-                <%= link_to "Edit", edit_journey_path(journey), class: "btn btn-primary sm" %>
-                <%= link_to "Delete this journey", journey_path(journey), class: "btn btn-outline-danger", data: {
-                      turbo_method: :delete,
-                      turbo_confirm: "Are you sure?"
-                    } %>
-                </div>
+<div class="container pt-5">
+  <h1 class="text-center fw-bold mb-5">Take a look at your journeys</h1>
+  <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
+    <% @journeys.each do |journey| %>
+      <li class="col">
+        <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
+          <div class="card h-100">
+            <div class="card-img-container">
+              <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
+            </div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title fw-bold"><%= journey.name %></h5>
+                <span><i class="fa-solid fa-heart" style="color: #ff0000;"></i> <%= journey.likes %></span>
               </div>
-            <% end %>
-          </li>
-      <% end %>
-    </ul>
+              <p class="card-description">
+                From <strong><%= journey.station_start.name %></strong> <br> to <strong><%= journey.station_end.name %></strong>
+              </p>
+            </div>
+            <div class="card-footer">
+              <p>Travel time: <strong><%= ((journey.duration) / 60) %></strong> hours and <strong><%= ((journey.duration) % 60) %></strong> minutes <br></p>
+              <%= link_to "Edit", edit_journey_path(journey), class: "btn btn-primary sm" %>
+              <%= link_to "Delete this journey", journey_path(journey), class: "btn btn-outline-danger", data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 </div>
