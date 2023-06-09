@@ -7,9 +7,7 @@
   <br>
   <br>
 
-
 <div class="container">
-  <h2 class="text-center home-loops-text">Some great loops</h2>
       <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
         <% @journeys.each do |journey| %>
           <li class="col">
@@ -17,7 +15,6 @@
               <div class="card h-100">
                 <div class="card-img-container">
                   <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
-                  <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
                 </div>
                 <div class="card-body">
                   <div class="d-flex justify-content-between">
@@ -29,7 +26,12 @@
                   </p>
                 </div>
                 <div class="card-footer">
-                <%= link_to "Edit", edit_journey_path(journey), class: "link-dark sm" %>
+                <p>Travel time: <strong><%= ((journey.duration) / 60) %></strong> hours and <strong><%= ((journey.duration) % 60) %></strong> minutes <br></p>
+                <%= link_to "Edit", edit_journey_path(journey), class: "btn btn-primary sm" %>
+                <%= link_to "Delete this journey", journey_path(journey), class: "btn btn-outline-danger", data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "Are you sure?"
+                    } %>
                 </div>
               </div>
             <% end %>
@@ -37,29 +39,3 @@
       <% end %>
     </ul>
 </div>
-
-
-
-<% if false %>
-  <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
-    <% @journeys.each do |journey| %>
-      <li class="col">
-        <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
-          <div class="card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <h5 class="card-title fw-bold"><%= journey.name.capitalize %></h5>
-                <%= link_to "Edit", edit_journey_path(journey), class: "link-dark sm" %>
-              </div>
-              <p class="card-description">
-                From <strong><%= journey.station_start.name %></strong> to <strong><%= journey.station_end.name %></strong> <br>
-                Travel time: <strong><%= ((journey.duration) / 60) %></strong> hours and <strong><%= ((journey.duration) % 60) %></strong> minutes <br>
-              </p>
-            </div>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-</div>
-<% end %>
