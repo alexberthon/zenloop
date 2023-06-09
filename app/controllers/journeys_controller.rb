@@ -7,8 +7,6 @@ class JourneysController < ApplicationController
   end
 
   def show
-    @stations = Station.all
-
     @journey = Journey.find(params[:id])
     data = helpers.build_map_data(@journey)
 
