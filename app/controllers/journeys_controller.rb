@@ -3,10 +3,10 @@ class JourneysController < ApplicationController
   include GeojsonHelper
 
   before_action :authenticate_user!
-  before_action :set_journey, only: %i[show update]
+  before_action :set_journey, only: %i[show update destroy]
 
   def index
-    @journeys = Journey.where(user_id: current_user.id)
+    @journeys = Journey.where(user: current_user)
   end
 
   def show
@@ -47,6 +47,11 @@ class JourneysController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @journey.destroy
+    redirect_to journeys_path
   end
 
   private
