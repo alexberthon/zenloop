@@ -11,6 +11,9 @@ class StepsController < ApplicationController
 
     respond_to do |format|
       if @step.save
+        @journey.update(station_end: @step.line.station_end)
+        @journey.update(duration: @journey.duration + @step.duration)
+
         response = helpers.build_map_data(@journey)
         format.json { render json: response }
       else
@@ -23,6 +26,9 @@ class StepsController < ApplicationController
     @step = Step.find(params[:id])
     @step.destroy
     @journey = @step.journey
+    @journey.update(duration: @journey.duration - @step.duration)
+    @journey.update(station_end: @step.line.station_start)
+
     redirect_to journey_path(@journey)
   end
 
