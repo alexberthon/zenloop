@@ -1,27 +1,19 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item dropdown">
-            <%= image_tag("harvey.jpg", crop: :fill, class: "avatar dropdown-toggle avatar-large", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false )%>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Homepage", "/", class: "dropdown-item" %>
-              <%= link_to "Your journeys", "/journeys", class: "dropdown-item" %>
-              <%= link_to "Log out", "/users/sign_out", class: "dropdown-item", data: {turbo_method: :delete} %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Sign up", new_user_registration_path, class: "btn btn-flat btn-sign-up" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "btn btn-flat btn-login" %>
-          </li>
-        <% end %>
-      </ul>
+<% if user_signed_in? %>
+  <div class="avatar-container">
+    <div class="dropdown">
+      <%= image_tag("harvey.jpg", crop: :fill, class: "avatar dropdown-toggle avatar-large", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false )%>
+      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <%= link_to "Homepage", "/", class: "dropdown-item" %>
+        <%= link_to "Your journeys", "/journeys", class: "dropdown-item" %>
+        <%= link_to "Log out", "/users/sign_out", class: "dropdown-item", data: {turbo_method: :delete} %>
+      </div>
     </div>
   </div>
-</div>
+<% else %>
+  <div class="nav-item">
+    <%= link_to "Sign up", new_user_registration_path, class: "btn btn-flat btn-sign-up" %>
+  </div>
+  <div class="nav-item">
+    <%= link_to "Login", new_user_session_path, class: "btn btn-flat btn-login" %>
+  </div>
+<% end %>
