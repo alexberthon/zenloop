@@ -12,7 +12,6 @@
     data-journey-journey-value="<%= @journey.to_json %>"
     >
     <div id="journey-map"></div>
-
     <div class="left-side text-center ">
       <p class="mt-2">Next step:</p>
       <%= simple_form_for @journey do |f| %>
@@ -29,6 +28,7 @@
           <% end %>
         </div>
         <%= render "shared/station_list", journey: @journey %>
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" id="share" data-text="Hey! look at my journey on Zenloop!" data-hashtags="EcoTrip" data-lang="en" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
     </div>
   </div>
