@@ -10,8 +10,6 @@ class JourneysController < ApplicationController
   end
 
   def show
-    @stations = Station.all
-
     @journey = Journey.find(params[:id])
     data = build_map_data(@journey)
 
