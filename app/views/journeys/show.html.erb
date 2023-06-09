@@ -30,6 +30,10 @@
         </div>
       <% end %>
       <%= render "shared/station_list", journey: @journey %>
+      <div class="mx-auto mb-3">
+        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" id="share" data-text="Hey! look at my journey on Zenloop!" data-hashtags="EcoTrip" data-lang="en" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
     </div>
   </div>
-  <%= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
+<%= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
+</div>
