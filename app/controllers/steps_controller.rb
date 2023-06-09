@@ -1,4 +1,7 @@
 class StepsController < ApplicationController
+  include JourneyMapHelper
+  include GeojsonHelper
+
   def create
     @journey = Journey.find(params[:journey_id])
     @line = Line.find(params[:line_id])
@@ -13,8 +16,7 @@ class StepsController < ApplicationController
       if @step.save
         @journey.update(station_end: @step.line.station_end)
         @journey.update(duration: @journey.duration + @step.duration)
-
-        response = helpers.build_map_data(@journey)
+        response = build_map_data(@journey)
         format.json { render json: response }
       else
         format.json { render json: {}, status: :unprocessable_entity }
