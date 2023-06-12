@@ -12,8 +12,8 @@
     data-journey-journey-value="<%= @journey.to_json %>"
     >
     <div id="journey-map"></div>
-    <%= render "shared/nameform", journey: @journey %>
+      <%= render "shared/nameform", journey: @journey %>
+      <%= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
     </div>
   </div>
-  <%= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
 </div>
