@@ -55,10 +55,11 @@ export default class extends Controller {
       "type": "circle",
       "source": "selectedStations",
       "paint": {
-        "circle-color": "#E60F05",
+        "circle-color": "#00A18E",
+
         "circle-radius": 6,
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#ffffff"
+        "circle-stroke-color": "#b8f5ee"
       }
     });
 
@@ -78,7 +79,7 @@ export default class extends Controller {
 
     this.map.on("mousemove", "selectedStations", (e) => {
       // cursor moves from one station to another, without leaving the layer
-      if(e.features[0].id !== this.hoveredStationId) {
+      if (e.features[0].id !== this.hoveredStationId) {
         popup.remove();
         this.#addPopup(popup, e);
       }
@@ -119,17 +120,17 @@ export default class extends Controller {
         "circle-color": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          "#E60F05",
-          "#4264fb",
+          "#00A18E",
+          "#0058AA",
         ],
-        "circle-radius": 6,
+        "circle-radius": 5,
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#ffffff",
+        "circle-stroke-color": "#8abceb",
         "circle-stroke-opacity": 0,
         "circle-opacity": 0,
         "circle-opacity-transition": {
           "duration": this.transitionDuration,
-          "delay": 0
+          "delay": 0,
         },
         "circle-stroke-opacity-transition": {
           "duration": this.transitionDuration,
@@ -159,7 +160,7 @@ export default class extends Controller {
 
     this.map.on("mousemove", "reachableStations", (e) => {
       // cursor moves from one station to another, without leaving the layer
-      if(e.features[0].id !== this.hoveredStationId) {
+      if (e.features[0].id !== this.hoveredStationId) {
         popup.remove();
         this.#addPopup(popup, e);
         this.#clearHoverStates();
@@ -189,6 +190,7 @@ export default class extends Controller {
         "line-join": "round"
       },
       "paint": {
+
         "line-color": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
@@ -218,12 +220,12 @@ export default class extends Controller {
       "type": "line",
       "source": "tripLines",
       "paint": {
-        "line-color": "#777",
-        "line-width": 4,
+        "line-color": "#000000",
+        "line-width": 1,
         "line-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          1,
+          0,
           0,
         ]
       }
@@ -234,9 +236,9 @@ export default class extends Controller {
       "type": "line",
       "source": "tripLines",
       "paint": {
-        "line-color": "#fff",
-        "line-width": 2,
-        "line-dasharray": [4, 4],
+        "line-color": "#000000",
+        "line-width": 1,
+        "line-dasharray": [3, 3],
         "line-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
