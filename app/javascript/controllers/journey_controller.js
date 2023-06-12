@@ -25,7 +25,7 @@ export default class extends Controller {
 
     this.map = new mapboxgl.Map({
       container: "journey-map",
-      style: "mapbox://styles/mapbox/streets-v10"
+      style: "mapbox://styles/cecile-dzy-ncl/clisn3scx002b01pndpm47srl"
     });
 
     this.map.on("load", () => {
@@ -202,7 +202,7 @@ export default class extends Controller {
           2
         ],
         // "line-width": 2,
-        "line-dasharray": [3, 3]
+        "line-dasharray": [3,3]
       }
     });
   }

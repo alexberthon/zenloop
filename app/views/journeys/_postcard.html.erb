@@ -1,16 +1,21 @@
 <% if step.kind == "line" %>
+  <svg width="284" height="132" viewBox="0 0 284 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <clipPath id="svgPath">
+    <path d="M0 2C0 0.895432 0.89543 0 2 0H282C283.105 0 284 0.895431 284 2V56C284 57.1046 283.099 58.0147 282.024 58.2722C279.655 58.84 276 60.5922 276 66C276 71.4078 279.655 73.16 282.024 73.7278C283.099 73.9853 284 74.8954 284 76V130C284 131.105 283.105 132 282 132H1.99999C0.895424 132 0 131.105 0 130V76C0 74.8954 0.901409 73.9853 1.97556 73.7278C4.34453 73.16 8 71.4078 8 66C8 60.5922 4.34453 58.84 1.97556 58.2722C0.901408 58.0147 0 57.1046 0 56V2Z" fill="#D9D9D9"/>
+    </clipPath>
+  </svg>
+
   <div
     class="postcard-wrap"
     data-action="mouseenter->journey#toggleLineHighlight mouseleave->journey#toggleLineHighlight"
     data-journey-step-id-param="<%= step.line.id %>"
   >
+    <div class="delete-btn">
+      <a href="#" data-action="click->journey#removeStepFromJourney" data-journey-step-id-param="<%= step.id %>">
+        <i class="fa-solid fa-trash"></i>
+      </a>
+    </div>
     <div class="postcard postcard-line">
-      <div class="delete-btn">
-        <a href="#" data-action="click->journey#removeStepFromJourney" data-journey-step-id-param="<%= step.id %>">
-          <i class="fa-solid fa-trash"></i>
-        </a>
-      </div>
-
       <%#= <div class="postcard-bg" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<%= asset_path "train.jpg" %#>')"></div> %>
       <div class="postcard-bg"></div>
       <div class="postcard-title"><%= step.line.station_start.name %> ➡️ <%= step.line.station_end.name %></div>
@@ -18,12 +23,12 @@
   </div>
 <% else %>
   <div class="postcard-wrap">
+    <div class="delete-btn">
+      <a href="#" data-action="click->journey#removeStepFromJourney" data-journey-step-id-param="<%= step.id %>">
+        <i class="fa-solid fa-trash"></i>
+      </a>
+    </div>
     <div class="postcard postcard-stay">
-      <div class="delete-btn">
-        <a href="#" data-action="click->journey#removeStepFromJourney" data-journey-step-id-param="<%= step.id %>">
-          <i class="fa-solid fa-trash"></i>
-        </a>
-      </div>
       <% if step.stay.city.photo.present? %>
         <div class="postcard-bg" style="background-image: url('<%= cl_image_path step.stay.city.photo.key %>')"></div>
       <% else %>

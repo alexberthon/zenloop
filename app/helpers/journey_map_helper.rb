@@ -26,7 +26,7 @@ module JourneyMapHelper
 
     # Build geojson for Mapbox
     {
-      trip_lines: geojson_trips(visited_stations.last, trips),
+      trip_lines: geojson_trips(current_station, trips),
       reachable_stations: geojson_reachable(possible_lines),
       selected_stations: geojson_selected(visited_stations),
       existing_lines: geojson_lines(visited_lines),
