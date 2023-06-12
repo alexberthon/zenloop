@@ -15,7 +15,7 @@
             <div class="d-flex justify-content-between">
               <h5 class="card-title fw-bold"><%= journey.name %></h5>
               <span>
-                <%= link_to like_path(journey), method: 'patch' do %>
+                <%= link_to like_path(journey), method: 'get' do %>
                   <i class="fas fa-heart" style="color: #ff0000;"></i>
                 <% end %>
                 <%= journey.likes.count %>
