@@ -11,12 +11,6 @@ class JourneysController < ApplicationController
 
   def show
     @journey = Journey.find(params[:id])
-    data = build_map_data(@journey)
-
-    @selected_stations = data[:selected_stations]
-    @reachable_stations = data[:reachable_stations]
-    @trip_lines = data[:trip_lines]
-    @existing_lines = data[:existing_lines]
   end
 
   def create
@@ -29,7 +23,7 @@ class JourneysController < ApplicationController
       name: "Trip starting from " + @station_start.name
     )
     if @journey.save!
-      redirect_to journey_path(@journey)
+      redirect_to edit_journey_path(@journey)
     else
       render "pages/home", status: :unprocessable_entity
     end
@@ -37,13 +31,19 @@ class JourneysController < ApplicationController
 
   def edit
     @journey = Journey.find(params[:id])
+    data = build_map_data(@journey)
+
+    @selected_stations = data[:selected_stations]
+    @reachable_stations = data[:reachable_stations]
+    @trip_lines = data[:trip_lines]
+    @existing_lines = data[:existing_lines]
   end
 
   def update
     @journey = Journey.find(params[:id])
 
     if @journey.update(journey_params)
-      redirect_to @journey
+      redirect_to edit_journey_path, notice: "Name saved successfully !"
     else
       render :edit, status: :unprocessable_entity
     end
