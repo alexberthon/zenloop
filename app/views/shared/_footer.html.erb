@@ -1,8 +1,10 @@
-<div class="footer">
-  <div class="footer-links">
-    <a href="/">Zenloop</a>
+<% if action_name != "edit" %>
+  <div class="footer">
+    <div class="footer-links">
+      <a href="/">Zenloop</a>
+    </div>
+    <div class="footer-copyright">
+      © 2023
+    </div>
   </div>
-  <div class="footer-copyright">
-    © 2023
-  </div>
-</div>
+<% end %>
