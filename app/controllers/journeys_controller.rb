@@ -54,6 +54,17 @@ class JourneysController < ApplicationController
     redirect_to journeys_path
   end
 
+  def like
+    @journey = Journey.find(params[:id])
+    @like = @journey.likes.find_by(user_id: current_user)
+    if @like
+      @like.destroy
+    else
+      Like.create(user_id: current_user.id, journey_id: @journey.id)
+    end
+    redirect_to root_path
+  end
+
   private
 
   def journey_params
