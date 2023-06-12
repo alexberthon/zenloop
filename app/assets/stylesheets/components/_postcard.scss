@@ -15,12 +15,14 @@ $postcard-border-radius: 12px;
   overflow-x: scroll;
   width: 100%;
   padding: 20px 40px;
+
   &:hover {
     padding-top: 40px;
   }
 }
 
-.postcards::before, .postcards::after {
+.postcards::before,
+.postcards::after {
   content: '';
   margin: auto;
 }
@@ -31,6 +33,7 @@ $postcard-border-radius: 12px;
   color: $line-text-color;
   clip-path: url(#svgPath);
 }
+
 .postcard.postcard-stay {
   font-family: "Oswald", sans-serif;
   font-size: 28px;
@@ -71,15 +74,19 @@ $postcard-border-radius: 12px;
     font-size: 16px;
   }
 }
-.postcard-wrap:hover + .postcard-wrap {
+
+.postcard-wrap:hover+.postcard-wrap {
   margin-left: 0px;
 }
+
 .postcard-wrap:hover {
   transform: translateY(-20px);
+
   .delete-btn {
     opacity: 1;
   }
 }
+
 .postcard {
   position: relative;
   flex: 0 0 $postcard-width;
@@ -121,20 +128,46 @@ $postcard-border-radius: 12px;
   border-radius: $postcard-border-radius - 4px;
 }
 
-.postcard-title,
-.postcard-title-shadow {
+
+.postcard-stations,
+.postcard-stations-shadow {
   position: absolute;
   left: 16px;
-  bottom: 16px;
+  top: 30px;
   width: calc(100% - 40px);
   display: block;
   transition: .2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
-.postcard-title {
+.postcard-stations {
   z-index: 4;
 }
-.postcard-title-shadow {
-    z-index: 3;
-    text-shadow: 1px 1px 0px $text-shadow-color, 2px 2px 0px $text-shadow-color, 3px 3px 0px $text-shadow-color, 4px 4px 0px $text-shadow-color, 5px 5px 0px $text-shadow-color;
+
+.postcard-stations-shadow {
+  z-index: 3;
+  text-shadow: 1px 1px 0px $text-shadow-color, 2px 2px 0px $text-shadow-color, 3px 3px 0px $text-shadow-color, 4px 4px 0px $text-shadow-color, 5px 5px 0px $text-shadow-color;
+}
+
+
+.postcard-duration {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  z-index: 4;
+}
+
+.postcard-distance {
+  position: absolute;
+  left: 16px;
+  bottom: 10px;
+  z-index: 4;
+}
+
+.postcard-cities {
+  position: absolute;
+  display: block;
+  left: 16px;
+
+  top: 15px;
+  z-index: 4;
 }
