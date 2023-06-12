@@ -1,0 +1,36 @@
+<% if step.kind == "line" %>
+  <div
+    class="postcard-wrap"
+    data-action="mouseenter->journey#toggleLineHighlight mouseleave->journey#toggleLineHighlight"
+    data-journey-step-id-param="<%= step.line.id %>"
+  >
+    <div class="postcard postcard-line">
+      <div class="delete-btn">
+        <a href="#" data-action="click->journey#removeStepFromJourney" data-journey-step-id-param="<%= step.id %>">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+      </div>
+
+      <%#= <div class="postcard-bg" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<%= asset_path "train.jpg" %#>')"></div> %>
+      <div class="postcard-bg"></div>
+      <div class="postcard-title"><%= step.line.station_start.name %> ➡️ <%= step.line.station_end.name %></div>
+    </div>
+  </div>
+<% else %>
+  <div class="postcard-wrap">
+    <div class="postcard postcard-stay">
+      <div class="delete-btn">
+        <a href="#" data-action="click->journey#removeStepFromJourney" data-journey-step-id-param="<%= step.id %>">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+      </div>
+      <% if step.stay.city.photo.present? %>
+        <div class="postcard-bg" style="background-image: url('<%= cl_image_path step.stay.city.photo.key %>')"></div>
+      <% else %>
+        <div class="postcard-bg" style="background-image: url('<%= assets_path "train.jpg" %>')"></div>
+      <% end %>
+      <div class="postcard-title"><%= step.stay.city.name %></div>
+      <div class="postcard-title-shadow"><%= step.stay.city.name %></div>
+    </div>
+  </div>
+<% end %>

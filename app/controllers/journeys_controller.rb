@@ -10,13 +10,19 @@ class JourneysController < ApplicationController
   end
 
   def show
-    @journey = Journey.find(params[:id])
     data = build_map_data(@journey)
 
     @selected_stations = data[:selected_stations]
     @reachable_stations = data[:reachable_stations]
     @trip_lines = data[:trip_lines]
     @existing_lines = data[:existing_lines]
+    @stations = @journey.steps
+                        .includes(line: :station_end)
+                        .select { |step| step.kind == "line" }
+                        .map { |step| step.line.station_end }
+                        .unshift(@journey.station_start)
+    @steps_lines = data[:steps_lines]
+    @steps_stays = data[:steps_stays]
     @current_station = data[:current_station]
   end
 
@@ -62,6 +68,6 @@ class JourneysController < ApplicationController
   end
 
   def set_journey
-    @journey = Journey.find(params[:id])
+    @journey = Journey.includes(steps: :line).find(params[:id])
   end
 end

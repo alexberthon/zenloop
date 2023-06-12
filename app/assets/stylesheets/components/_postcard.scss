@@ -1,0 +1,147 @@
+$postcard-width: 200px;
+$postcard-height: 100px;
+$postcard-shadow-color: #333;
+$text-shadow-color: #C03820;
+$postcard-border-radius: 12px;
+
+.postcards {
+  display: flex;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow-x: scroll;
+  width: 100%;
+  padding: 40px;
+  padding-bottom: 20px;
+}
+
+.postcards::before, .postcards::after {
+  content: '';
+  margin: auto;
+}
+
+.postcard.postcard-line {
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  color: #02177b;
+}
+.postcard.postcard-stay {
+  font-family: "Oswald", sans-serif;
+  font-size: 28px;
+  letter-spacing: -1px;
+  line-height: 32px;
+  color: white;
+}
+
+.postcard-wrap {
+  // padding: 0px 10px 50px 0px;
+  // margin-left: -90px;
+  // transform: translateY(50px);
+  margin-right: 10px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.postcard-wrap:hover + .postcard-wrap {
+  margin-left: 0px;
+}
+.postcard-wrap:hover {
+  transform: translateY(-20px);
+  .delete-btn {
+    opacity: 1;
+  }
+}
+.postcard {
+  position: relative;
+  flex: 0 0 $postcard-width;
+  width: $postcard-width;
+  height: $postcard-height;
+  background-color: #333;
+  border-radius: $postcard-border-radius;
+  // box-shadow: rgba(0, 0, 0, 0.6) -8px 4px 10px 0px, 1px 1px 0px $postcard-shadow-color, 2px 2px 0px $postcard-shadow-color, 3px 3px 0px $postcard-shadow-color, 4px 4px 0px $postcard-shadow-color, 5px 5px 0px $postcard-shadow-color;
+  box-shadow: rgba(0, 0, 0, 0.6) -8px 4px 10px 0px;
+  transition: 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+
+  .delete-btn {
+    position: absolute;
+    width: 100%;
+    top: -15px;
+    // left: 50%;
+    z-index: 3;
+    // transform: translateX(-50%);
+    opacity: 0;
+    transition: 0.3s ease;
+  }
+
+  .delete-btn a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    background: red;
+    border-radius: 50%;
+    line-height: 40px;
+    color: white;
+    margin: 0px auto;
+    margin-bottom: 20px;
+    margin-right: -10px;
+    font-size: 16px;
+  }
+}
+
+.postcard::before {
+  content: "";
+  // background: linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
+  // background: linear-gradient(135deg, #60EFFF 0%, #00FF87 100%);
+  // background: linear-gradient(135deg, #F5E6AD 0%, #F13C77 100%);
+  // background: linear-gradient(135deg, #40c9ff 0%, #e81cff 100%);
+  // background: linear-gradient(135deg, #ff930f 0%, #fff95b 100%);
+  // background: linear-gradient(135deg, #696eff 0%, #f8acff 100%);
+  background: white;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border-radius: $postcard-border-radius;
+}
+
+.postcard-bg {
+  position: absolute;
+  z-index: 2;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  top: 5px;
+  left: 5px;
+  padding: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
+  border-radius: $postcard-border-radius - 4px;
+}
+
+.postcard-title,
+.postcard-title-shadow {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  width: calc(100% - 40px);
+  display: block;
+  transition: .2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  // transform: skewY(-8deg);
+}
+
+// .postcards:hover .postcard-title,
+// .postcards:hover .postcard-title-shadow {
+//   top: 100%;
+//   transform: translateY(calc(-100% - 16px));
+// }
+
+.postcard-title {
+  z-index: 4;
+}
+.postcard-title-shadow {
+    z-index: 3;
+    text-shadow: 1px 1px 0px $text-shadow-color, 2px 2px 0px $text-shadow-color, 3px 3px 0px $text-shadow-color, 4px 4px 0px $text-shadow-color, 5px 5px 0px $text-shadow-color;
+}

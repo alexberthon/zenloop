@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import { pulsingDot } from "../pulsing_dot";
 
 export default class extends Controller {
-  static targets = ["stations"]
+  static targets = ["stations", "postcards"]
 
   static values = {
     apiKey: String,
@@ -12,7 +12,11 @@ export default class extends Controller {
     reachableStations: Object,
     existingLines: Object,
     tripLines: Object,
-    stationListHTML: String
+    stationListHTML: String,
+    stations: Array,
+    currentStation: Object,
+    stepsLines: Array,
+    stepsStays: Array
   }
 
   connect() {
@@ -321,8 +325,32 @@ export default class extends Controller {
         this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
         this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
         this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+        this.postcardsTarget.insertAdjacentHTML("beforeend", data.postcard);
         // this.stationsTarget.innerHTML = data.station_list_html;
       })
+  }
+
+  removeStepFromJourney(event){
+    const url = `/steps/${event.params.stepId}`;
+    const csrfToken = document.head.querySelector("[name='csrf-token']").content;
+
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-Token": csrfToken
+      }
+    })
+    .then(response => response.json())
+    .then((data) => {
+      this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
+      this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
+      this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
+      this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
+      this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+      event.target.closest(".postcard-wrap").remove();
+      // this.stationsTarget.innerHTML = data.station_list_html
+    })
   }
 
   #updateData(layer, data) {
