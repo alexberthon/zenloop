@@ -37,6 +37,7 @@
 .map-side-bar {
   position: relative;
   height: 100vh;
+  overflow: hidden;
 
   #cta {
     z-index: 100;
