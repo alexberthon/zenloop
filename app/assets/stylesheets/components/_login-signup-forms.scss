@@ -1,6 +1,12 @@
 #login-card{
   width:350px;
   border-radius: 15px;
-  margin:150px auto;
+  margin:0px auto;
+}
 
+.new-session-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 50px);
 }
