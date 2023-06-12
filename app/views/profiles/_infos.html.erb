@@ -1,9 +1,9 @@
-<h1>Good to see you <%= @user.name.capitalize %>!</h1>
+<h1>Good to see you, <%= @user.name.capitalize %>!</h1>
 <hr>
 <h2>Your infos:</h2>
 <hr>
 <ul>
-  <li>First name: <strong><%= @user.name.capitalize %></strong></li>
+  <li> Name: <strong><%= @user.name.capitalize %></strong></li>
   <li>Email: <strong><%= @user.email %></strong></li>
 </ul>
-<a class="btn btn-outline-primary btn-sm" href="/users/edit">Edit your infos</a>
+<a class="btn btn-flat btn-sm" href="/users/edit">Edit</a>

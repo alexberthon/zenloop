@@ -1,27 +1,11 @@
-<% content_for :head do %>
-  <meta name="turbo-visit-control" content="reload">
-<% end %>
-<div class="map-side-bar">
-  <div
-    data-controller="journey"
-    data-journey-selected-stations-value="<%= @selected_stations %>"
-    data-journey-reachable-stations-value="<%= @reachable_stations %>"
-    data-journey-existing-lines-value="<%= @existing_lines %>"
-    data-journey-trip-lines-value="<%= @trip_lines %>"
-    data-journey-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
-    data-journey-journey-value="<%= @journey.to_json %>"
-    data-journey-stations-value="<%= @stations.to_json %>"
-    data-journey-current-station-value="<%= @current_station %>"
-    data-journey-steps-lines-value="<%= @steps_lines.to_json %>"
-    data-journey-steps-stays-value="<%= @steps_stays.to_json %>"
-    >
-    <div id="journey-map"></div>
-    <%#= render "sidebar", journey: @journey %>
-    <div class="postcards" data-journey-target="postcards">
-      <% @journey.steps.each do |step| %>
-        <%= render "postcard", step: step %>
-      <% end %>
-    </div>
-  </div>
-  <%#= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
+<div class="container">
+  <h1 class="text-center"><%= @journey.name.capitalize %></h1>
+  <h2>Your Steps</h2>
+  <p><%= @journey.station_start.name %></p>
+  <% @journey.steps.each do |step| %>
+    <p><%= step.line.station_end.name %></p>
+    <% end %>
+  <%= link_to "See all your journeys", journeys_path, class: "btn btn-primary sm" %>
+  <%= link_to "Edit your trip", edit_journey_path, class: "btn btn-primary sm" %>
+  <%= link_to "Homepage", root_path, class: "btn btn-primary sm" %>
 </div>
