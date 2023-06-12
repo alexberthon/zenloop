@@ -1,9 +1,6 @@
 <div class="left-side text-center p-4 pb-0">
 
   <div class="text-center position-relative">
-    <%#= link_to root_path, class: "position-absolute top-50 start-0 translate-middle-y fs-5 arrow-back" do %>
-      <%# <i class="fa-sharp fa-solid fa-arrow-left"></i> %>
-    <%# end %>
     <%= simple_form_for(@journey) do |f| %>
       <%= f.input :name, :label => false, wrapper_html: {class: "mb-0 form-inline"} do %>
         <%= f.input_field :name %>
