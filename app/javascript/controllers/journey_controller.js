@@ -189,8 +189,19 @@ export default class extends Controller {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "#333",
-        "line-width": 2,
+        "line-color": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          "#E60F05",
+          "#333"
+        ],
+        "line-width": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          3,
+          2
+        ],
+        // "line-width": 2,
         "line-dasharray": [3, 3]
       }
     });
@@ -361,5 +372,17 @@ export default class extends Controller {
       this.map.setPaintProperty(layer, "circle-opacity", 1);
       this.map.setPaintProperty(layer, "circle-stroke-opacity", 1);
     }, this.transitionDuration);
+  }
+
+  toggleLineHighlight(event) {
+    const state = this.map.getFeatureState({
+      source: "existingLines",
+      id: event.params.stepId
+    });
+
+    this.map.setFeatureState(
+      { source: "existingLines", id: event.params.stepId },
+      { hover: !state.hover }
+    );
   }
 }
