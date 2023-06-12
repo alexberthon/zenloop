@@ -27,6 +27,10 @@ puts "---------- DESTROY ----------"
 puts ""
 
 puts "Destroying users..."
+Like.destroy_all
+puts "Likes destroyed!"
+
+puts "Destroying users..."
 User.destroy_all
 puts "Users destroyed!"
 
@@ -48,6 +52,8 @@ User.create(name: 'Alexis', email: 'alexis@gmail.com', password: 'azerty')
 User.create(name: 'Antoine', email: 'antoine@gmail.com', password: 'azerty')
 User.create(name: 'Alexandre', email: 'alexandre@gmail.com', password: 'azerty')
 User.create(name: 'Lenny', email: 'lenny@gmail.com', password: 'azerty')
+User.create(name: 'likerbot', email: 'likerbot@gmail.com', password: 'azerty')
+
 puts "Users created!"
 
 # Create cities
@@ -63,7 +69,7 @@ puts "Cities created!"
 
 # Create stations
 puts "Creating stations..."
-city = City.all.first # For now, all stations are in Paris...
+city = City.all.first
 stations_store = {}
 File.readlines("db/data/national_stations.ndjson")
     .each do |file_line|
@@ -104,12 +110,19 @@ puts "Lines created!"
 
 # Create journeys
 puts "Creating journeys..."
-Journey.create(name: 'bumble rumble', user_id: User.first.id, likes: 5, duration: 200, station_start_id: Station.last.id, station_end_id: Station.first.id)
-Journey.create(name: 'balkan pigeon', user_id: User.first.id, likes: 5, duration: 200, station_start_id: Station.last.id, station_end_id: Station.last.id)
-Journey.create(name: 'saucisse seche', user_id: User.first.id, likes: 5, duration: 200, station_start_id: Station.last.id, station_end_id: Station.first.id)
-Journey.create(name: 'escapade entre potes', user_id: User.last.id, likes: 5, duration: 200, station_start_id: Station.first.id, station_end_id: Station.last.id)
-Journey.create(name: 'tarte au thon', user_id: User.last.id, likes: 5, duration: 200, station_start_id: Station.first.id, station_end_id: Station.first.id)
-Journey.create(name: 'scandinavie en amoureux', user_id: User.last.id, likes: 5, duration: 200, station_start_id: Station.first.id, station_end_id: Station.first.id)
+Journey.create(name: 'Balkan Rumble', user_id:User.all.sample.id, duration: rand(1000), station_start_id: Station.all.sample.id, station_end_id:  Station.all.sample.id)
+Journey.create(name: 'Escapade Romantique', user_id:User.all.sample.id, duration: rand(1000), station_start_id:  Station.all.sample.id, station_end_id:  Station.all.sample.id)
+Journey.create(name: 'Weekend entre potes', user_id:User.all.sample.id, duration: rand(1000), station_start_id:  Station.all.sample.id, station_end_id:  Station.all.sample.id)
+Journey.create(name: 'Summer 2024', user_id: User.all.sample.id, duration: rand(1000), station_start_id:  Station.all.sample.id, station_end_id:  Station.all.sample.id)
+Journey.create(name: 'EVJF Margaux', user_id: User.all.sample.id, duration: rand(1000), station_start_id:  Station.all.sample.id, station_end_id:  Station.all.sample.id)
+Journey.create(name: 'Scandinavie en amoureux', user_id: User.all.sample.id, duration: rand(1000), station_start_id:  Station.all.sample.id, station_end_id:  Station.all.sample.id)
 puts "Journeys created!"
 
-puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations, #{Line.count} lines and #{Journey.count} "
+
+
+#Create likes
+100.times do
+Like.create(user_id: User.last.id, journey_id: Journey.all.sample.id)
+end
+
+puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations, #{Line.count} lines, #{Like.count} likes and #{Journey.count} journeys "
