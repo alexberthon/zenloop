@@ -28,7 +28,7 @@ class StepsController < ApplicationController
     @step.destroy
     @journey = @step.journey
     @journey.update(station_end: @step.line.station_start, duration: @journey.duration - @step.duration)
-    redirect_to journey_path(@journey)
+    redirect_to edit_journey_path(@journey)
   end
 
   private

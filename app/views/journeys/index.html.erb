@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
               <div class="d-flex justify-content-between">
-                <h5 class="card-title fw-bold"><%= journey.name %></h5>
+                <h5 class="card-title fw-bold"><%= journey.name.capitalize %></h5>
                 <span><i class="fa-solid fa-heart" style="color: #ff0000;"></i> <%= journey.likes %></span>
               </div>
               <p class="card-description">
@@ -30,4 +30,5 @@
       </li>
     <% end %>
   </ul>
+  <%= link_to "Homepage", root_path, class: "btn btn-primary sm" %>
 </div>
