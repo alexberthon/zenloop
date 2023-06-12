@@ -5,11 +5,11 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   resources :profiles, only: [:show]
-  resources :lines, only: [:index, :show]
   resources :journeys do
     resources :steps, only: [:create]
   end
   resources :steps, only: [:destroy]
+  get "lines/search", to: "lines#search"
 
   mount Sidekiq::Web => '/sidekiq'
 end

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import mapboxgl from "mapbox-gl";
+import { pulsingDot } from "../pulsing_dot";
 
 export default class extends Controller {
   static targets = ["stations"]
@@ -24,10 +25,12 @@ export default class extends Controller {
     });
 
     this.map.on("load", () => {
-      this.#addSelectedStationsToMap();
       this.#addReachableStationsToMap();
+      this.#addSelectedStationsToMap();
       this.#addExistingLinesToMap();
       this.#addTripLinesToMap();
+      this.#addCurrentStationToMap();
+      this.map.addImage("pulsing-dot", pulsingDot(this.map), { pixelRatio: 2 });
     })
 
     this.#fitMapToMarkers();
@@ -74,6 +77,26 @@ export default class extends Controller {
       if(e.features[0].id !== this.hoveredStationId) {
         popup.remove();
         this.#addPopup(popup, e);
+      }
+    });
+
+    this.map.on("click", "selectedStations", (e) => {
+      this.#fetchReachableStations(e.features[0].id);
+    });
+  }
+
+  #addCurrentStationToMap() {
+    this.map.addSource("currentStation", {
+      type: "geojson",
+      data: this.currentStationValue
+    });
+
+    this.map.addLayer({
+      "id": "currentStation",
+      "type": "symbol",
+      "source": "currentStation",
+      "layout": {
+        "icon-image": "pulsing-dot"
       }
     });
   }
@@ -262,6 +285,19 @@ export default class extends Controller {
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 6, duration: 0 });
   }
 
+  #fetchReachableStations(station_id) {
+    const url = `/lines/search?from=${station_id}`;
+    fetch(url, {
+      headers: { "Accept": "application/json" }
+    })
+      .then(response => response.json())
+      .then((data) => {
+        this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
+        this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+        this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
+      })
+  }
+
   #addStepToJourney(line_id) {
     const url = `/journeys/${this.journeyValue.id}/steps`;
     const csrfToken = document.head.querySelector("[name='csrf-token']").content;
@@ -284,8 +320,8 @@ export default class extends Controller {
         this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
         this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
         this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
-        console.log(data)
-        this.stationsTarget.innerHTML = data.station_list_html
+        this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+        // this.stationsTarget.innerHTML = data.station_list_html;
       })
   }
 

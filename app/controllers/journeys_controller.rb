@@ -17,6 +17,7 @@ class JourneysController < ApplicationController
     @reachable_stations = data[:reachable_stations]
     @trip_lines = data[:trip_lines]
     @existing_lines = data[:existing_lines]
+    @current_station = data[:current_station]
   end
 
   def create
