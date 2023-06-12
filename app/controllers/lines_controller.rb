@@ -1,4 +1,5 @@
 class LinesController < ApplicationController
+  include JourneyMapHelper
   include GeojsonHelper
 
   def show
@@ -16,14 +17,9 @@ class LinesController < ApplicationController
     end
 
     station = Station.find(search_params[:from])
-    lines = Line.includes(:station_end)
-                .where(station_start: station)
-    trips = lines.group_by(&:db_trip_id)
-    response = {
-      reachable_stations: geojson_reachable(lines),
-      current_station: geojson_station(station),
-      trip_lines: geojson_trips(station, trips)
-    }
+    journey = Journey.find(search_params[:journey_id])
+
+    response = build_map_data(journey, station)
     respond_to do |format|
       format.json { render json: response }
     end
@@ -32,6 +28,6 @@ class LinesController < ApplicationController
   private
 
   def search_params
-    params.permit(:from)
+    params.permit(:from, :journey_id)
   end
 end

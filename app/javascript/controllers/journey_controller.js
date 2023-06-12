@@ -301,7 +301,7 @@ export default class extends Controller {
   }
 
   #fetchReachableStations(station_id) {
-    const url = `/lines/search?from=${station_id}`;
+    const url = `/lines/search?from=${station_id}&journey_id=${this.journeyValue.id}`;
     fetch(url, {
       headers: { "Accept": "application/json" }
     })
