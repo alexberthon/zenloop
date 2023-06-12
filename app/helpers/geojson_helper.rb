@@ -1,4 +1,19 @@
 module GeojsonHelper
+
+  def geojson_station(station)
+    Jbuilder.new do |json|
+      json.type "Feature"
+      json.id station.id
+      json.properties do
+        json.name station.name
+      end
+      json.geometry do
+        json.type "Point"
+        json.coordinates [station.longitude, station.latitude]
+      end
+    end.attributes!.to_json
+  end
+
   def geojson_selected(stations)
     Jbuilder.new do |json|
       json.type "FeatureCollection"
@@ -55,16 +70,18 @@ module GeojsonHelper
     end.attributes!.to_json
   end
 
-  def geojson_lines(stations)
+  def geojson_lines(lines)
     Jbuilder.new do |json|
       json.type "FeatureCollection"
-      json.features [nil] do |_|
+      json.features lines do |line|
         json.type "Feature"
+        json.id line.id
         json.geometry do
           json.type "LineString"
-          json.coordinates(
-            stations.map { |station| [station.longitude, station.latitude] }
-          )
+          json.coordinates([
+                             [line.station_start.longitude, line.station_start.latitude],
+                             [line.station_end.longitude, line.station_end.latitude]
+                           ])
         end
       end
     end.attributes!.to_json

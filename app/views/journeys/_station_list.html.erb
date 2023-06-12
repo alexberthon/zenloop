@@ -1,0 +1,13 @@
+<ul class="station-list" data-journey-target="stations">
+  <li><%= journey.station_start.name %></li>
+  <% journey.steps.each do |step| %>
+    <% if step.kind == "line" %>
+      <li>
+        <%= step.line.station_end.name %>
+        <a href="#" data-action="click->journey#removeStepFromJourney" data-journey-step-id-param="<%= step.id %>">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
