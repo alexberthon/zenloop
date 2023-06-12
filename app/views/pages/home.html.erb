@@ -1,31 +1,33 @@
 <%= render "shared/banner" %>
-
 <div class="container">
   <h2 class="text-center home-loops-text">Some great loops</h2>
-      <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
-        <% @journeys.each do |journey| %>
-          <li class="col">
-            <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
-              <div class="card h-100">
-                <div class="card-img-container">
-                  <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
-                  <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
-                </div>
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <h5 class="card-title fw-bold"><%= journey.name %></h5>
-                    <span><i class="fa-solid fa-heart" style="color: #ff0000;"></i> <%= journey.likes %></span>
-                  </div>
-                  <p class="card-description">
-                    From <strong><%= journey.station_start.name %></strong> <br> to <strong><%= journey.station_end.name %></strong>
-                  </p>
-                </div>
-                <%# <div class="card-footer">
-                  <p class="card-text"><strong>per day</strong></p>
-                </div> %>
-              </div>
+  <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
+    <% @journeys.each do |journey| %>
+      <li class="col">
+        <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
+          <div class="card h-100">
+            <div class="card-img-container">
+              <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
+              <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
             <% end %>
-          </li>
-      <% end %>
-    </ul>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="card-title fw-bold"><%= journey.name %></h5>
+              <span>
+                <%= link_to like_path(journey), method: 'get' do %>
+                  <i class="fas fa-heart" style="color: #ff0000;"></i>
+                <% end %>
+                <%= journey.likes.count %>
+              </span>
+            </div>
+            <p class="card-description">
+              From <strong><%= journey.station_start.name %></strong> <br>
+              to <strong><%= journey.station_end.name %></strong>
+            </p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
 </div>

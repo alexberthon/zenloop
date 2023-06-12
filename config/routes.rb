@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home"
 
+  get '/journey/:id/like', to: 'journeys#like', as: 'like'
+
   resources :profiles, only: [:show]
   resources :journeys do
     resources :steps, only: [:create]

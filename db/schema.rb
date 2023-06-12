@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_10_225252) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_12_114216) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -65,7 +65,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_225252) do
   create_table "journeys", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id", null: false
-    t.integer "likes"
     t.integer "duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -74,6 +73,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_225252) do
     t.index ["station_end_id"], name: "index_journeys_on_station_end_id"
     t.index ["station_start_id"], name: "index_journeys_on_station_start_id"
     t.index ["user_id"], name: "index_journeys_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "journey_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["journey_id"], name: "index_likes_on_journey_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "lines", force: :cascade do |t|
@@ -143,6 +151,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_10_225252) do
   add_foreign_key "journeys", "stations", column: "station_end_id"
   add_foreign_key "journeys", "stations", column: "station_start_id"
   add_foreign_key "journeys", "users"
+  add_foreign_key "likes", "journeys"
+  add_foreign_key "likes", "users"
   add_foreign_key "lines", "stations", column: "station_end_id"
   add_foreign_key "lines", "stations", column: "station_start_id"
   add_foreign_key "stations", "cities"
