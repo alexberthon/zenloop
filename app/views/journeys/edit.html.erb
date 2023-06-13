@@ -20,9 +20,9 @@
       <%= f.input :photo, as: :file, input_html: { data: {journey_target:"screenMap"} } %>
       <%= f.button :submit, data: {journey_target:"button"} %>
     <% end %>
-    <button data-action="click->journey#download" class="button-screen">clique stp</button>
     <div id="journey-map"></div>
     <%= render "shared/name_form", journey: @journey %>
+    <div class="d-flex left-side"><button data-action="click->journey#download" class="btn btn-outline-secondary validate-button">Validate your journey</button></div>
     <%#= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
     <%#= render "sidebar", journey: @journey %>
     <div class="postcards" data-journey-target="postcards">
