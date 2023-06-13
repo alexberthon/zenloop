@@ -13,9 +13,12 @@
     <%= javascript_importmap_tags %>
     <%= yield :head %>
   </head>
-  <body><%= render "shared/navbar" %>
+  <body>
+    <%= render "shared/navbar" %>
     <%= render "shared/flashes" %>
-    <%= yield %>
+    <div class="main-app-content">
+      <%= yield %>
+    </div>
     <%= render "shared/footer" %>
   </body>
 </html>

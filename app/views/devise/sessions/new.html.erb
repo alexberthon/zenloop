@@ -1,37 +1,39 @@
-<div id="login-card" class="card">
+<div class="new-session-container">
+  <div id="login-card" class="card">
 
-  <div class="card-body">
+    <div class="card-body">
 
-    <h2 class="text-center">Log in</h2>
+      <h2 class="text-center">Log in</h2>
 
-    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: :false }) do |f| %>
-      <div class="form-inputs">
-        <%= f.input :email,
-                    label: false,
-                    placeholder: "email*",
-                    required: true,
-                    autofocus: true,
-                    input_html: { autocomplete: "email" } %>
-        <%= f.input :password,
-                    label: false,
-                    placeholder: "Password*",
-                    required: true,
-                    input_html: { autocomplete: "current-password" } %>
-        <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-      </div>
+      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: :false }) do |f| %>
+        <div class="form-inputs">
+          <%= f.input :email,
+                      label: false,
+                      placeholder: "email*",
+                      required: true,
+                      autofocus: true,
+                      input_html: { autocomplete: "email" } %>
+          <%= f.input :password,
+                      label: false,
+                      placeholder: "Password*",
+                      required: true,
+                      input_html: { autocomplete: "current-password" } %>
+          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+        </div>
 
-      <div class="form-actions">
-        <%= f.button :submit, "Log in", class:"btn btn-primary" %>
-      </div>
-    <% end %>
+        <div class="form-actions">
+          <%= f.button :submit, "Log in", class:"btn btn-primary" %>
+        </div>
+      <% end %>
 
-    <br>
-    <p>Forgot your password? <br>
-     <%= link_to "Recover password", new_password_path(resource_name) %></p>
+      <br>
+      <p>Forgot your password? <br>
+      <%= link_to "Recover password", new_password_path(resource_name) %></p>
 
-    <p>You don't have an account yet? <br>
-    <%= link_to "Sign up", new_registration_path(resource_name) %></p>
+      <p>You don't have an account yet? <br>
+      <%= link_to "Sign up", new_registration_path(resource_name) %></p>
+
+    </div>
 
   </div>
-
 </div>
