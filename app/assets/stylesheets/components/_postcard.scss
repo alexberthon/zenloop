@@ -27,7 +27,6 @@ $postcard-border-radius: 12px;
 }
 
 .postcard.postcard-line {
-  font-family: "Playfair Display", serif;
   font-size: 16px;
   color: $line-text-color;
   clip-path: url(#svgPath);
@@ -92,12 +91,6 @@ $postcard-border-radius: 12px;
 
 .postcard::before {
   content: "";
-  // background: linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%);
-  // background: linear-gradient(135deg, #60EFFF 0%, #00FF87 100%);
-  // background: linear-gradient(135deg, #F5E6AD 0%, #F13C77 100%);
-  // background: linear-gradient(135deg, #40c9ff 0%, #e81cff 100%);
-  // background: linear-gradient(135deg, #ff930f 0%, #fff95b 100%);
-  // background: linear-gradient(135deg, #696eff 0%, #f8acff 100%);
   background: white;
   position: absolute;
   width: 100%;

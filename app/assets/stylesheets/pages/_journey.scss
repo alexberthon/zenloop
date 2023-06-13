@@ -32,6 +32,10 @@ $transition-delay: 0.3s;
     .mapboxgl-popup-content {
       border-radius: 30px;
     }
+
+    a {
+      outline: none;
+    }
   }
 
   @keyframes appear {
