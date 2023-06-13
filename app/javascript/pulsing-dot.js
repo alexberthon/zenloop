@@ -1,6 +1,6 @@
 // This implements `StyleImageInterface`
 // to draw a pulsing dot icon on the map.
-export function pulsingDot(map) {
+export default function pulsingDot(map) {
   const size = 200;
   return {
     width: size,
