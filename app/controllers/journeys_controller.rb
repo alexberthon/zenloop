@@ -49,7 +49,7 @@ class JourneysController < ApplicationController
     @journey = Journey.find(params[:id])
 
     if @journey.update(journey_params)
-      redirect_to edit_journey_path, notice: "Name saved successfully !"
+      redirect_to journey_path
     else
       render :edit, status: :unprocessable_entity
     end
@@ -75,7 +75,7 @@ class JourneysController < ApplicationController
   private
 
   def journey_params
-    params.require(:journey).permit(:station_start_id, :name)
+    params.require(:journey).permit(:station_start_id, :name, :photo)
   end
 
   def set_journey
