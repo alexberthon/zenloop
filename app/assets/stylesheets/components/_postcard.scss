@@ -13,6 +13,7 @@ $postcard-border-radius: 12px;
   left: 0px;
   transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   overflow-x: scroll;
+  overflow-y: hidden;
   width: 100%;
   padding: 20px 40px;
   &:hover {
@@ -75,7 +76,6 @@ $postcard-border-radius: 12px;
   margin-left: 0px;
 }
 .postcard-wrap:hover {
-  transform: translateY(-20px);
   .delete-btn {
     opacity: 1;
   }
