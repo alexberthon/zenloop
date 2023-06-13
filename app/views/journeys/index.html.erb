@@ -6,7 +6,11 @@
         <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
           <div class="card h-100">
             <div class="card-img-container">
-              <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
+              <% if journey.photo.attached? %>
+                <%= image_tag journey.photo, crop: :fill, class: "card-img-top" %>
+              <% else %>
+                <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
+              <% end %>
             <% end %>
           </div>
           <div class="card-body">

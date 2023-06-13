@@ -7,4 +7,6 @@ class Journey < ApplicationRecord
   has_many :cities
   has_many :activities
   has_many :likes
+
+  has_one_attached :photo
 end

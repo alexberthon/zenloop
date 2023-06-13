@@ -5,6 +5,7 @@
   <% @journey.steps.each do |step| %>
     <p><%= step.line.station_end.name %></p>
     <% end %>
+    <%= image_tag @journey.photo %>
   <%= link_to "See all your journeys", journeys_path, class: "btn btn-primary sm" %>
   <%= link_to "Edit your trip", edit_journey_path, class: "btn btn-primary sm" %>
   <%= link_to "Homepage", root_path, class: "btn btn-primary sm" %>
