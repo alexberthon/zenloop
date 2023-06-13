@@ -11,6 +11,7 @@ $stay-text-color: #FFFFFF;
   left: 0px;
   transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   overflow-x: scroll;
+  overflow-y: hidden;
   width: 100%;
   padding: 20px 40px;
 
@@ -72,13 +73,12 @@ $stay-text-color: #FFFFFF;
   }
 }
 
+
 .postcard-wrap:hover+.postcard-wrap {
   margin-left: 0px;
 }
 
 .postcard-wrap:hover {
-  transform: translateY(-20px);
-
   .delete-btn {
     opacity: 1;
   }

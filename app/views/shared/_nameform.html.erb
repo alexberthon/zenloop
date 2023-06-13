@@ -1,9 +1,0 @@
-<div class="d-flex inline opacity-75">
-  <h4>New name for your journey: </h4>
-  <%= simple_form_for(@journey) do |f| %>
-    <%= f.input :name, :label => false, wrapper_html: {class: "mb-0 form-inline"} do %>
-      <%= f.input_field :name %>
-      <%= f.button :submit, "✓", :class => "btn btn-outline-primary btn-small" %>
-    <% end %>
-  <% end %>
-</div>
