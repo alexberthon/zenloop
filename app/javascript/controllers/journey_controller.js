@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import mapboxgl from "mapbox-gl";
 import pulsingDot from "pulsing-dot";
+import html2canvas from "html2canvas";
 
 export default class extends Controller {
   static targets = ["stations", "postcards", "durationInput", "stationInput", "map", "screenMap", "button"]
@@ -490,11 +491,10 @@ export default class extends Controller {
           const dt = new DataTransfer()
           dt.items.add(file)
           this.screenMapTarget.files = dt.files
-          console.log(this.screenMapTarget.files);
           this.buttonTarget.click();
         })
 
-        /* this.downloadBase64File('image/png',t,'image'); */
+        // this.downloadBase64File('image/png',t,'image');
         this.map.setLayoutProperty("reachableStations", "visibility", "visible");
         this.map.setLayoutProperty("currentStation", "visibility", "visible");
       })

@@ -5,7 +5,7 @@
       <li class="col">
         <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
           <div class="card h-100">
-            <div class="card-img-container">
+            <div>
               <% if journey.photo.attached? %>
                 <%= image_tag journey.photo, crop: :fill, class: "card-img-top" %>
               <% else %>
