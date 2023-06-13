@@ -39,3 +39,26 @@
   background: linear-gradient(#147EFF, #0F67DA);
   color: white;
 }
+
+.btn-login {
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-right: 2em;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.btn-sign-up {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-right: 2em;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.btn-home-wrapper {
+  position: absolute;
+  display: flex;
+}
