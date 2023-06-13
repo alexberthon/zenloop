@@ -1,39 +1,34 @@
-$ticket-width: 20vw;
-$ticket-height: 14.45vh;
-$stay-width: 16vw;
+$ticket-width: 280px;
+$ticket-height: 130px;
+$stay-width: 280px;
+$stay-height: 130px;
 
-.postcards {
-  display: flex;
+.tickets-container {
   position: absolute;
   bottom: 0px;
   left: 0px;
-  transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  overflow-x: scroll;
-  overflow-y: hidden;
-  width: 100%;
-  padding: 20px 40px;
-
-  &:hover {
-    padding-top: 40px;
+  h4 {
+    padding-left: 20px;
+    margin: 0px;
+    margin-right: 20px;
+    font-weight: 800;
   }
 }
 
-.postcards::before,
-.postcards::after {
-  content: '';
-  margin: auto;
+.tickets {
+  display: flex;
+  transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  padding: 20px;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .ticket.ticket-line {
-  font-family: "DIN Pro", sans-serif;
   font-size: 16px;
 }
 
-
-
 .ticket-wrap {
   margin-right: 10px;
-  transform-style: preserve-3d;
   cursor: pointer;
   transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   filter: drop-shadow(rgba(0, 0, 0, 0.6) -8px 4px 10px 0px);
@@ -42,8 +37,7 @@ $stay-width: 16vw;
   .delete-btn {
     position: absolute;
     width: 100%;
-    top: -13%;
-    left: 0%;
+    top: -20px;
     z-index: 3;
     opacity: 0;
     transition: 0.3s ease;
@@ -65,11 +59,6 @@ $stay-width: 16vw;
   }
 }
 
-
-.ticket-wrap:hover+.ticket-wrap {
-  margin-left: 0px;
-}
-
 .ticket-wrap:hover {
   .delete-btn {
     opacity: 1;
@@ -80,17 +69,8 @@ $stay-width: 16vw;
   position: relative;
   width: $ticket-width;
   height: $ticket-height;
-  background-color: #333;
+  background-color: white;
   transition: 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-}
-
-.ticket::before {
-  content: "";
-  background: white;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
 }
 
 .ticket-top,
@@ -106,43 +86,35 @@ $stay-width: 16vw;
 
 .ticket-city-start,
 .ticket-city-end,
-.ticket-duration,
-.ticket-logo,
-.ticket-distance {
-  z-index: 100;
+.ticket-data,
+.ticket-logo {
+  z-index: 1;
 }
 
 .ticket-top {
   justify-content: space-between;
-  margin-left: 1vw;
   padding-top: 10px;
-  overflow: clip;
 }
 
 .ticket-bottom {
   justify-content: normal;
   text-align: center;
   align-items: center;
-  padding-top: 4%;
 }
 
 .ticket-city-end {
-  margin-right: 1vw;
   text-align: end;
 }
 
 .text-distance,
 .text-duration,
 .ticket-city-name {
-  margin-bottom: 0%;
-  overflow: clip;
-  height: 37%;
+  margin-bottom: 0px;
 }
 
 .ticket-text-small {
-  font-size: 11px;
+  font-size: 14px;
   color: grey;
-  width: 6vw;
 }
 
 .ticket-dotted-line {
@@ -151,74 +123,87 @@ $stay-width: 16vw;
   z-index: 100;
 }
 
-.ticket-distance {
-  margin-left: 20%;
+.ticket-data {
+  flex-grow: 1;
+  p {
+    margin-bottom: 0px;
+  }
 }
 
 .ticket-city-start,
+.ticket-logo,
 .ticket-city-end {
-  width: 6vw;
+  flex-basis: 33.33%;
 }
 
-.ticket-right-banner,
+.ticket-logo {
+  text-align: center;
+  padding-bottom: 10px;
+  svg {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+  }
+}
+
+.ticket-right-banner {
+  margin-left: -2px;
+}
 .ticket-left-banner {
-  margin: 0 -1%;
+  margin-right: -2px;
 }
 
 // stays
 .ticket-bg {
   position: absolute;
-  z-index: 2;
-  width: calc(100% - 8vw);
-  height: calc(100% - 2vh);
-  top: 1vh;
-  right: 0.5vw;
-  padding: 20px;
-  background-repeat: no-repeat;
+  z-index: 1;
+  width: 190px;
+  height: calc(#{$stay-height} - 2 * 10px);
+  top: 10px;
+  right: 10px;
   background-position: center;
   background-size: cover;
-  pointer-events: none;
 }
 
 .ticket.ticket-stay {
   width: $stay-width;
-  font-family: 'DIN pro', Sans-Serif;
   letter-spacing: -1px;
-  line-height: 32px;
   color: black;
-  margin-right: 0.8vw;
 }
 
-.stay-city,
-.stay-country,
+.stay-header,
 .stay-duration {
   position: absolute;
-  left: 16px;
-  display: block;
-  z-index: 4;
+  z-index: 2;
 }
 
-.stay-city {
-  font-size: 28px;
-  font-weight: bolder;
-  top: 11px;
-  overflow: clip;
-  height: 30px;
-}
+.stay-header {
+  top: 10px;
+  left: 10px;
+  line-height: 32px;
 
-.stay-country {
-  color: grey;
-  font-size: 18px;
-  font-weight: lighter;
-  top: 33px;
+  .stay-city {
+    font-size: 28px;
+    font-weight: bolder;
+  }
+
+  .stay-country {
+    color: grey;
+    font-size: 18px;
+    font-weight: lighter;
+  }
 }
 
 .stay-duration {
   color: grey;
-  font-size: 15px;
   font-weight: lighter;
-  left: 40px;
-  top: 95px;
+  left: 10px;
+  bottom: 10px;
+
+  i {
+    color: #E6612F;
+    margin-right: 5px;
+  }
 }
 
 .ticket-clock {

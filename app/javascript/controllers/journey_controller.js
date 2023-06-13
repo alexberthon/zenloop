@@ -4,7 +4,7 @@ import pulsingDot from "pulsing-dot";
 import html2canvas from "html2canvas";
 
 export default class extends Controller {
-  static targets = ["stations", "postcards", "durationInput", "stationInput", "map", "screenMap", "button"]
+  static targets = ["stations", "tickets", "ticketsHeader", "durationInput", "stationInput", "map", "screenMap", "button"]
 
   static values = {
     apiKey: String,
@@ -58,10 +58,10 @@ export default class extends Controller {
       "type": "circle",
       "source": "selectedStations",
       "paint": {
-        "circle-color": "#00A18E",
         "circle-radius": 6,
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#b8f5ee"
+        "circle-color": "#E6612F",
+        "circle-stroke-color": "#fad9cd"
       }
     });
 
@@ -114,11 +114,11 @@ export default class extends Controller {
         "circle-color": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          "#00A18E",
-          "#0058AA",
+          "#E6612F",
+          "#1A66A5",
         ],
         "circle-radius": 5,
-        "circle-stroke-width": 2,
+        "circle-stroke-width": 1,
         "circle-stroke-color": "#8abceb",
         "circle-stroke-opacity": 0,
         "circle-opacity": 0,
@@ -374,7 +374,8 @@ export default class extends Controller {
       .then((data) => {
         this.#updateMap(data);
         this.currentStepIdValue = data.current_step_id;
-        this.postcardsTarget.innerHTML = data.postcards;
+        this.ticketsTarget.innerHTML = data.tickets;
+        this.#updateTicketsHeader();
       })
   }
 
@@ -402,7 +403,8 @@ export default class extends Controller {
       .then((data) => {
         this.#updateMap(data);
         this.currentStepIdValue = data.current_step_id;
-        this.postcardsTarget.innerHTML = data.postcards;
+        this.ticketsTarget.innerHTML = data.tickets;
+        this.#updateTicketsHeader();
         this.modal.hide();
       })
   }
@@ -423,6 +425,7 @@ export default class extends Controller {
         this.#updateMap(data);
         this.currentStepIdValue = data.current_step_id;
         event.target.closest(".ticket-wrap").remove();
+        this.#updateTicketsHeader();
       })
   }
 
@@ -452,6 +455,16 @@ export default class extends Controller {
       this.map.getSource("currentStation").setData(currentStation);
       this.#addStayPopup(currentStation);
       this.currentStationValue = currentStation;
+    }
+  }
+
+  #updateTicketsHeader() {
+    if (this.ticketsTarget.children.length > 0) {
+      this.ticketsHeaderTarget.classList.remove("d-none");
+      this.ticketsHeaderTarget.classList.add("d-block");
+    } else {
+      this.ticketsHeaderTarget.classList.remove("d-block");
+      this.ticketsHeaderTarget.classList.add("d-none");
     }
   }
 

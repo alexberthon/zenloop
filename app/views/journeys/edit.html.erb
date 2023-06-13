@@ -23,13 +23,20 @@
     <% end %>
     <div id="journey-map"></div>
     <%= render "shared/name_form", journey: @journey %>
-    <div class="d-flex left-side validate"><button data-action="click->journey#download" class="btn btn-secondary btn-sm validate-button">Validate your journey</button></div>
     <%#= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
     <%#= render "sidebar", journey: @journey %>
-    <div class="postcards" data-journey-target="postcards">
-      <% @journey.steps.each do |step| %>
-        <%= render "postcard", step: step %>
-      <% end %>
+    <div class="tickets-container">
+      <div class="<%= class_names('d-flex', 'align-items-center', { 'd-none': @journey.steps.empty? }) %>" data-journey-target="ticketsHeader">
+        <h4>YOUR TRIP</h4>
+        <button data-action="click->journey#download" class="btn btn-secondary btn-sm validate-button">
+          Validate your journey
+        </button>
+      </div>
+      <div class="tickets" data-journey-target="tickets">
+        <% @journey.steps.each do |step| %>
+          <%= render "ticket", step: step %>
+        <% end %>
+      </div>
     </div>
     <%= render "stay_modal", journey: @journey %>
   </div>
