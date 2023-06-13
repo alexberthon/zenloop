@@ -6,7 +6,6 @@ class Journey < ApplicationRecord
   has_many :steps, dependent: :destroy
   has_many :cities
   has_many :activities
-  has_many :likes
-
   has_one_attached :photo
+  has_many :likes, dependent: :destroy
 end
