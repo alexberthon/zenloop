@@ -95,10 +95,6 @@ export default class extends Controller {
     this.map.on("click", "selectedStations", (e) => {
       const station = e.features[0];
       this.#fetchReachableStations(station.id);
-      this.stayPopup.remove();
-      setTimeout(() => {
-        this.#addStayPopup(station);
-      }, this.transitionDuration);
     });
   }
 
@@ -279,6 +275,7 @@ export default class extends Controller {
   }
 
   #addStayPopup(station) {
+    this.stayPopup.remove();
     const coordinates = station.geometry.coordinates;
     const html = `
       <div class="add-stay-popup">
@@ -319,12 +316,14 @@ export default class extends Controller {
     );
   }
 
-  #fitMapToMarkers() {
+  #fitMapToMarkers(features) {
     const bounds = new mapboxgl.LngLatBounds();
-    const allFeatures = this.selectedStationsValue.features.concat(this.reachableStationsValue.features);
-    allFeatures.forEach(feature => {
+    if(!features) {
+      features = this.selectedStationsValue.features.concat(this.reachableStationsValue.features);
+    }
+    features.forEach((feature) => {
       bounds.extend(feature.geometry.coordinates)
-    });
+    })
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 6, duration: 0 });
   }
 
@@ -335,9 +334,7 @@ export default class extends Controller {
     })
       .then(response => response.json())
       .then((data) => {
-        this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
-        this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
-        this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
+        this.#updateMap(data);
       })
   }
 
@@ -360,13 +357,8 @@ export default class extends Controller {
     })
       .then(response => response.json())
       .then((data) => {
-        this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
-        this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
-        this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
-        this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
-        this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+        this.#updateMap(data);
         this.postcardsTarget.insertAdjacentHTML("beforeend", data.postcard);
-        this.#addStayPopup(JSON.parse(data.current_station));
         // this.stationsTarget.innerHTML = data.station_list_html;
       })
   }
@@ -392,11 +384,7 @@ export default class extends Controller {
     })
       .then(response => response.json())
       .then((data) => {
-        this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
-        this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
-        this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
-        this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
-        this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+        this.#updateMap(data);
         this.postcardsTarget.insertAdjacentHTML("beforeend", data.postcard);
         this.modal.hide();
         // this.stationsTarget.innerHTML = data.station_list_html;
@@ -416,18 +404,42 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then((data) => {
-      this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
-      this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
-      this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
-      this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
-      this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
-      this.#addStayPopup(JSON.parse(data.current_station));
+      this.#updateMap(data);
       event.target.closest(".postcard-wrap").remove();
       // this.stationsTarget.innerHTML = data.station_list_html
     })
   }
 
-  #updateData(layer, data) {
+  #updateMap(data) {
+    if(data.selected_stations) {
+      const selectedStations = JSON.parse(data.selected_stations);
+      this.map.getSource("selectedStations").setData(selectedStations);
+      this.selectedStationsValue = selectedStations;
+    }
+    if(data.reachable_stations) {
+      const reachableStations = JSON.parse(data.reachable_stations);
+      this.#transitionData("reachableStations", reachableStations);
+      this.reachableStationsValue = reachableStations;
+    }
+    if(data.existing_lines) {
+      const existingLines = JSON.parse(data.existing_lines);
+      this.map.getSource("existingLines").setData(existingLines);
+      this.existingLinesValue = existingLines;
+    }
+    if(data.trip_lines) {
+      const tripLines = JSON.parse(data.trip_lines);
+      this.map.getSource("tripLines").setData(tripLines);
+      this.tripLinesValue = tripLines;
+    }
+    if(data.current_station) {
+      const currentStation = JSON.parse(data.current_station);
+      this.map.getSource("currentStation").setData(currentStation);
+      this.#addStayPopup(currentStation);
+      this.currentStationValue = currentStation;
+    }
+  }
+
+  #transitionData(layer, data) {
     this.map.setPaintProperty(layer, "circle-opacity", 0);
     this.map.setPaintProperty(layer, "circle-stroke-opacity", 0);
     setTimeout(() => {
