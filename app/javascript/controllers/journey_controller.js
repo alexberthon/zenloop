@@ -16,6 +16,7 @@ export default class extends Controller {
     stationListHTML: String,
     stations: Array,
     currentStation: Object,
+    currentStepId: String,
     stepsLines: Array,
     stepsStays: Array
   }
@@ -347,6 +348,7 @@ export default class extends Controller {
       .then(response => response.json())
       .then((data) => {
         this.#updateMap(data);
+        this.currentStepIdValue = data.current_step_id;
       })
   }
 
@@ -364,14 +366,15 @@ export default class extends Controller {
       body: JSON.stringify({
         kind: "line",
         line_id: line_id,
+        step_id: this.currentStepIdValue,
         credentials: "same-origin"
       })
     })
       .then(response => response.json())
       .then((data) => {
         this.#updateMap(data);
-        this.postcardsTarget.insertAdjacentHTML("beforeend", data.postcard);
-        // this.stationsTarget.innerHTML = data.station_list_html;
+        this.currentStepIdValue = data.current_step_id;
+        this.postcardsTarget.innerHTML = data.postcards;
       })
   }
 
@@ -390,6 +393,7 @@ export default class extends Controller {
       body: JSON.stringify({
         kind: "stay",
         station_id: this.stationInputTarget.value,
+        step_id: this.currentStepIdValue,
         duration: this.durationInputTarget.value * 24 * 60,
         credentials: "same-origin"
       })
@@ -397,9 +401,9 @@ export default class extends Controller {
       .then(response => response.json())
       .then((data) => {
         this.#updateMap(data);
-        this.postcardsTarget.insertAdjacentHTML("beforeend", data.postcard);
+        this.currentStepIdValue = data.current_step_id;
+        this.postcardsTarget.innerHTML = data.postcards;
         this.modal.hide();
-        // this.stationsTarget.innerHTML = data.station_list_html;
       })
   }
 
@@ -417,8 +421,8 @@ export default class extends Controller {
       .then(response => response.json())
       .then((data) => {
         this.#updateMap(data);
+        this.currentStepIdValue = data.current_step_id;
         event.target.closest(".ticket-wrap").remove();
-        // this.stationsTarget.innerHTML = data.station_list_html
       })
   }
 

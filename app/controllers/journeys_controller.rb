@@ -43,6 +43,8 @@ class JourneysController < ApplicationController
     @steps_lines = data[:steps_lines]
     @steps_stays = data[:steps_stays]
     @current_station = data[:current_station]
+
+    @current_step_id = @journey.steps.present? ? @journey.steps.last.id : ""
   end
 
   def update

@@ -1,10 +1,33 @@
 // Import Google fonts
 // @import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Work+Sans:400,700&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;400;700&family=Playfair+Display:wght@400;700;800;900&family=Oswald:wght@400&display=swap");
+@font-face {
+  font-family: "DIN Pro";
+  font-weight: 400;
+  src: font-url("DINPro-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "DIN Pro";
+  font-weight: 500;
+  src: font-url("DINPro-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "DIN Pro";
+  font-weight: 700;
+  src: font-url("DINPro-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "DIN Pro";
+  font-weight: 800;
+  src: font-url("DINPro-ExtraBold.otf") format("opentype");
+}
 
 // Define fonts for body and headers
-$headers-font: "Playfair Display", "Times New Roman", "serif";
-$body-font: "Lato", "Helvetica", "sans-serif";
+$headers-font: "DIN Pro", "Helvetica", "sans-serif";
+$body-font: "DIN Pro", "Helvetica", "sans-serif";
 
 // To use a font file (.woff) uncomment following lines
 // @font-face {
