@@ -1,4 +1,5 @@
 require "json"
+require "csv"
 
 CITIES = [
   {
@@ -38,9 +39,9 @@ puts "Destroying stations..."
 Station.destroy_all
 puts "Stations destroyed!"
 
-puts "Destroying cities..."
-City.destroy_all
-puts "Cities destroyed!"
+puts "Deleting cities..."
+City.delete_all
+puts "Cities deleted!"
 
 puts ""
 puts "---------- CREATE ----------"
@@ -58,18 +59,25 @@ puts "Users created!"
 
 # Create cities
 puts "Creating cities..."
-CITIES.each do |city|
-  City.create!(
-    name: city[:name],
-    country: "France",
-    population: city[:population]
-  )
+CSV.readlines("db/data/cities.csv", headers: :first_rown, col_sep: ";").to_a.drop(1).in_groups_of(1000) do |group|
+  group = group.compact
+  group.map! do |row|
+    coordinates = row[19].split(",").map(&:strip).map(&:to_f)
+    {
+      name: row[1],
+      country_code: row[6],
+      country: row[7],
+      population: row[13],
+      latitude: coordinates[0],
+      longitude: coordinates[1]
+    }
+  end
+  City.insert_all(group) unless group.empty?
 end
 puts "Cities created!"
 
 # Create stations
 puts "Creating stations..."
-city = City.all.first
 stations_store = {}
 File.readlines("db/data/national_stations.ndjson")
     .each do |file_line|
@@ -78,9 +86,9 @@ File.readlines("db/data/national_stations.ndjson")
         name: station[:name],
         latitude: station[:location][:latitude],
         longitude: station[:location][:longitude],
-        db_stop_id: station[:id],
-        city: city
+        db_stop_id: station[:id]
       )
+      new_station.city = City.near([new_station.latitude, new_station.longitude], 50).first
       stations_store[new_station.db_stop_id] = new_station.id if new_station.save
     end
 puts "Stations created!"
