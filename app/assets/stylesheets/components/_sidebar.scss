@@ -1,15 +1,16 @@
 .left-side {
-  width: 350px;
+  width: max-content;
   background: white;
-  display: inline-block;
   position: relative;
   top: 30px;
   left: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   border-radius: 15px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-  // display: flex;
   z-index: 100;
-  flex-direction: column;
+  align-items: center;
+  opacity: 85%;
 }
 
 .journey-name {
@@ -19,21 +20,27 @@
 
 #journey_name {
   text-align: center;
-  width: 300px;
+  width: 280px;
   background: transparent;
   border: none;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: bolder;
   font-family: 'PLAYFAIR DISPLAY';
 }
 
 .save-button {
-  margin-bottom: 10px;
-  margin-left: 10px;
-  height: 30px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  border-radius: 13px;
+  font-size: 12px;
+  margin-right: 10px;
 }
 
-.input-edit-name {
-  margin-top: -25px;
-  margin-bottom: 20px;
+.pen {
+  height: 17px;
+  padding-left: 10px;
+}
+
+.text-btn {
+  align-items: center;
 }
