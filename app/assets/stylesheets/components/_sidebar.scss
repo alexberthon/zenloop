@@ -4,9 +4,8 @@
   position: relative;
   top: 30px;
   left: 30px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 15px;
+  padding: 7px 14px;
+  border-radius: 30px;
   z-index: 100;
   align-items: center;
   opacity: 85%;
@@ -18,14 +17,13 @@
 }
 
 #journey_name {
-  text-align: center;
   width: 280px;
   background: transparent;
   border: none;
   font-size: 22px;
   font-weight: bolder;
-  font-family: 'PLAYFAIR DISPLAY';
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  padding-left: 12px;
 }
 
 .save-button {
@@ -33,25 +31,14 @@
   padding-top: 0px;
   border-radius: 13px;
   font-size: 12px;
-  margin-right: 10px;
 }
 
 .validate-button {
-  border-radius: 13px;
-  margin-top: 10px;
-}
-
-
-.validate {
-  margin-left: 90px;
-  background: transparent;
+  border-radius: 15px;
 }
 
 .pen {
   height: 17px;
-  padding-left: 10px;
-  padding-right: 10px;
-
 }
 
 .text-btn {
@@ -60,6 +47,5 @@
 
 .input-edit-name {
   padding-left: 10px;
-
   margin-bottom: 4px;
 }

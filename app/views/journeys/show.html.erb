@@ -5,7 +5,11 @@
       <h2>Your Steps</h2>
       <p><%= @journey.station_start.name %></p>
       <% @journey.steps.each do |step| %>
-        <p><%= step.line.station_end.name %></p>
+        <% if step.kind == "line" %>
+          <p><%= step.line.station_end.name %></p>
+        <% elsif step.kind == "stay" %>
+          <p><%= step.stay.city.name %></p>
+        <% end %>
       <% end %>
       <%= link_to "See all your journeys", journeys_path, class: "btn btn-primary sm" %>
       <%= link_to "Edit your trip", edit_journey_path, class: "btn btn-primary sm" %>
