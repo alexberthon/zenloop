@@ -37,9 +37,18 @@
   margin-right: 10px;
 }
 
+.validate-button {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  border-radius: 13px;
+  margin-right: 10px;
+}
+
 .pen {
   height: 17px;
   padding-left: 10px;
+  padding-right: 10px;
+
 }
 
 .text-btn {
@@ -47,5 +56,7 @@
 }
 
 .input-edit-name {
+  padding-left: 10px;
+
   margin-bottom: 4px;
 }

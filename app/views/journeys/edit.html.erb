@@ -4,6 +4,7 @@
 <div class="map-side-bar">
   <div
     data-controller="journey"
+    data-journey-target="map"
     data-journey-selected-stations-value="<%= @selected_stations %>"
     data-journey-reachable-stations-value="<%= @reachable_stations %>"
     data-journey-existing-lines-value="<%= @existing_lines %>"
@@ -16,8 +17,13 @@
     data-journey-steps-lines-value="<%= @steps_lines.to_json %>"
     data-journey-steps-stays-value="<%= @steps_stays.to_json %>"
     >
+    <%= simple_form_for @journey, html: { class: 'd-none' } do |f| %>
+      <%= f.input :photo, as: :file, input_html: { data: {journey_target:"screenMap"} } %>
+      <%= f.button :submit, data: {journey_target:"button"} %>
+    <% end %>
     <div id="journey-map"></div>
     <%= render "shared/name_form", journey: @journey %>
+    <div class="d-flex left-side"><button data-action="click->journey#download" class="btn btn-outline-secondary validate-button">Validate your journey</button></div>
     <%#= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
     <%#= render "sidebar", journey: @journey %>
     <div class="postcards" data-journey-target="postcards">

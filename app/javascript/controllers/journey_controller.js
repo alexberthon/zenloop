@@ -1,9 +1,10 @@
 import { Controller } from "@hotwired/stimulus";
 import mapboxgl from "mapbox-gl";
 import pulsingDot from "pulsing-dot";
+import html2canvas from "html2canvas";
 
 export default class extends Controller {
-  static targets = ["stations", "postcards", "durationInput", "stationInput"]
+  static targets = ["stations", "postcards", "durationInput", "stationInput", "map", "screenMap", "button"]
 
   static values = {
     apiKey: String,
@@ -26,7 +27,8 @@ export default class extends Controller {
 
     this.map = new mapboxgl.Map({
       container: "journey-map",
-      style: "mapbox://styles/alexberthon/cliswkobs00vl01qv25p5ax7h"
+      style: "mapbox://styles/alexberthon/cliswkobs00vl01qv25p5ax7h",
+      preserveDrawingBuffer: true
     });
 
     this.map.on("load", () => {
@@ -479,5 +481,36 @@ export default class extends Controller {
     this.modal = new bootstrap.Modal(document.getElementById("stayModal"));
     this.modal.show();
     this.stationInputTarget.value = event.params.stationId;
+  }
+
+  download() {
+    this.map.setLayoutProperty("reachableStations", "visibility", "none");
+    this.map.setLayoutProperty("currentStation", "visibility", "none");
+    this.#fitMapToMarkers(this.selectedStationsValue.features)
+    setTimeout(() => {
+      html2canvas(this.mapTarget.querySelector('canvas')).then((canvas) => {
+        const t = canvas.toDataURL().replace("data:image/png;base64,", "");
+        canvas.toBlob(data => {
+          const file =  new File([data], `${new Date().getTime()}.png`, { type: 'image/png', lastModified: new Date().getTime() });
+          const dt = new DataTransfer()
+          dt.items.add(file)
+          this.screenMapTarget.files = dt.files
+          this.buttonTarget.click();
+        })
+
+        // this.downloadBase64File('image/png',t,'image');
+        this.map.setLayoutProperty("reachableStations", "visibility", "visible");
+        this.map.setLayoutProperty("currentStation", "visibility", "visible");
+      })
+    }, 300);
+  }
+
+  downloadBase64File(contentType, base64Data, fileName) {
+    const linkSource = `data:${contentType};base64,${base64Data}`;
+    const downloadLink = document.createElement("a");
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    console.log(downloadLink);
+    downloadLink.click()
   }
 }

@@ -1,11 +1,22 @@
 <div class="container">
   <h1 class="text-center"><%= @journey.name.capitalize %></h1>
-  <h2>Your Steps</h2>
-  <p><%= @journey.station_start.name %></p>
-  <% @journey.steps.each do |step| %>
-    <p><%= step.line.station_end.name %></p>
-    <% end %>
-  <%= link_to "See all your journeys", journeys_path, class: "btn btn-primary sm" %>
-  <%= link_to "Edit your trip", edit_journey_path, class: "btn btn-primary sm" %>
-  <%= link_to "Homepage", root_path, class: "btn btn-primary sm" %>
+  <div class="row">
+    <div class="col-4">
+      <h2>Your Steps</h2>
+      <p><%= @journey.station_start.name %></p>
+      <% @journey.steps.each do |step| %>
+        <p><%= step.line.station_end.name %></p>
+      <% end %>
+      <%= link_to "See all your journeys", journeys_path, class: "btn btn-primary sm" %>
+      <%= link_to "Edit your trip", edit_journey_path, class: "btn btn-primary sm" %>
+      <%= link_to "Homepage", root_path, class: "btn btn-primary sm" %>
+    </div>
+    <div class="col-6">
+      <% if @journey.photo.attached? %>
+        <%= image_tag @journey.photo, crop: :fill, class: "card-img-top" %>
+      <% else %>
+        <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
+      <% end %>
+    </div>
+  </div>
 </div>
