@@ -1,3 +1,5 @@
+$transition-delay: 0.3s;
+
 #journey-map {
   width: 100vw;
   height: 100vh;
@@ -25,12 +27,41 @@
     border-radius: 10px;
   }
 
+  .add-stay-popup-container {
+    animation: appear $transition-delay linear;
+    .mapboxgl-popup-content {
+      border-radius: 30px;
+    }
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .popup {
     text-align: center;
   }
 
   .popup div:last-child {
     font-weight: bold;
+  }
+
+  .add-stay-popup {
+    font-family: "DINPro";
+    a {
+      text-decoration: none;
+      font-size: 14px;
+      color: #000;
+    }
+
+    i {
+      font-size: 12px;
+    }
   }
 }
 

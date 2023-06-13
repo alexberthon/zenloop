@@ -1,0 +1,16 @@
+<div class="d-flex left-side">
+  <%= image_tag("edit-pen", class:"pen") %>
+
+  <%= simple_form_for(@journey) do |f| %>
+    <div class="d-flex text-btn">
+      <div class="text-center">
+        <%#= f.input :name, :label => false, wrapper_html: {class: "mb-0 form-inline"} %>
+        <%= f.input_field :name %>
+      </div>
+
+      <div class="input-edit-name">
+        <%= f.button :submit, "save", class: "btn btn-outline-secondary btn-small save-button" %>
+      </div>
+    </div>
+  <% end %>
+</div>

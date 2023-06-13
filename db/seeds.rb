@@ -1,29 +1,6 @@
 require "json"
 require "csv"
 
-CITIES = [
-  {
-    name: "Paris",
-    population: 2_145_906
-  },
-  {
-    name: "Marseille",
-    population: 870_321
-  },
-  {
-    name: "Lyon",
-    population: 522_228
-  },
-  {
-    name: "Toulouse",
-    population: 498_003
-  },
-  {
-    name: "Nice",
-    population: 343_477
-  }
-]
-
 puts "---------- DESTROY ----------"
 puts ""
 
@@ -35,9 +12,13 @@ puts "Destroying users..."
 User.destroy_all
 puts "Users destroyed!"
 
-puts "Destroying stations..."
+puts "Destroying stations & lines..."
 Station.destroy_all
-puts "Stations destroyed!"
+puts "Stations & lines destroyed!"
+
+puts "Destroying stays..."
+Stay.destroy_all
+puts "Stays destroyed!"
 
 puts "Deleting cities..."
 City.delete_all
@@ -126,11 +107,22 @@ Journey.create(name: 'EVJF Margaux', user_id: User.all.sample.id, duration: rand
 Journey.create(name: 'Scandinavie en amoureux', user_id: User.all.sample.id, duration: rand(1000), station_start_id:  Station.all.sample.id, station_end_id:  Station.all.sample.id)
 puts "Journeys created!"
 
-
-
-#Create likes
-100.times do
-Like.create(user_id: User.last.id, journey_id: Journey.all.sample.id)
+# Attach photos to cities
+puts "Attaching photos to some cities..."
+cities = ["Paris", "Lyon", "Milan", "Trieste", "Ljubljana", "Vienna", "Budapest", "Munich", "Berlin", "Frankfurt am Main"]
+cities.each do |city|
+  file = File.open("#{Rails.root}/app/assets/images/cities/#{city}.jpeg")
+  city = City.where(name: city).first
+  city.photo.attach(io: file, filename: "#{city}.jpeg", content_type: "image/jpeg")
+  city.save
 end
+puts "Photos attached!"
+
+# Create likes
+puts "Creating likes..."
+100.times do
+  Like.create(user_id: User.last.id, journey_id: Journey.all.sample.id)
+end
+puts "Likes created!"
 
 puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations, #{Line.count} lines, #{Like.count} likes and #{Journey.count} journeys "

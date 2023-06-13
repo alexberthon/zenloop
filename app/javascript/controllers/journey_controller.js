@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import { pulsingDot } from "../pulsing_dot";
 
 export default class extends Controller {
-  static targets = ["stations", "postcards"]
+  static targets = ["stations", "postcards", "durationInput", "stationInput"]
 
   static values = {
     apiKey: String,
@@ -25,12 +25,12 @@ export default class extends Controller {
 
     this.map = new mapboxgl.Map({
       container: "journey-map",
-      style: "mapbox://styles/cecile-dzy-ncl/clisn3scx002b01pndpm47srl"
+      style: "mapbox://styles/alexberthon/cliswkobs00vl01qv25p5ax7h"
     });
 
     this.map.on("load", () => {
-      this.#addReachableStationsToMap();
       this.#addSelectedStationsToMap();
+      this.#addReachableStationsToMap();
       this.#addExistingLinesToMap();
       this.#addTripLinesToMap();
       this.#addCurrentStationToMap();
@@ -56,7 +56,6 @@ export default class extends Controller {
       "source": "selectedStations",
       "paint": {
         "circle-color": "#00A18E",
-
         "circle-radius": 6,
         "circle-stroke-width": 2,
         "circle-stroke-color": "#b8f5ee"
@@ -67,6 +66,13 @@ export default class extends Controller {
       closeButton: false,
       closeOnClick: false
     });
+
+    this.stayPopup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false
+    });
+
+    this.#addStayPopup(this.currentStationValue);
 
     this.map.on("mouseenter", "selectedStations", (e) => {
       this.#addPopup(popup, e);
@@ -86,23 +92,8 @@ export default class extends Controller {
     });
 
     this.map.on("click", "selectedStations", (e) => {
-      this.#fetchReachableStations(e.features[0].id);
-    });
-  }
-
-  #addCurrentStationToMap() {
-    this.map.addSource("currentStation", {
-      type: "geojson",
-      data: this.currentStationValue
-    });
-
-    this.map.addLayer({
-      "id": "currentStation",
-      "type": "symbol",
-      "source": "currentStation",
-      "layout": {
-        "icon-image": "pulsing-dot"
-      }
+      const station = e.features[0];
+      this.#fetchReachableStations(station.id);
     });
   }
 
@@ -137,7 +128,7 @@ export default class extends Controller {
           "delay": 0
         }
       }
-    });
+    }, "selectedStations");
 
     this.map.setPaintProperty("reachableStations", "circle-opacity", 1);
     this.map.setPaintProperty("reachableStations", "circle-stroke-opacity", 1);
@@ -145,9 +136,16 @@ export default class extends Controller {
     const popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false
-    });
+    })
+
+    const selectedAndReachableOverlapping = (e) => {
+      const hoveredFeatures = this.map.queryRenderedFeatures(e.point, { layers: ["reachableStations", "selectedStations"] });
+      return hoveredFeatures.length > 0 && hoveredFeatures.some(f => f.source == "selectedStations");
+    }
 
     this.map.on("mouseenter", "reachableStations", (e) => {
+      if(selectedAndReachableOverlapping(e)) return;
+
       this.#addPopup(popup, e);
       this.#setHoverStates(e);
     });
@@ -159,6 +157,8 @@ export default class extends Controller {
     });
 
     this.map.on("mousemove", "reachableStations", (e) => {
+      if(selectedAndReachableOverlapping(e)) return;
+
       // cursor moves from one station to another, without leaving the layer
       if (e.features[0].id !== this.hoveredStationId) {
         popup.remove();
@@ -169,9 +169,27 @@ export default class extends Controller {
     });
 
     this.map.on("click", "reachableStations", (e) => {
+      if(selectedAndReachableOverlapping(e)) return;
+
       this.clickedStationId = e.features[0].id;
       this.lineId = e.features[0].properties.line_id;
-      this.#addStepToJourney(this.lineId);
+      this.#addLineStepToJourney(this.lineId);
+    });
+  }
+
+  #addCurrentStationToMap() {
+    this.map.addSource("currentStation", {
+      type: "geojson",
+      data: this.currentStationValue
+    });
+
+    this.map.addLayer({
+      "id": "currentStation",
+      "type": "symbol",
+      "source": "currentStation",
+      "layout": {
+        "icon-image": "pulsing-dot"
+      }
     });
   }
 
@@ -266,6 +284,22 @@ export default class extends Controller {
     popup.setLngLat(coordinates).setHTML(html).addTo(this.map);
   }
 
+  #addStayPopup(station) {
+    this.stayPopup.remove();
+    const coordinates = station.geometry.coordinates;
+    const html = `
+      <div class="add-stay-popup">
+        <a href="#" data-action="click->journey#openModal" data-journey-station-id-param="${station.id}">
+          Add a stay <i class="fa-solid fa-chevron-right ms-1"></i>
+        </a>
+      </div>`;
+    this.stayPopup.setLngLat(coordinates)
+         .setHTML(html)
+         .addClassName("add-stay-popup-container")
+         .setOffset([60, 25])
+         .addTo(this.map);
+  }
+
   #clearHoverStates() {
     this.map.setFeatureState(
       { source: "tripLines", id: this.hoveredTripId },
@@ -292,13 +326,14 @@ export default class extends Controller {
     );
   }
 
-  #fitMapToMarkers() {
+  #fitMapToMarkers(features) {
     const bounds = new mapboxgl.LngLatBounds();
-    const selectedFeatures = this.selectedStationsValue.features;
-    bounds.extend(selectedFeatures[selectedFeatures.length - 1].geometry.coordinates)
-    this.reachableStationsValue.features.forEach(feature => {
+    if(!features) {
+      features = this.selectedStationsValue.features.concat(this.reachableStationsValue.features);
+    }
+    features.forEach((feature) => {
       bounds.extend(feature.geometry.coordinates)
-    });
+    })
     this.map.fitBounds(bounds, { padding: 70, maxZoom: 6, duration: 0 });
   }
 
@@ -309,13 +344,11 @@ export default class extends Controller {
     })
       .then(response => response.json())
       .then((data) => {
-        this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
-        this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
-        this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
+        this.#updateMap(data);
       })
   }
 
-  #addStepToJourney(line_id) {
+  #addLineStepToJourney(line_id) {
     const url = `/journeys/${this.journeyValue.id}/steps`;
     const csrfToken = document.head.querySelector("[name='csrf-token']").content;
 
@@ -327,18 +360,43 @@ export default class extends Controller {
         "X-CSRF-Token": csrfToken
       },
       body: JSON.stringify({
+        kind: "line",
         line_id: line_id,
         credentials: "same-origin"
       })
     })
       .then(response => response.json())
       .then((data) => {
-        this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
-        this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
-        this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
-        this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
-        this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+        this.#updateMap(data);
         this.postcardsTarget.insertAdjacentHTML("beforeend", data.postcard);
+        // this.stationsTarget.innerHTML = data.station_list_html;
+      })
+  }
+
+  addStayStepToJourney(event) {
+    event.preventDefault();
+    const url = `/journeys/${this.journeyValue.id}/steps`;
+    const csrfToken = document.head.querySelector("[name='csrf-token']").content;
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-Token": csrfToken
+      },
+      body: JSON.stringify({
+        kind: "stay",
+        station_id: this.stationInputTarget.value,
+        duration: this.durationInputTarget.value * 24 * 60,
+        credentials: "same-origin"
+      })
+    })
+      .then(response => response.json())
+      .then((data) => {
+        this.#updateMap(data);
+        this.postcardsTarget.insertAdjacentHTML("beforeend", data.postcard);
+        this.modal.hide();
         // this.stationsTarget.innerHTML = data.station_list_html;
       })
   }
@@ -356,17 +414,42 @@ export default class extends Controller {
     })
     .then(response => response.json())
     .then((data) => {
-      this.map.getSource("selectedStations").setData(JSON.parse(data.selected_stations));
-      this.#updateData("reachableStations", JSON.parse(data.reachable_stations));
-      this.map.getSource("existingLines").setData(JSON.parse(data.existing_lines));
-      this.map.getSource("tripLines").setData(JSON.parse(data.trip_lines));
-      this.map.getSource("currentStation").setData(JSON.parse(data.current_station));
+      this.#updateMap(data);
       event.target.closest(".postcard-wrap").remove();
       // this.stationsTarget.innerHTML = data.station_list_html
     })
   }
 
-  #updateData(layer, data) {
+  #updateMap(data) {
+    if(data.selected_stations) {
+      const selectedStations = JSON.parse(data.selected_stations);
+      this.map.getSource("selectedStations").setData(selectedStations);
+      this.selectedStationsValue = selectedStations;
+    }
+    if(data.reachable_stations) {
+      const reachableStations = JSON.parse(data.reachable_stations);
+      this.#transitionData("reachableStations", reachableStations);
+      this.reachableStationsValue = reachableStations;
+    }
+    if(data.existing_lines) {
+      const existingLines = JSON.parse(data.existing_lines);
+      this.map.getSource("existingLines").setData(existingLines);
+      this.existingLinesValue = existingLines;
+    }
+    if(data.trip_lines) {
+      const tripLines = JSON.parse(data.trip_lines);
+      this.map.getSource("tripLines").setData(tripLines);
+      this.tripLinesValue = tripLines;
+    }
+    if(data.current_station) {
+      const currentStation = JSON.parse(data.current_station);
+      this.map.getSource("currentStation").setData(currentStation);
+      this.#addStayPopup(currentStation);
+      this.currentStationValue = currentStation;
+    }
+  }
+
+  #transitionData(layer, data) {
     this.map.setPaintProperty(layer, "circle-opacity", 0);
     this.map.setPaintProperty(layer, "circle-stroke-opacity", 0);
     setTimeout(() => {
@@ -386,5 +469,11 @@ export default class extends Controller {
       { source: "existingLines", id: event.params.stepId },
       { hover: !state.hover }
     );
+  }
+
+  openModal(event) {
+    this.modal = new bootstrap.Modal(document.getElementById("stayModal"));
+    this.modal.show();
+    this.stationInputTarget.value = event.params.stationId;
   }
 }
