@@ -1,31 +1,21 @@
 .banner {
   background-size: cover;
   background-position: center;
-  padding-top: 80px;
-  height: 700px
-}
-
-.banner h1 {
-  margin-bottom: 20px;
-  color: white;
-  text-shadow: 3px 2px 0px rgba(0, 0, 0, 1);
-  font-size: 90px;
-  font-weight: bold;
+  padding-top: 100px;
+  height: 100vh;
 }
 
 .banner h2 {
   margin-bottom: 20px;
-  color: white;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-  font-size: 32px;
+  font-size: 42px;
   font-weight: normal ;
 }
 
 .banner h3 {
   margin: 0;
-  color: white;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-  font-size: 20px;
+  font-size: 25px;
   font-weight: lighter;
 }
 
@@ -36,5 +26,17 @@
 }
 
 .formcity {
-  width: 400px;
+  width: 90px;
+}
+
+.logo {
+  width: 450px;
+}
+
+#new_journey {
+  display: flex;
+}
+
+.ts-control {
+  padding-bottom: 11px;
 }
