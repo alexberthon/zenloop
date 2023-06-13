@@ -1,8 +1,6 @@
-$postcard-width: 20vw;
-$postcard-height: 14.45vh;
-$postcard-shadow-color: #333;
-$text-shadow-color: #C03820;
-$stay-text-color: #FFFFFF;
+$ticket-width: 20vw;
+$ticket-height: 14.45vh;
+$stay-width: 16vw;
 
 .postcards {
   display: flex;
@@ -26,20 +24,14 @@ $stay-text-color: #FFFFFF;
   margin: auto;
 }
 
-.postcard.postcard-line {
+.ticket.ticket-line {
   font-family: 'DIN pro', Sans-Serif;
   font-size: 16px;
 }
 
-.postcard.postcard-stay {
-  font-family: "Oswald", sans-serif;
-  font-size: 28px;
-  letter-spacing: -1px;
-  line-height: 32px;
-  color: $stay-text-color;
-}
 
-.postcard-wrap {
+
+.ticket-wrap {
   margin-right: 10px;
   transform-style: preserve-3d;
   cursor: pointer;
@@ -74,65 +66,31 @@ $stay-text-color: #FFFFFF;
 }
 
 
-.postcard-wrap:hover+.postcard-wrap {
+.ticket-wrap:hover+.ticket-wrap {
   margin-left: 0px;
 }
 
-.postcard-wrap:hover {
+.ticket-wrap:hover {
   .delete-btn {
     opacity: 1;
   }
 }
 
-.postcard {
+.ticket {
   position: relative;
-  width: $postcard-width;
-  height: $postcard-height;
+  width: $ticket-width;
+  height: $ticket-height;
   background-color: #333;
   transition: 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
-.postcard::before {
+.ticket::before {
   content: "";
   background: white;
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 1;
-}
-
-.postcard-bg {
-  position: absolute;
-  z-index: 2;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  top: 5px;
-  left: 5px;
-  padding: 20px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  pointer-events: none;
-}
-
-
-.postcard-stations,
-.postcard-stations-shadow {
-  position: absolute;
-  left: 16px;
-  top: 30px;
-  width: calc(100% - 40px);
-  display: block;
-  transition: .2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
-}
-
-.postcard-stations {
-  z-index: 4;
-}
-
-.postcard-stations-shadow {
-  z-index: 3;
-  text-shadow: 1px 1px 0px $text-shadow-color, 2px 2px 0px $text-shadow-color, 3px 3px 0px $text-shadow-color, 4px 4px 0px $text-shadow-color, 5px 5px 0px $text-shadow-color;
 }
 
 .ticket-top,
@@ -205,4 +163,68 @@ $stay-text-color: #FFFFFF;
 .ticket-right-banner,
 .ticket-left-banner {
   margin: 0 -1%;
+}
+
+// stays
+.ticket-bg {
+  position: absolute;
+  z-index: 2;
+  width: calc(100% - 8vw);
+  height: calc(100% - 2vh);
+  top: 1vh;
+  right: 0.5vw;
+  padding: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
+}
+
+.ticket.ticket-stay {
+  width: $stay-width;
+  font-family: 'DIN pro', Sans-Serif;
+  letter-spacing: -1px;
+  line-height: 32px;
+  color: black;
+  margin-right: 0.8vw;
+}
+
+.stay-city,
+.stay-country,
+.stay-duration {
+  position: absolute;
+  left: 16px;
+  display: block;
+  z-index: 4;
+}
+
+.stay-city {
+  font-size: 28px;
+  font-weight: bolder;
+  top: 11px;
+  overflow: clip;
+  height: 30px;
+}
+
+.stay-country {
+  color: grey;
+  font-size: 18px;
+  font-weight: lighter;
+  top: 33px;
+}
+
+.stay-duration {
+  color: grey;
+  font-size: 15px;
+  font-weight: lighter;
+  left: 40px;
+  top: 95px;
+}
+
+.ticket-clock {
+  width: 22px;
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  z-index: 4;
 }

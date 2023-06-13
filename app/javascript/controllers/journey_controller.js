@@ -146,7 +146,7 @@ export default class extends Controller {
     }
 
     this.map.on("mouseenter", "reachableStations", (e) => {
-      if(selectedAndReachableOverlapping(e)) return;
+      if (selectedAndReachableOverlapping(e)) return;
 
       this.#addPopup(popup, e);
       this.#setHoverStates(e);
@@ -159,7 +159,7 @@ export default class extends Controller {
     });
 
     this.map.on("mousemove", "reachableStations", (e) => {
-      if(selectedAndReachableOverlapping(e)) return;
+      if (selectedAndReachableOverlapping(e)) return;
 
       // cursor moves from one station to another, without leaving the layer
       if (e.features[0].id !== this.hoveredStationId) {
@@ -171,7 +171,7 @@ export default class extends Controller {
     });
 
     this.map.on("click", "reachableStations", (e) => {
-      if(selectedAndReachableOverlapping(e)) return;
+      if (selectedAndReachableOverlapping(e)) return;
 
       this.clickedStationId = e.features[0].id;
       this.lineId = e.features[0].properties.line_id;
@@ -224,7 +224,7 @@ export default class extends Controller {
           2
         ],
         // "line-width": 2,
-        "line-dasharray": [3,3]
+        "line-dasharray": [3, 3]
       }
     });
   }
@@ -296,10 +296,10 @@ export default class extends Controller {
         </a>
       </div>`;
     this.stayPopup.setLngLat(coordinates)
-         .setHTML(html)
-         .addClassName("add-stay-popup-container")
-         .setOffset([60, 25])
-         .addTo(this.map);
+      .setHTML(html)
+      .addClassName("add-stay-popup-container")
+      .setOffset([60, 25])
+      .addTo(this.map);
   }
 
   #clearHoverStates() {
@@ -330,7 +330,7 @@ export default class extends Controller {
 
   #fitMapToMarkers(features) {
     const bounds = new mapboxgl.LngLatBounds();
-    if(!features) {
+    if (!features) {
       features = this.selectedStationsValue.features.concat(this.reachableStationsValue.features);
     }
     features.forEach((feature) => {
@@ -403,7 +403,7 @@ export default class extends Controller {
       })
   }
 
-  removeStepFromJourney(event){
+  removeStepFromJourney(event) {
     const url = `/steps/${event.params.stepId}`;
     const csrfToken = document.head.querySelector("[name='csrf-token']").content;
 
@@ -414,36 +414,36 @@ export default class extends Controller {
         "X-CSRF-Token": csrfToken
       }
     })
-    .then(response => response.json())
-    .then((data) => {
-      this.#updateMap(data);
-      event.target.closest(".postcard-wrap").remove();
-      // this.stationsTarget.innerHTML = data.station_list_html
-    })
+      .then(response => response.json())
+      .then((data) => {
+        this.#updateMap(data);
+        event.target.closest(".ticket-wrap").remove();
+        // this.stationsTarget.innerHTML = data.station_list_html
+      })
   }
 
   #updateMap(data) {
-    if(data.selected_stations) {
+    if (data.selected_stations) {
       const selectedStations = JSON.parse(data.selected_stations);
       this.map.getSource("selectedStations").setData(selectedStations);
       this.selectedStationsValue = selectedStations;
     }
-    if(data.reachable_stations) {
+    if (data.reachable_stations) {
       const reachableStations = JSON.parse(data.reachable_stations);
       this.#transitionData("reachableStations", reachableStations);
       this.reachableStationsValue = reachableStations;
     }
-    if(data.existing_lines) {
+    if (data.existing_lines) {
       const existingLines = JSON.parse(data.existing_lines);
       this.map.getSource("existingLines").setData(existingLines);
       this.existingLinesValue = existingLines;
     }
-    if(data.trip_lines) {
+    if (data.trip_lines) {
       const tripLines = JSON.parse(data.trip_lines);
       this.map.getSource("tripLines").setData(tripLines);
       this.tripLinesValue = tripLines;
     }
-    if(data.current_station) {
+    if (data.current_station) {
       const currentStation = JSON.parse(data.current_station);
       this.map.getSource("currentStation").setData(currentStation);
       this.#addStayPopup(currentStation);

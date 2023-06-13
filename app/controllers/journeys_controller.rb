@@ -19,7 +19,7 @@ class JourneysController < ApplicationController
       station_end: @station_start,
       user: current_user,
       duration: 0,
-      name: "New trip from #{@station_start.name}!"
+      name: "New trip from #{@station_start.city.name}!"
     )
     if @journey.save!
       redirect_to edit_journey_path(@journey)
