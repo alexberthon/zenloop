@@ -16,13 +16,8 @@
     data-journey-steps-stays-value="<%= @steps_stays.to_json %>"
     >
     <div id="journey-map"></div>
-    <%= render "shared/nameform", journey: @journey %>
-    <%#= render "sidebar", journey: @journey %>
-    <div class="postcards" data-journey-target="postcards">
-      <% @journey.steps.each do |step| %>
-        <%= render "postcard", step: step %>
-      <% end %>
+      <%= render "shared/nameform", journey: @journey %>
+      <%= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
     </div>
   </div>
-  <%#= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
 </div>
