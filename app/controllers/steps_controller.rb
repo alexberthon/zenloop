@@ -4,9 +4,18 @@ class StepsController < ApplicationController
 
   def create
     journey = Journey.find(params[:journey_id])
+
+    # Compute new step position
+    if journey.steps.empty? || step_params[:step_id].blank?
+      position = 0
+    else
+      position = Step.find(step_params[:step_id]).position + 1
+    end
+
     step = Step.new(
       kind: step_params[:kind],
-      journey: journey
+      journey: journey,
+      position: position
     )
 
     if step_params[:kind] == "line"
@@ -38,8 +47,10 @@ class StepsController < ApplicationController
           )
         end
         response = build_map_data(journey, current_station)
-        response[:station_list_html] = render_to_string(partial: "journeys/station_list", locals: { journey: journey }, layout: false, formats: :html)
-        response[:postcard] = render_to_string(partial: "journeys/postcard", locals: { step: step }, layout: false, formats: :html)
+        response[:postcards] = journey.steps.map do |step|
+          render_to_string(partial: "journeys/postcard", locals: { step: step }, layout: false, formats: :html)
+        end.join
+        response[:current_step_id] = step.id.to_s
         format.json { render json: response }
       else
         format.json { render json: {}, status: :unprocessable_entity }
@@ -54,13 +65,19 @@ class StepsController < ApplicationController
       if @step.destroy
         @journey = @step.journey
         if @step.kind == "line"
-          last_line = @journey.steps.where(kind: "line").last.line
-          @journey.station_end = @journey.steps.empty? ? @journey.station_start : last_line.station_end
+          if @journey.steps.empty? || @journey.steps.where(kind: "line").empty?
+            station_end = @journey.station_start
+            current_step_id = ""
+          else
+            station_end = @journey.steps.where(kind: "line").last.line.station_end
+            current_step_id = @journey.steps.where(kind: "line").last.id.to_s
+          end
+          @journey.station_end = station_end
         end
         @journey.duration = @journey.duration - @step.duration
         @journey.save
         response = build_map_data(@journey)
-        response[:station_list_html] = render_to_string(partial: "journeys/station_list", locals: { journey: @journey }, layout: false, formats: :html)
+        response[:current_step_id] = current_step_id
         format.json { render json: response }
       else
         format.json { render json: {}, status: :unprocessable_entity }
@@ -71,6 +88,6 @@ class StepsController < ApplicationController
   private
 
   def step_params
-    params.permit(:kind, :line_id, :station_id, :duration)
+    params.permit(:kind, :line_id, :station_id, :step_id, :duration)
   end
 end

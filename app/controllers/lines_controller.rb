@@ -19,7 +19,10 @@ class LinesController < ApplicationController
     station = Station.find(search_params[:from])
     journey = Journey.find(search_params[:journey_id])
 
+    step = journey.steps.joins(:line).where("lines.station_end_id = ?", station.id).first
+
     response = build_map_data(journey, station)
+    response[:current_step_id] = step.id.to_s
     respond_to do |format|
       format.json { render json: response }
     end
