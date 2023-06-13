@@ -14,8 +14,13 @@ class StepsController < ApplicationController
 
     respond_to do |format|
       if @step.save
-        @journey.update(station_end: @step.line.station_end, duration: @journey.duration + @step.duration)
-        response = build_map_data(@journey)
+        @journey.update(
+          station_end: @step.line.station_end,
+          duration: @journey.duration + @step.duration
+        )
+        response = build_map_data(@journey, @step.line.station_end)
+        response[:station_list_html] = render_to_string(partial: "journeys/station_list", locals: { journey: @journey }, layout: false, formats: :html)
+        response[:postcard] = render_to_string(partial: "journeys/postcard", locals: { step: @step }, layout: false, formats: :html)
         format.json { render json: response }
       else
         format.json { render json: {}, status: :unprocessable_entity }
@@ -25,10 +30,23 @@ class StepsController < ApplicationController
 
   def destroy
     @step = Step.find(params[:id])
-    @step.destroy
-    @journey = @step.journey
-    @journey.update(station_end: @step.line.station_start, duration: @journey.duration - @step.duration)
-    redirect_to edit_journey_path(@journey)
+
+    respond_to do |format|
+      if @step.destroy
+        @journey = @step.journey
+        if @step.kind == "line"
+          last_line = @journey.steps.where(kind: "line").last.line
+          @journey.station_end = @journey.steps.empty? ? @journey.station_start : last_line.station_end
+        end
+        @journey.duration = @journey.duration - @step.duration
+        @journey.save
+        response = build_map_data(@journey)
+        response[:station_list_html] = render_to_string(partial: "journeys/station_list", locals: { journey: @journey }, layout: false, formats: :html)
+        format.json { render json: response }
+      else
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
+    end
   end
 
   private

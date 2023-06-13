@@ -1,27 +1,38 @@
 module JourneyMapHelper
-  def build_map_data(journey)
+  def build_map_data(journey, current_station = nil)
     # Stations already added to the journey
     visited_stations = journey.steps
                               .includes(line: :station_end)
-                              .map { |step| step.line.station_end }
+                              .select { |step| step.kind == "line" }
+                              .map { |step| [step.line.station_start, step.line.station_end] }
+                              .flatten
                               .unshift(journey.station_start) # journey starting point at the beginning of array
+
+    visited_lines = journey.steps
+                           .includes(:line)
+                           .select { |step| step.kind == "line" }
+                           .map(&:line)
+
+    current_station = visited_stations.last if current_station.nil?
 
     # Find lines originating from the latest visited station,
     # and remove the ones that go to an already visited station
-    lines = Line.where(station_start: visited_stations.last)
-                .includes(:station_end)
-                .reject { |line| visited_stations.include?(line.station_end) }
+    possible_lines = Line.includes(:station_end)
+                         .where(station_start: current_station)
+                         .reject { |line| visited_stations.include?(line.station_end) }
 
     # Group lines by db_trip_id, to allow drawing of real train trips
-    trips = lines.group_by(&:db_trip_id) # hash of arrays
+    trips = possible_lines.group_by(&:db_trip_id) # hash of arrays
 
     # Build geojson for Mapbox
-    trip_lines = geojson_trips(visited_stations.last, trips)
-    reachable_stations = geojson_reachable(lines)
-    selected_stations = geojson_selected(visited_stations)
-    existing_lines = geojson_lines(visited_stations)
-    station_list_html = render_to_string(partial: "shared/station_list", locals: { journey: journey }, layout: false, formats: :html)
-
-    { selected_stations:, reachable_stations:, trip_lines:, existing_lines:, station_list_html: }
+    {
+      trip_lines: geojson_trips(current_station, trips),
+      reachable_stations: geojson_reachable(possible_lines),
+      selected_stations: geojson_selected(visited_stations),
+      existing_lines: geojson_lines(visited_lines),
+      steps_lines: journey.steps.where(kind: "line"),
+      steps_stays: journey.steps.where(kind: "stay"),
+      current_station: geojson_station(current_station)
+    }
   end
 end
