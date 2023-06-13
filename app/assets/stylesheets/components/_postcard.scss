@@ -101,21 +101,6 @@ $stay-text-color: #FFFFFF;
   z-index: 1;
 }
 
-.postcard-bg {
-  position: absolute;
-  z-index: 2;
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  top: 5px;
-  left: 5px;
-  padding: 20px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  pointer-events: none;
-}
-
-
 .postcard-stations,
 .postcard-stations-shadow {
   position: absolute;
@@ -205,4 +190,20 @@ $stay-text-color: #FFFFFF;
 .ticket-right-banner,
 .ticket-left-banner {
   margin: 0 -1%;
+}
+
+// stays
+
+.ticket-bg {
+  position: absolute;
+  z-index: 2;
+  width: calc(100% - 10vw);
+  height: calc(100% - 2vh);
+  top: 1vh;
+  right: 0.5vw;
+  padding: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
 }
