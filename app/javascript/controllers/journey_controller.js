@@ -29,8 +29,8 @@ export default class extends Controller {
     });
 
     this.map.on("load", () => {
-      this.#addReachableStationsToMap();
       this.#addSelectedStationsToMap();
+      this.#addReachableStationsToMap();
       this.#addExistingLinesToMap();
       this.#addTripLinesToMap();
       this.#addCurrentStationToMap();
@@ -56,7 +56,6 @@ export default class extends Controller {
       "source": "selectedStations",
       "paint": {
         "circle-color": "#00A18E",
-
         "circle-radius": 6,
         "circle-stroke-width": 2,
         "circle-stroke-color": "#b8f5ee"
@@ -98,22 +97,6 @@ export default class extends Controller {
     });
   }
 
-  #addCurrentStationToMap() {
-    this.map.addSource("currentStation", {
-      type: "geojson",
-      data: this.currentStationValue
-    });
-
-    this.map.addLayer({
-      "id": "currentStation",
-      "type": "symbol",
-      "source": "currentStation",
-      "layout": {
-        "icon-image": "pulsing-dot"
-      }
-    });
-  }
-
   #addReachableStationsToMap() {
     this.map.addSource("reachableStations", {
       type: "geojson",
@@ -145,7 +128,7 @@ export default class extends Controller {
           "delay": 0
         }
       }
-    });
+    }, "selectedStations");
 
     this.map.setPaintProperty("reachableStations", "circle-opacity", 1);
     this.map.setPaintProperty("reachableStations", "circle-stroke-opacity", 1);
@@ -155,7 +138,14 @@ export default class extends Controller {
       closeOnClick: false
     })
 
+    const selectedAndReachableOverlapping = (e) => {
+      const hoveredFeatures = this.map.queryRenderedFeatures(e.point, { layers: ["reachableStations", "selectedStations"] });
+      return hoveredFeatures.length > 0 && hoveredFeatures.some(f => f.source == "selectedStations");
+    }
+
     this.map.on("mouseenter", "reachableStations", (e) => {
+      if(selectedAndReachableOverlapping(e)) return;
+
       this.#addPopup(popup, e);
       this.#setHoverStates(e);
     });
@@ -167,6 +157,8 @@ export default class extends Controller {
     });
 
     this.map.on("mousemove", "reachableStations", (e) => {
+      if(selectedAndReachableOverlapping(e)) return;
+
       // cursor moves from one station to another, without leaving the layer
       if (e.features[0].id !== this.hoveredStationId) {
         popup.remove();
@@ -177,9 +169,27 @@ export default class extends Controller {
     });
 
     this.map.on("click", "reachableStations", (e) => {
+      if(selectedAndReachableOverlapping(e)) return;
+
       this.clickedStationId = e.features[0].id;
       this.lineId = e.features[0].properties.line_id;
       this.#addLineStepToJourney(this.lineId);
+    });
+  }
+
+  #addCurrentStationToMap() {
+    this.map.addSource("currentStation", {
+      type: "geojson",
+      data: this.currentStationValue
+    });
+
+    this.map.addLayer({
+      "id": "currentStation",
+      "type": "symbol",
+      "source": "currentStation",
+      "layout": {
+        "icon-image": "pulsing-dot"
+      }
     });
   }
 
