@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import mapboxgl from "mapbox-gl";
-import { pulsingDot } from "../pulsing_dot";
+import { pulsingDot } from "javascript/pulsing_dot.js";
 
 export default class extends Controller {
   static targets = ["stations", "postcards", "durationInput", "stationInput"]
