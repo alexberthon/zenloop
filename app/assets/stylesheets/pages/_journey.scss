@@ -117,12 +117,14 @@ $transition-delay: 0.3s;
     align-items: center;
     height: 100vh;
     .ticket.ticket-stay {
-      width: 100%;
       letter-spacing: -1px;
       color: black;
+      margin-bottom: 35px;
+      width: 310px;
     }
   }
 }
+
 
 @media (min-width: 768px) {
   .banner-map {

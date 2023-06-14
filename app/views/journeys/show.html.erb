@@ -1,13 +1,13 @@
 <div class="bg-color">
-  <div class="d-flex space-between row">
-    <div class="banner-map col-6">
+  <div class="d-flex space-between row gx-0">
+    <div class="banner-map col-8">
       <% if @journey.photo.attached? %>
         <%= image_tag @journey.photo, crop: :fill %>
       <% else %>
         <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill %>
       <% end %>
     </div>
-    <div class="tickets-list col-6">
+    <div class="tickets-list col-4">
       <div class="container-fluid">
         <div class="-items-center">
           <div class="text-white">
