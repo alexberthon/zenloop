@@ -1,4 +1,36 @@
 <%= render "shared/banner" %>
+
+
+<div class="bgimg-1">
+  <div class="caption">
+    <h2>Tailor-Made Train Travel:<br>Explore Europe Your Way!</h2>
+  </div>
+</div>
+
+
+<div class="bgimg-2">
+  <div class="caption">
+    <h2>All Aboard Your Dream Voyage!</h2>
+    <div class='search_home_container search-home' >
+    <%= simple_form_for @journey do |f| %>
+      <%= f.select :station_start_id,
+              Station.to_select,
+              { include_blank: true },
+              data: {
+                controller: 'tom-select',
+                placeholder: "Where do you start from ? Lyon, Bruxelles, Nice..."
+              }%>
+      <br>
+      <%= f.submit "Lets go!", class: "btn btn-primary my-2 my-sm-0 formcity" %>
+    <% end %>
+    </div>
+</div>
+
+
+<%# COMMENTED CODE BELOW / OLD INDEX CARDS CODE  %>
+
+<% if false %>
+
 <head>
 </head>
 <div class="container">
@@ -37,3 +69,5 @@
     <% end %>
   </ul>
 </div>
+
+<% end %>
