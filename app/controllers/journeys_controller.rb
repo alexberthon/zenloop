@@ -29,7 +29,6 @@ class JourneysController < ApplicationController
   end
 
   def edit
-    @journey = Journey.find(params[:id])
     data = build_map_data(@journey)
 
     @selected_stations = data[:selected_stations]
