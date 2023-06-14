@@ -12,11 +12,6 @@
 }
 
 .journey-name {
-  padding-top: 15px;
-  padding-left: 4em;
-}
-
-#journey_name {
   width: 280px;
   background: transparent;
   border: none;
@@ -24,6 +19,7 @@
   font-weight: bolder;
   margin-bottom: 2px;
   padding-left: 12px;
+  outline: none;
 }
 
 .save-button {
