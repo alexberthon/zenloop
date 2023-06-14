@@ -1,26 +1,29 @@
-<div class="container">
-  <h1 class="text-center"><%= @journey.name.capitalize %></h1>
-  <div class="row">
-    <div class="col-4">
-      <h2>Your Steps</h2>
-      <p><%= @journey.station_start.name %></p>
-      <% @journey.steps.each do |step| %>
-        <% if step.kind == "line" %>
-          <p><%= step.line.station_end.name %></p>
-        <% elsif step.kind == "stay" %>
-          <p><%= step.stay.city.name %></p>
-        <% end %>
-      <% end %>
-      <%= link_to "See all your journeys", journeys_path, class: "btn btn-primary sm" %>
-      <%= link_to "Edit your trip", edit_journey_path, class: "btn btn-primary sm" %>
-      <%= link_to "Homepage", root_path, class: "btn btn-primary sm" %>
+<div class="banner-map">
+  <% if @journey.photo.attached? %>
+    <%= image_tag @journey.photo, crop: :fill %>
+  <% else %>
+    <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill %>
+  <% end %>
+</div>
+<div class="tickets-list">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <div class="col-2 text-white">
+        <i class="fa-solid fa-chevron-left me-2"></i>
+        <%= link_to "Your journeys", journeys_path, class: "text-white text-decoration-none" %>
+      </div>
+      <div class="col-8">
+        <h1 class="text-center fw-bold m-0"><%= @journey.name.capitalize %></h1>
+      </div>
+      <div class="col-2 text-white">
+        <i class="fa-solid fa-pencil me-2"></i>
+        <%= link_to "Edit this trip", edit_journey_path, class: "text-white text-end text-decoration-none" %>
+      </div>
     </div>
-    <div class="col-6">
-      <% if @journey.photo.attached? %>
-        <%= image_tag @journey.photo, crop: :fill, class: "card-img-top" %>
-      <% else %>
-        <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
-      <% end %>
-    </div>
+  </div>
+  <div class="tickets" data-journey-target="tickets">
+    <% @journey.steps.each do |step| %>
+      <%= render "ticket", step: step, readonly: true %>
+    <% end %>
   </div>
 </div>

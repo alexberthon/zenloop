@@ -34,7 +34,7 @@
       </div>
       <div class="tickets" data-journey-target="tickets">
         <% @journey.steps.each do |step| %>
-          <%= render "ticket", step: step %>
+          <%= render "ticket", step: step, readonly: false %>
         <% end %>
       </div>
     </div>
