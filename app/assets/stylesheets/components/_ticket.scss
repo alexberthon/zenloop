@@ -6,11 +6,14 @@ $ticket-height: 130px;
   bottom: 0px;
   left: 0px;
   max-width: 100%;
+
   h4 {
     padding-left: 20px;
     margin: 0px;
-    margin-right: 20px;
+    margin-right: 16px;
+    margin-left: 9px;
     font-weight: 800;
+    font-size: 1.8rem
   }
 }
 
@@ -20,6 +23,7 @@ $ticket-height: 130px;
   padding: 20px;
   overflow-x: scroll;
   overflow-y: hidden;
+  margin-bottom: 1em;
 }
 
 .ticket.ticket-line {
@@ -70,6 +74,10 @@ $ticket-height: 130px;
   height: $ticket-height;
   background-color: white;
   transition: 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.ticket:hover {
+  cursor: default;
 }
 
 .ticket-top,
@@ -124,6 +132,7 @@ $ticket-height: 130px;
 
 .ticket-data {
   flex-grow: 1;
+
   p {
     margin-bottom: 0px;
   }
@@ -138,6 +147,7 @@ $ticket-height: 130px;
 .ticket-logo {
   text-align: center;
   padding-bottom: 10px;
+
   svg {
     top: 50%;
     position: relative;
@@ -148,6 +158,7 @@ $ticket-height: 130px;
 .ticket-right-banner {
   margin-left: -2px;
 }
+
 .ticket-left-banner {
   margin-right: -2px;
 }
@@ -211,4 +222,24 @@ $ticket-height: 130px;
   bottom: 12px;
   left: 14px;
   z-index: 4;
+}
+
+
+
+// journey show page
+
+.book-button {
+  position: relative;
+  bottom: 47px;
+  left: 138px;
+  z-index: 100;
+  width: 34px;
+  padding-left: 5px;
+  border: 0.5px dotted black;
+  border-radius: 0;
+  color: #E6612F
+}
+
+.book-button:hover {
+  background-color: #E6612F;
 }

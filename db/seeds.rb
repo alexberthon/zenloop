@@ -126,3 +126,21 @@ end
 puts "Likes created!"
 
 puts "--> Database seeded with #{User.count} users, #{City.count} cities, #{Station.count} stations, #{Line.count} lines, #{Like.count} likes and #{Journey.count} journeys "
+
+
+
+station_data = {
+  "Paris Gare de Lyon" => '936ce23eaf581ce61bee93611d69b8aa',
+  "Milano Centrale" => '93a2f3b0bf29f51b55c314c10ac8019f',
+  "Trieste Centrale" => '4c28f2c2b430c7bac175b730ab4b5149',
+  "Ljubljana" => '21d6c9b15568db752a04538b6d8c2fb4',
+  "Wien Hbf" => '28a32316fa46c4d0f71644892b1236d4',
+  "Frankfurt(Main)Hbf" => '127d359da6ff27d313398eb395fd7dba',
+  "Paris Est" => 'a75846e974b99514c32079c64121ca62'
+}
+
+station_data.each do |name, trainline|
+  station = Station.find_by(name: name)
+  station.trainline = trainline
+  station.save
+end
