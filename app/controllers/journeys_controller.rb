@@ -48,10 +48,17 @@ class JourneysController < ApplicationController
   end
 
   def update
-    if @journey.update(journey_params)
-      redirect_to journey_path
-    else
-      render :edit, status: :unprocessable_entity
+    @journey.name = journey_params[:name]
+    @journey.photo.attach(journey_params[:photo]) unless journey_params[:photo].blank?
+
+    respond_to do |format|
+      if @journey.save
+        format.html { render :show, locals: { journey: @journey } }
+        format.json { render json: {}, status: :ok }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
     end
   end
 

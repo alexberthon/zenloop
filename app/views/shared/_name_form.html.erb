@@ -1,10 +1,11 @@
 <div class="d-flex left-side">
   <%= image_tag "edit-pen.png", class:"pen" %>
 
-  <%= simple_form_for(@journey) do |f| %>
     <div class="d-flex text-btn">
-      <%= f.input_field :name %>
-      <%= f.button :submit, "save", class: "btn btn-outline-secondary btn-small save-button" %>
+      <%= simple_form_for @journey, html: { data: { journey_target: "journeyForm" } } do |f| %>
+        <%= f.input_field :name, class: "journey-name", data: { journey_target: "nameInput", action: "keyup->journey#autosave" } %>
+        <%= f.input_field :photo, as: :file, class: "d-none", data: { journey_target: "photoInput" } %>
+      <% end %>
+      <button data-action="click->journey#validateJourney" class="btn btn-secondary btn-sm rounded-pill">Validate journey</button>
     </div>
-  <% end %>
 </div>
