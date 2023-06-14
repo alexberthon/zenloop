@@ -91,6 +91,7 @@ $transition-delay: 0.3s;
 
 .bg-color {
   background-color: #2e2e2e;
+  height: 100vh;
 }
 
 .banner-map {
@@ -114,9 +115,9 @@ $transition-delay: 0.3s;
     overflow: auto;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     .ticket.ticket-stay {
-      width: 308px;
+      width: 100%;
       letter-spacing: -1px;
       color: black;
     }
