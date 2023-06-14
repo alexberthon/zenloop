@@ -1,7 +1,5 @@
 $ticket-width: 280px;
 $ticket-height: 130px;
-$stay-width: 308px;
-$stay-height: 130px;
 
 .tickets-container {
   position: absolute;
@@ -159,7 +157,7 @@ $stay-height: 130px;
   position: absolute;
   z-index: 1;
   width: 190px;
-  height: calc(#{$stay-height} - 2 * 10px);
+  height: calc(#{$ticket-height} - 2 * 10px);
   top: 10px;
   right: 10px;
   background-position: center;
@@ -167,7 +165,7 @@ $stay-height: 130px;
 }
 
 .ticket.ticket-stay {
-  width: $stay-width;
+  width: $ticket-width;
   letter-spacing: -1px;
   color: black;
 }

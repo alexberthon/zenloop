@@ -110,6 +110,11 @@ $transition-delay: 0.3s;
   .tickets {
     flex-direction: column;
     align-items: center;
+    .ticket.ticket-stay {
+      width: 308px;
+      letter-spacing: -1px;
+      color: black;
+    }
   }
 }
 
