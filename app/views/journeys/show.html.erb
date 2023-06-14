@@ -15,7 +15,7 @@
       <div class="col-8">
         <h1 class="text-center fw-bold m-0"><%= @journey.name.capitalize %></h1>
       </div>
-      <div class="col-2 text-white">
+      <div class="col-2 text-white text-end">
         <i class="fa-solid fa-pencil me-2"></i>
         <%= link_to "Edit this trip", edit_journey_path, class: "text-white text-end text-decoration-none" %>
       </div>
@@ -24,9 +24,6 @@
   <div class="tickets" data-journey-target="tickets">
     <% @journey.steps.each do |step| %>
       <%= render "ticket", step: step, readonly: true %>
-      <% if step.line %>
-        <%= link_to "Go!", "https://www.thetrainline.com/book/results?origin=#{step.line.station_start.trainline}&destination=#{step.line.station_end.trainline}&outwardDate=2023-06-#{Time.now.day + 1}T12%3A00%3A00&outwardDateType=departAfter&journeySearchType=single&passengers%5B%5D=1996-06-14%7Ca15a8ad9-39a3-4d09-883f-a93c85c55e0f&directSearch=false&lang=en-us&selectedOutward=bJH5BqRpjq0%3D%3AKw2IL6ITjO8%3D%3AStandard", target: '_blank', class:'btn btn-outline-primary book-button' %>
-      <% end %>
     <% end %>
   </div>
 </div>
