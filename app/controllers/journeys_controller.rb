@@ -49,7 +49,7 @@ class JourneysController < ApplicationController
 
   def update
     if @journey.update(journey_params)
-      redirect_to journey_path
+      redirect_to params[:change].present? ? edit_journey_path : journey_path
     else
       render :edit, status: :unprocessable_entity
     end
