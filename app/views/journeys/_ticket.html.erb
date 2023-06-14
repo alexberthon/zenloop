@@ -48,6 +48,11 @@
             <p style="font-size:14px"><strong><%= step.duration / 60 %></strong>h<strong><%= (step.duration % 60).to_s.rjust(2, '0') %>
               </strong></p>
           </div>
+          <% if readonly == true %>
+            <% if step.line %>
+              <%= link_to "Go!", "https://www.thetrainline.com/book/results?origin=#{step.line.station_start.trainline}&destination=#{step.line.station_end.trainline}&outwardDate=2023-06-#{Time.now.day + 1}T12%3A00%3A00&outwardDateType=departAfter&journeySearchType=single&passengers%5B%5D=1996-06-14%7Ca15a8ad9-39a3-4d09-883f-a93c85c55e0f&directSearch=false&lang=en-us&selectedOutward=bJH5BqRpjq0%3D%3AKw2IL6ITjO8%3D%3AStandard", target: '_blank', class:'btn btn-outline-primary book-button' %>
+            <% end %>
+          <% end %>
         </div>
       </div>
       <div class="ticket-right-banner">
