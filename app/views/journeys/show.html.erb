@@ -1,42 +1,41 @@
 <div class="bg-color">
   <div class="d-flex space-between row gx-0">
-    <div class="banner-map col-8">
-      <% if @journey.photo.attached? %>
-        <%= image_tag @journey.photo, crop: :fill %>
-      <% else %>
-        <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill %>
-      <% end %>
-    </div>
     <div class="tickets-list col-4">
-      <div class="container-fluid">
-        <div class="-items-center">
-          <div class="text-white">
-            <i class="fa-solid fa-chevron-left me-2"></i>
-            <%= link_to "Your journeys", journeys_path, class: "text-white text-decoration-none" %>
-          </div>
-          <div class="">
-            <h1 class="text-center fw-bold m-0"><%= @journey.name.capitalize %></h1>
-          </div>
-          <div class="text-white">
-            <div>
-              <i class="fa-solid fa-pencil me-2"></i>
-              <%= link_to "Edit this trip", edit_journey_path, class: "text-white text-end text-decoration-none" %>
+        <div class="container-fluid">
+          <div class="-items-center">
+            <div class="text-white">
+              <i class="fa-solid fa-chevron-left me-2"></i>
+              <%= link_to "Your journeys", journeys_path, class: "text-white text-decoration-none" %>
             </div>
-            <div>
-              <%= link_to "Delete this journey", journey_path, class: "btn btn-outline-danger mt-3 btn-sm", data: {
-                        turbo_method: :delete,
-                        turbo_confirm: "Are you sure?"
-                  } %>
+            <div class="">
+              <h1 class="text-center fw-bold m-0"><%= @journey.name.capitalize %></h1>
+            </div>
+            <div class="text-white">
+              <div>
+                <i class="fa-solid fa-pencil me-2"></i>
+                <%= link_to "Edit this trip", edit_journey_path, class: "text-white text-end text-decoration-none" %>
+              </div>
+              <div>
+                <%= link_to "Delete this journey", journey_path, class: "btn btn-outline-danger mt-3 btn-sm", data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "Are you sure?"
+                    } %>
+              </div>
             </div>
           </div>
         </div>
+        <div class="tickets" data-journey-target="tickets">
+          <% @journey.steps.each do |step| %>
+            <%= render "ticket", step: step, readonly: true %>
+          <% end %>
+        </div>
       </div>
-      <div class="tickets" data-journey-target="tickets">
-        <% @journey.steps.each do |step| %>
-          <%= render "ticket", step: step, readonly: true %>
+      <div class="banner-map col-8">
+        <% if @journey.photo.attached? %>
+          <%= image_tag @journey.photo, crop: :fill %>
+        <% else %>
+          <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill %>
         <% end %>
       </div>
     </div>
-  </div>
-
 </div>
