@@ -1,4 +1,4 @@
-<% if action_name != "edit" %>
+<% unless action_name == "edit" || action_name == "show"%>
   <div class="footer">
     <div class="footer-links">
       <a href="/">Zenloop</a>

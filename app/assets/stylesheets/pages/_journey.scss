@@ -89,27 +89,32 @@ $transition-delay: 0.3s;
   }
 }
 
+.bg-color {
+  background-color: #2e2e2e;
+}
+
 .banner-map {
-  width: 100%;
-  height: 300px;
+  width: 50%;
   img {
     object-fit: cover;
-    max-height: 100%;
+    height: 100vh;
     width: 100%;
   }
 }
 
 .tickets-list {
-  background-color: #2e2e2e;
   padding-top: 20px;
-
+  overflow: hidden;
+  height: 100vh;
   h1 {
     color: white;
   }
 
   .tickets {
+    overflow: auto;
     flex-direction: column;
     align-items: center;
+    height: 100%;
     .ticket.ticket-stay {
       width: 308px;
       letter-spacing: -1px;
