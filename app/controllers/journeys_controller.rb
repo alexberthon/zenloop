@@ -3,7 +3,7 @@ class JourneysController < ApplicationController
   include GeojsonHelper
 
   before_action :authenticate_user!
-  before_action :set_journey, only: %i[show edit update destroy]
+  before_action :set_journey, only: %i[show edit update destroy like]
 
   def index
     @journeys = Journey.where(user: current_user)
@@ -48,8 +48,6 @@ class JourneysController < ApplicationController
   end
 
   def update
-    @journey = Journey.find(params[:id])
-
     if @journey.update(journey_params)
       redirect_to journey_path
     else
@@ -63,7 +61,6 @@ class JourneysController < ApplicationController
   end
 
   def like
-    @journey = Journey.find(params[:id])
     @journey_like = @journey.likes.find_by(user_id: current_user)
     if @journey_like
       @journey_like.destroy
