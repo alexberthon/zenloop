@@ -47,6 +47,15 @@ export default class extends Controller {
     this.map.remove();
   }
 
+  scrollRight() {
+    console.log('test')
+    const ticketScroll = this.ticketsTarget;
+    ticketScroll.scrollTo({
+      left: ticketScroll.scrollWidth - ticketScroll.clientWidth,
+      behavior: 'smooth'
+    });
+  }
+
   #addSelectedStationsToMap() {
     this.map.addSource("selectedStations", {
       type: "geojson",
@@ -173,7 +182,6 @@ export default class extends Controller {
 
     this.map.on("click", "reachableStations", (e) => {
       if (selectedAndReachableOverlapping(e)) return;
-
       this.clickedStationId = e.features[0].id;
       this.lineId = e.features[0].properties.line_id;
       this.#addLineStepToJourney(this.lineId);
@@ -376,6 +384,8 @@ export default class extends Controller {
         this.currentStepIdValue = data.current_step_id;
         this.ticketsTarget.innerHTML = data.tickets;
         this.#updateTicketsHeader();
+        this.scrollRight()
+
       })
   }
 
@@ -406,6 +416,7 @@ export default class extends Controller {
         this.ticketsTarget.innerHTML = data.tickets;
         this.#updateTicketsHeader();
         this.modal.hide();
+        this.scrollRight()
       })
   }
 
@@ -504,7 +515,7 @@ export default class extends Controller {
       html2canvas(this.mapTarget.querySelector('canvas')).then((canvas) => {
         const t = canvas.toDataURL().replace("data:image/png;base64,", "");
         canvas.toBlob(data => {
-          const file =  new File([data], `${new Date().getTime()}.png`, { type: 'image/png', lastModified: new Date().getTime() });
+          const file = new File([data], `${new Date().getTime()}.png`, { type: 'image/png', lastModified: new Date().getTime() });
           const dt = new DataTransfer()
           dt.items.add(file)
           this.screenMapTarget.files = dt.files
