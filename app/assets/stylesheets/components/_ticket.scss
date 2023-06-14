@@ -230,14 +230,13 @@ $ticket-height: 130px;
 
 .book-button {
   position: relative;
-  bottom: 47px;
-  left: 138px;
+  top: -8px;
+  right: -67px;
   z-index: 100;
   width: 34px;
   padding-left: 5px;
   border: 0.5px dotted black;
   border-radius: 0;
-  color: #E6612F
 }
 
 .book-button:hover {
