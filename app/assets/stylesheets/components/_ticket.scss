@@ -10,8 +10,9 @@ $stay-height: 130px;
   h4 {
     padding-left: 20px;
     margin: 0px;
-    margin-right: 20px;
+    margin-right: 16px;
     font-weight: 800;
+    font-size: 1.8rem
   }
 }
 
@@ -21,6 +22,7 @@ $stay-height: 130px;
   padding: 20px;
   overflow-x: scroll;
   overflow-y: hidden;
+  margin-bottom: 1em;
 }
 
 .ticket.ticket-line {
