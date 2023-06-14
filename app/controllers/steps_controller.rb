@@ -48,7 +48,7 @@ class StepsController < ApplicationController
         end
         response = build_map_data(journey, current_station)
         response[:tickets] = journey.steps.map do |step|
-          render_to_string(partial: "journeys/ticket", locals: { step: step }, layout: false, formats: :html)
+          render_to_string(partial: "journeys/ticket", locals: { step: step, readonly: false }, layout: false, formats: :html)
         end.join
         response[:current_step_id] = step.id.to_s
         format.json { render json: response }
