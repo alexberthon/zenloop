@@ -3,8 +3,27 @@ import mapboxgl from "mapbox-gl";
 import pulsingDot from "pulsing-dot";
 import html2canvas from "html2canvas";
 
+function debounce(callback, context, timeout = 300) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { callback.apply(context, args); }, timeout);
+  };
+}
+
 export default class extends Controller {
-  static targets = ["stations", "tickets", "ticketsHeader", "durationInput", "stationInput", "map", "screenMap", "button"]
+  static targets = [
+    "stations",
+    "loader",
+    "tickets",
+    "ticketsHeader",
+    "durationInput",
+    "stationInput",
+    "map",
+    "journeyForm",
+    "nameInput",
+    "photoInput",
+  ]
 
   static values = {
     apiKey: String,
@@ -19,6 +38,10 @@ export default class extends Controller {
     currentStepId: String,
     stepsLines: Array,
     stepsStays: Array
+  }
+
+  initialize() {
+    this.autosave = debounce(this.autosave, this, 1000);
   }
 
   connect() {
@@ -47,6 +70,14 @@ export default class extends Controller {
     this.map.remove();
   }
 
+  scrollRight() {
+    const ticketScroll = this.ticketsTarget;
+    ticketScroll.scrollTo({
+      left: ticketScroll.scrollWidth - ticketScroll.clientWidth,
+      behavior: 'smooth'
+    });
+  }
+
   #addSelectedStationsToMap() {
     this.map.addSource("selectedStations", {
       type: "geojson",
@@ -72,7 +103,8 @@ export default class extends Controller {
 
     this.stayPopup = new mapboxgl.Popup({
       closeButton: false,
-      closeOnClick: false
+      closeOnClick: false,
+      anchor: "left"
     });
 
     this.#addStayPopup(this.currentStationValue);
@@ -293,25 +325,33 @@ export default class extends Controller {
     const html = `
       <div class="add-stay-popup">
         <a href="#" data-action="click->journey#openModal" data-journey-station-id-param="${station.id}">
-          Add a stay <i class="fa-solid fa-chevron-right ms-1"></i>
+          Stay in ${station.properties.city} <i class="fa-solid fa-chevron-right ms-1"></i>
         </a>
       </div>`;
-    this.stayPopup.setLngLat(coordinates)
-      .setHTML(html)
-      .addClassName("add-stay-popup-container")
-      .setOffset([60, 25])
-      .addTo(this.map);
+
+    // Add the popup only if the selected station is different than the starting point
+    if (station.id !== this.selectedStationsValue.features[0].id) {
+      this.stayPopup.setLngLat(coordinates)
+        .setHTML(html)
+        .addClassName("add-stay-popup-container")
+        .addTo(this.map);
+    }
   }
 
   #clearHoverStates() {
-    this.map.setFeatureState(
-      { source: "tripLines", id: this.hoveredTripId },
-      { hover: false }
-    );
-    this.map.setFeatureState(
-      { source: "reachableStations", id: this.hoveredStationId },
-      { hover: false }
-    );
+    if (this.hoveredTripId) {
+      this.map.setFeatureState(
+        { source: "tripLines", id: this.hoveredTripId },
+        { hover: false }
+      );
+    }
+
+    if (this.hoveredStationId) {
+      this.map.setFeatureState(
+        { source: "reachableStations", id: this.hoveredStationId },
+        { hover: false }
+      );
+    }
     this.hoveredTripId = null;
     this.hoveredStationId = null;
   }
@@ -376,6 +416,8 @@ export default class extends Controller {
         this.currentStepIdValue = data.current_step_id;
         this.ticketsTarget.innerHTML = data.tickets;
         this.#updateTicketsHeader();
+        this.scrollRight()
+
       })
   }
 
@@ -406,6 +448,7 @@ export default class extends Controller {
         this.ticketsTarget.innerHTML = data.tickets;
         this.#updateTicketsHeader();
         this.modal.hide();
+        this.scrollRight();
       })
   }
 
@@ -496,26 +539,51 @@ export default class extends Controller {
     this.stationInputTarget.value = event.params.stationId;
   }
 
-  download() {
+  displayLoader() {
+    this.loaderTarget.classList.remove("d-none");
+    setTimeout(() => { this.loaderTarget.classList.add("opacity-25"); }, 200);
+    setTimeout(() => { this.loaderTarget.classList.add("opacity-50"); }, 700);
+    setTimeout(() => { this.loaderTarget.classList.add("opacity-75"); }, 1200);
+  }
+
+  validateJourney() {
     this.map.setLayoutProperty("reachableStations", "visibility", "none");
     this.map.setLayoutProperty("currentStation", "visibility", "none");
     this.#fitMapToMarkers(this.selectedStationsValue.features)
     setTimeout(() => {
-      html2canvas(this.mapTarget.querySelector('canvas')).then((canvas) => {
-        const t = canvas.toDataURL().replace("data:image/png;base64,", "");
+      html2canvas(this.mapTarget.querySelector("canvas")).then((canvas) => {
+        const t = canvas.toDataURL().replace("data:image/jpeg;base64,", "");
         canvas.toBlob(data => {
-          const file =  new File([data], `${new Date().getTime()}.png`, { type: 'image/png', lastModified: new Date().getTime() });
+          const file = new File([data], `${new Date().getTime()}.jpeg`, { type: "image/jpeg", lastModified: new Date().getTime() });
           const dt = new DataTransfer()
           dt.items.add(file)
-          this.screenMapTarget.files = dt.files
-          this.buttonTarget.click();
+          this.photoInputTarget.files = dt.files
+          this.journeyFormTarget.submit();
         })
-
-        // this.downloadBase64File('image/png',t,'image');
         this.map.setLayoutProperty("reachableStations", "visibility", "visible");
         this.map.setLayoutProperty("currentStation", "visibility", "visible");
       })
     }, 300);
+    this.displayLoader()
+  }
+
+  autosave() {
+    const url = `/journeys/${this.journeyValue.id}`;
+    const csrfToken = document.head.querySelector("[name='csrf-token']").content;
+
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-Token": csrfToken
+      },
+      body: JSON.stringify({
+        name: this.nameInputTarget.value,
+        credentials: "same-origin"
+      })
+    })
   }
 
   downloadBase64File(contentType, base64Data, fileName) {
@@ -523,7 +591,6 @@ export default class extends Controller {
     const downloadLink = document.createElement("a");
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
-    console.log(downloadLink);
     downloadLink.click()
   }
 }

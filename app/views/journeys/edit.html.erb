@@ -17,27 +17,10 @@
     data-journey-steps-lines-value="<%= @steps_lines.to_json %>"
     data-journey-steps-stays-value="<%= @steps_stays.to_json %>"
     >
-    <%= simple_form_for @journey, html: { class: 'd-none' } do |f| %>
-      <%= f.input :photo, as: :file, input_html: { data: {journey_target:"screenMap"} } %>
-      <%= f.button :submit, data: {journey_target:"button"} %>
-    <% end %>
     <div id="journey-map"></div>
-    <%= render "shared/name_form", journey: @journey %>
-    <%#= link_to "Save this journey!", journeys_path, class: "btn btn-primary", id:"cta" %>
-    <%#= render "sidebar", journey: @journey %>
-    <div class="tickets-container">
-      <div class="<%= class_names('d-flex', 'align-items-center', { 'd-none': @journey.steps.empty? }) %>" data-journey-target="ticketsHeader">
-        <h4>YOUR TRIP</h4>
-        <button data-action="click->journey#download" class="btn btn-secondary validate-button">
-          Validate your journey
-        </button>
-      </div>
-      <div class="tickets" data-journey-target="tickets">
-        <% @journey.steps.each do |step| %>
-          <%= render "ticket", step: step, readonly: false %>
-        <% end %>
-      </div>
-    </div>
+    <%= render "loader" %>
+    <%= render "sidebar", journey: @journey %>
+    <%= render "tickets", journey: @journey %>
     <%= render "stay_modal", journey: @journey %>
   </div>
 </div>

@@ -9,4 +9,11 @@ class Journey < ApplicationRecord
   has_many :likes, dependent: :destroy
 
   has_one_attached :photo
+
+  def total_distance
+    distances = self.steps.map do |step|
+      step.distance
+    end
+    distances.sum
+  end
 end

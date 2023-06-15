@@ -6,6 +6,7 @@ $ticket-height: 130px;
   bottom: 0px;
   left: 0px;
   max-width: 100%;
+
   h4 {
     padding-left: 20px;
     margin: 0px;
@@ -75,6 +76,10 @@ $ticket-height: 130px;
   transition: 1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
+.ticket:hover {
+  cursor: default;
+}
+
 .ticket-top,
 .ticket-bottom,
 .ticket-concatenation {
@@ -127,6 +132,7 @@ $ticket-height: 130px;
 
 .ticket-data {
   flex-grow: 1;
+
   p {
     margin-bottom: 0px;
   }
@@ -141,6 +147,7 @@ $ticket-height: 130px;
 .ticket-logo {
   text-align: center;
   padding-bottom: 10px;
+
   svg {
     top: 50%;
     position: relative;
@@ -151,6 +158,7 @@ $ticket-height: 130px;
 .ticket-right-banner {
   margin-left: -2px;
 }
+
 .ticket-left-banner {
   margin-right: -2px;
 }
@@ -187,6 +195,14 @@ $ticket-height: 130px;
   .stay-city {
     font-size: 28px;
     font-weight: bolder;
+    text-shadow: -1px -1px 0 #FFF,
+                  0   -1px 0 #FFF,
+                  1px -1px 0 #FFF,
+                  1px  0   0 #FFF,
+                  1px  1px 0 #FFF,
+                  0    1px 0 #FFF,
+                 -1px  1px 0 #FFF,
+                 -1px  0   0 #FFF;
   }
 
   .stay-country {
@@ -214,4 +230,23 @@ $ticket-height: 130px;
   bottom: 12px;
   left: 14px;
   z-index: 4;
+}
+
+
+
+// journey show page
+
+.book-button {
+  position: absolute;
+  bottom: 0px;
+  right: -14px;
+  z-index: 100;
+  width: 34px;
+  padding-left: 5px;
+  border: 0.5px dotted black;
+  border-radius: 0;
+}
+
+.book-button:hover {
+  background-color: #E6612F;
 }

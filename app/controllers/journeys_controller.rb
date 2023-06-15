@@ -19,7 +19,7 @@ class JourneysController < ApplicationController
       station_end: @station_start,
       user: current_user,
       duration: 0,
-      name: "New trip from #{@station_start.city.name}!"
+      name: "New trip from #{@station_start.city.name.capitalize}!"
     )
     if @journey.save!
       redirect_to edit_journey_path(@journey)
@@ -48,10 +48,17 @@ class JourneysController < ApplicationController
   end
 
   def update
-    if @journey.update(journey_params)
-      redirect_to params[:change].present? ? edit_journey_path : journey_path
-    else
-      render :edit, status: :unprocessable_entity
+    @journey.name = journey_params[:name]
+    @journey.photo.attach(journey_params[:photo]) unless journey_params[:photo].blank?
+
+    respond_to do |format|
+      if @journey.save
+        format.html { render :show, locals: { journey: @journey } }
+        format.json { render json: {}, status: :ok }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
     end
   end
 
