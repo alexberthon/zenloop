@@ -75,7 +75,7 @@ class JourneysController < ApplicationController
       new_like = Like.create(user_id: current_user.id, journey_id: @journey.id)
       @journey.likes << new_like
     end
-    redirect_to root_path
+    redirect_to journeys_path
   end
 
   private

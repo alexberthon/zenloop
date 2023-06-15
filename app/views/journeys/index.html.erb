@@ -1,5 +1,5 @@
 <div class="container pt-5">
-  <h1 class="text-center fw-bold mb-5">Take a look at your journeys</h1>
+  <h1 class="text-center fw-bold mb-5 text-light">Take a look at your journeys</h1>
   <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
     <% @journeys.each do |journey| %>
       <li class="col">
@@ -29,8 +29,10 @@
             </p>
           </div>
           <div class="card-footer">
-            <p>Travel time: <strong><%= ((journey.duration) / 60) %></strong> hours and <strong><%= ((journey.duration) % 60) %></strong> minutes <br>
+            <p> Journey duration: <br>
+              <%= duration_for(journey).html_safe %>
             </p>
+            <br>
             <%= link_to "Edit", edit_journey_path(journey), class: "btn btn-primary sm" %>
             <%= link_to "Delete this journey", journey_path(journey), class: "btn btn-outline-danger", data: {
                 turbo_method: :delete,

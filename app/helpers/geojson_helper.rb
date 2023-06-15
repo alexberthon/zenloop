@@ -1,4 +1,29 @@
 module GeojsonHelper
+  def duration_for_map(integer)
+    journey_in_hours = integer / 60
+    journey_in_days = journey_in_hours / 24
+
+    minutes = "minutes"
+    minutes = "minute" if (integer % 60) < 2
+
+    hours = "hours"
+    hours = "hour" if journey_in_hours < 2
+
+    modulo_hours = "hours"
+    modulo_hours = "hour" if (journey_in_hours % 24) < 2
+
+    days = "days"
+    days = "day" if journey_in_days < 2
+
+    if journey_in_hours < 1
+      "#{integer % 60} #{minutes}"
+    elsif journey_in_hours < 24
+      "#{journey_in_hours} #{hours} and #{integer % 60} #{minutes}"
+    elsif "#{journey_in_days} #{days} and #{journey_in_hours % 24} #{modulo_hours}"
+    else
+      ""
+    end
+  end
 
   def geojson_station(station)
     Jbuilder.new do |json|
@@ -42,6 +67,7 @@ module GeojsonHelper
         json.properties do
           json.name line.station_end.name
           json.duration line.duration
+          json.duration_html duration_for_map(line.duration)
           json.line_id line.id.to_i
           json.db_trip_id line.db_trip_id.gsub("|", "").to_i
         end
