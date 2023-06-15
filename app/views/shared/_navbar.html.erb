@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
   <div class="avatar-container">
     <div class="dropdown">
-      <%= image_tag("alex.jpg", crop: :fill, class: "avatar dropdown-toggle avatar-large", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false )%>
+      <%= image_tag("alex.jpg", crop: :fill, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false )%>
       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
         <%= link_to "Homepage", "/", class: "dropdown-item" %>
         <%= link_to "Your journeys", "/journeys", class: "dropdown-item" %>
@@ -13,10 +13,10 @@
   <% if action_name == "home" %>
     <div class="btn-home-wrapper">
       <div class="nav-item">
-        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-primary btn-sign-up" %>
+        <%= link_to "Login", new_user_session_path, class: "btn btn-flat btn-login" %>
       </div>
       <div class="nav-item">
-        <%= link_to "Login", new_user_session_path, class: "btn btn-flat btn-login" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-primary btn-sign-up" %>
       </div>
     </div>
   <% end %>

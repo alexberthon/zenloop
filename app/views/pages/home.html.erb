@@ -1,39 +1,65 @@
 <%= render "shared/banner" %>
-<head>
-</head>
-<div class="container">
-  <h2 class="text-center home-loops-text">Some great loops</h2>
-  <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
-    <% @journeys.sort_by { |journey| -journey.likes.count }.each do |journey| %>
-      <li class="col">
-        <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
-          <div class="card h-100">
-            <div>
-              <% if journey.photo.attached? %>
-                <%= image_tag journey.photo, crop: :fill, class: "card-img-top" %>
-              <% else %>
-                <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
-              <% end %>
-              <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
-            <% end %>
-          </div>
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <h5 class="card-title fw-bold"><%= journey.name.capitalize %></h5>
-              <span>
-                <%= link_to like_path(journey), method: 'get' do %>
-                  <i class="fas fa-heart" style="color: #ff0000;"></i>
-                <% end %>
-                <%= journey.likes.count %>
-              </span>
-            </div>
-            <p class="card-description">
-              From <strong><%= journey.station_start.name %></strong> <br>
-              to <strong><%= journey.station_end.name %></strong>
-            </p>
-          </div>
-        </div>
-      </li>
+
+
+<div class="bgimg-1 d-flex">
+  <div class="caption-rails text-black-screen">
+    <h2>Tailor-Made Train Trip:<br>Explore Europe Your Way!</h2>
+    <p>Experience Europe like never before, take charge of your own adventure! The power to explore is in your hands. Get ready to embark on a journey that's truly yours, as you chart your personalized route, hopping on and off at picturesque stops along the way. Embark on an eco-friendly European journey. The train awaits – where will it take you next?</p>
+  </div>
+</div>
+
+
+<div class="first-section d-flex">
+  <div class="icon" id="icon-map-2">
+    <svg data-controller="svg-animation" version="1.1" xmlns="http://www.w3.org/2000/svg" class="anim" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 84 70.1" preserveAspectRatio="xMinYMin meet">
+      <path class="animate path" d=" M28.6,61.2">
+      </path>
+      <polyline class="animate path" points=" 28.6,61.2 1.5,68.6 1.5,17.4 28.6,10 ">
+      </polyline>
+      <line class="animate path" x1="76.7" y1="55.6" x2="79.9" y2="54.7">
+      </line>
+      <line class="animate path" x1="73.8" y1="59.4" x2="79.9" y2="57.7">
+      </line>
+      <polyline class="animate path" points=" 58.6,16.3 82.5,10 82.5,61.2 55.5,68.6 ">
+      </polyline>
+      <polyline class="animate path" points=" 35.2,11.4 28.7,9.9 28.6,9.9 28.5,10 28.5,10 28.5,15.5 28.5,15.5 28.5,15.5 28.5,34.7 28.5,34.8 28.5,57.6 28.5,57.7 28.5,57.7 28.5,61.3 28.5,61.3 28.5,61.3 28.6,61.3 55.5,68.6 55.5,63.2 55.5,63.1 55.5,56.8 55.5,56.8 55.5,33.5 55.5,33.4 55.5,21.8 ">
+      </polyline>
+      <polyline class="animate path1" points="35.9,16.7 29.9,15.2 28.7,15.5 28.5,15.5 5.5,21.3 5.5,63.4 28.5,57.7 28.7,57.6 29.9,57.3 54.5,63.4 55.4,63.2 55.5,63.1 70.5,59.7 70.5,53.7 79.1,51.4 ">
+      </polyline>
+      <polyline class="animate path1" points="56.1,21 56.3,20.9 79.5,15.2 79.5,51.8 ">
+      </polyline>
+      <path class="animate path1" d="M10.2,47.5c0.3-0.4,0.5-0.9,0.8-1.3">
+      </path>
+      <path class="animate path-dashed" stroke-dasharray="2.9464,2.9464" d=" M12.7,43.9c19.2-26.2,29,10.3,43.3,13.1c21.3,4.2,17.2-35.3-5.9-20.9">
+      </path>
+      <path class="animate path2" d="M48.9,36.8c-0.4,0.3-0.8,0.6-1.2,0.9">
+      </path>
+      <path class="animate path2" d=" M59.1,13.5c0,6.6-12,18-12,18s-12-11.4-12-18s5.4-12,12-12S59.1,6.9,59.1,13.5z">
+      </path>
+      <circle class="animate fill2" cx="74.1" cy="56.2" r="1.2">
+      </circle>
+      <circle class="animate fill2" cx="46.9" cy="12.7" r="3">
+      </circle>
+    </svg>
+  </div>
+  <h3 class="home-text-map">Create Your Path, Embrace the Rails</h3>
+</div>
+
+<div class="bgimg-2 d-flex">
+  <div class="caption-bottom">
+    <h2>All Aboard Your Dream Voyage!</h2>
+    <div class='search_home_container search-home' >
+    <%= simple_form_for @journey do |f| %>
+      <%= f.select :station_start_id,
+              Station.to_select,
+              { include_blank: true },
+              data: {
+                controller: 'tom-select',
+                placeholder: "Where do you start from ? Lyon, Bruxelles, Nice..."
+              }%>
+      <br>
+      <%= f.submit "Lets go!", class: "btn btn-primary my-2 my-sm-0 formcity" %>
     <% end %>
-  </ul>
+    </div>
+  </div>
 </div>

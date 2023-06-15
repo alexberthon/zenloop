@@ -16,12 +16,12 @@
   color: white;
   padding: 8px 24px;
   border-radius: 4px;
-  background: #670BFF;
+  background: #142B30;
   transition: background 0.3s ease;
 }
 
 .btn-flat:hover {
-  background: #4D04C4;
+  background: #1A65A5;
   color: white;
 }
 
@@ -61,4 +61,10 @@
 .btn-home-wrapper {
   position: absolute;
   display: flex;
+  width: 100%;
+  justify-content: end;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1A65A5;
 }
