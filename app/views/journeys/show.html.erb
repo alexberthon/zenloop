@@ -1,7 +1,7 @@
 <div class="bg-color">
   <div class="d-flex space-between row g-0">
     <div class="tickets-list order-2 order-lg-1 col-12 col-lg-5 col-xl-4">
-      <div class="d-flex inline-block justify-content-between">
+      <div class="d-flex inline-block@ustify-content-between">
         <span>
           <%= link_to journeys_path, class: "text-white text-decoration-none" do %>
             <i class="fa-solid fa-chevron-left me-2"></i><span class="i-tag-text">Your journeys</span>
@@ -21,9 +21,7 @@
         </span>
       </div>
       <h1 class="text-center fw-bold"><%= @journey.name.capitalize %></h1>
-      <% duration_hours = @journey.duration / 60 %>
-      <% duration_days = duration_hours / 24 %>
-      <h6 class="text-center text-white">Journey duration : <%= duration_days %> days and <%= duration_hours % 24 %> hours</h6>
+      <h6 class="text-center text-white">Journey duration : <%= duration_for(@journey).html_safe %> </h6>
       <h6 class="text-center text-white">Journey distance : <%= @journey.total_distance %> km !</h6>
       <div class="tickets" data-journey-target="tickets">
         <% @journey.steps.each do |step| %>
