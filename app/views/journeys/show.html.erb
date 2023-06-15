@@ -25,7 +25,7 @@
       <% duration_days = duration_hours / 24 %>
       <h6 class="text-center text-white">Journey duration : <%= duration_days %> days and <%= duration_hours % 24 %> hours</h6>
       <h6 class="text-center text-white">Journey distance : <%= @journey.total_distance %> km !</h6>
-      <div class="tickets mb-4" data-journey-target="tickets">
+      <div class="tickets" data-journey-target="tickets">
         <% @journey.steps.each do |step| %>
           <%= render "ticket", step: step, readonly: true %>
         <% end %>
