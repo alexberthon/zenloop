@@ -306,7 +306,7 @@ export default class extends Controller {
     this.map.getCanvas().style.cursor = "pointer";
     const coordinates = e.features[0].geometry.coordinates;
     const name = e.features[0].properties.name;
-    const duration = e.features[0].properties.duration ? `${e.features[0].properties.duration} mins` : "";
+    const duration = e.features[0].properties.duration_html;
 
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
