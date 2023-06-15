@@ -3,7 +3,6 @@
   font-size: 50px;
 }
 
-
 .search_home_container {
   display: flex;
   flex-direction: column;
@@ -14,14 +13,259 @@
   width: 400px;
 }
 
-
 .fa-heart:hover {
   font-size: 1.15vw;
   transition: all 500ms;
 }
 
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  position: relative;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-// Smallest device
+.bgimg-1 {
+  background-image: url("black-rails.jpg");
+  height: 85vh;
+  align-items: center;
+}
+
+.bgimg-2 {
+  background-image: url("home-bottom.jpg");
+  justify-content: center;
+}
+
+.caption-bottom {
+  height: 100vh;
+  padding-top: 250px;
+}
+
+.caption span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+.first-section {
+  height: 40vh;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.second-section {
+  height: 500px;
+  background-color: #ffffff;}
+
+.search-home {
+  align-items: center;
+  margin-top: 0px;
+}
+
+.caption-bottom h2 {
+  font-size: 50px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 45px;
+  text-shadow: black 0.1em 0.1em 0.2em
+}
+
+.caption-rails p {
+  font-size: 20px;
+  width: 50%;
+  color: white;
+  margin-bottom: 35px;
+  font-size: 25px;
+}
+
+.text-black-screen {
+  text-align: start;
+  margin-left: 87px;
+}
+
+.text-black-screen h2 {
+  font-size: 50px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 35px;
+}
+
+.home-text-map {
+  font-size: 50px;
+  font-weight: 900;
+  margin-right: 70px;
+  margin-left: 50px;
+}
+
+ ///////////// ANIMATED SVG MAP /////////////////////////
+
+#icon-map-2 svg.animate {
+  .path-dashed {
+    animation: dash2 2s linear forwards;
+  }
+
+  .path {
+    animation: dash 5s linear forwards;
+  }
+
+  .path1 {
+    animation: dash 5s linear .25s forwards;
+  }
+
+  .path2 {
+    animation: dash 5s linear .5s forwards;
+  }
+
+  .fill2{
+    animation: fill .5s linear 1.75s forwards;
+  }
+}
+
+.fill2 {
+  fill: black;
+}
+
+ .icon{
+  float:left;
+  margin-right:20px;
+}
+
+.path, .path1, .path2, .path-dashed {
+  stroke: black;
+}
+
+.path, .path1, .path2, .fill1, .fill2, .fill3 {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+  stroke-width: 2.5;
+}
+
+.path, .path1, .path2 {
+  fill: none
+}
+
+.path-dashed {
+  fill: none;
+  stroke-miterlimit: 10;
+  stroke-width: 2.5;
+  stroke-opacity: 0;
+}
+
+.fill2{
+  stroke:none;
+  opacity:0;
+}
+
+#icon-map-2 {
+  width: 90px;
+}
+
+.animate {
+  width: 200px;
+  margin-left: 80px;
+}
+
+@keyframes fill {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 1100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash2 {
+  0% {
+    stroke-dashoffset: 1100;
+    stroke-opacity: 0;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+  }
+}
+
+/* Loader 2 */
+
+.loader-2:before,
+.loader-2:after {
+  content: '';
+}
+.loader-2:before {
+  border: 1px solid #1A65A5;
+  opacity: 0;
+  animation-name: loader2-1;
+}
+
+  @keyframes loader2-1 {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0; }
+      100% { transform: scale(1.3); opacity: 0; }
+  }
+
+.loader-2:after {
+  background-color: #1A65A5;
+  animation-name: loader2-2;
+}
+
+  @keyframes loader2-2 {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.7); }
+      100% { transform: scale(1); }
+  }
+
+/// RIP... ANIMATED DOT ///
+
+// <div class="loader loader-2"></div>
+
+
+// .loader {
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%;
+//   margin: 3em;
+//   display: inline-block;
+//   position: relative;
+//   vertical-align: middle;
+// }
+// .loader,
+// .loader:before,
+// .loader:after {
+//   animation: 1s infinite ease-in-out;
+// }
+// .loader:before,
+// .loader:after {
+//   width: 80%;
+//   height: 80%;
+//   border-radius: 50%;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// }
+
+
+/// RESPONSIVE ///
+
+/// Smallest device
 @media (min-width: 100px) and (max-width: 575px) {
   .cards {
     grid-template-columns: 1fr;
