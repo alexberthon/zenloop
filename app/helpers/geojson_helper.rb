@@ -6,6 +6,7 @@ module GeojsonHelper
       json.id station.id
       json.properties do
         json.name station.name
+        json.city station.city.name
       end
       json.geometry do
         json.type "Point"
@@ -22,6 +23,7 @@ module GeojsonHelper
         json.id station.id
         json.properties do
           json.name station.name
+          json.city station.city.name
         end
         json.geometry do
           json.type "Point"
