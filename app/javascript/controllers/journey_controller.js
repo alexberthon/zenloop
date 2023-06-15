@@ -325,7 +325,7 @@ export default class extends Controller {
     const html = `
       <div class="add-stay-popup">
         <a href="#" data-action="click->journey#openModal" data-journey-station-id-param="${station.id}">
-          Add a stay in ${station.properties.city} <i class="fa-solid fa-chevron-right ms-1"></i>
+          Stay in ${station.properties.city} <i class="fa-solid fa-chevron-right ms-1"></i>
         </a>
       </div>`;
 
