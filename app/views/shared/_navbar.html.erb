@@ -13,10 +13,10 @@
   <% if action_name == "home" %>
     <div class="btn-home-wrapper">
       <div class="nav-item">
-        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-primary btn-sign-up" %>
+        <%= link_to "Login", new_user_session_path, class: "btn btn-flat btn-login" %>
       </div>
       <div class="nav-item">
-        <%= link_to "Login", new_user_session_path, class: "btn btn-flat btn-login" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-primary btn-sign-up" %>
       </div>
     </div>
   <% end %>

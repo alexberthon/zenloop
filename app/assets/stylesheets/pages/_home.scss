@@ -54,14 +54,15 @@
 }
 
 .first-section {
-  height: 100vh;
-  color: #fff;
-  background-color: #000;
+  height: 500px;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .second-section {
-  height: 400px;
-}
+  height: 500px;
+  background-color: #ffffff;}
 
 .search-home {
   align-items: center;
@@ -69,9 +70,9 @@
 }
 
 .home-text {
-  // padding-top: 54px;
-  font-weight: 700;
-  font-size: 40px;
+  font-size: 70px;
+  font-weight: 900;
+  margin-right: 2em;
 }
 
 .caption h2 {
@@ -87,6 +88,119 @@
   margin-top: 1em;
   margin-left: 2em;
 }
+
+.home-text-two {
+  font-size: 70px;
+  font-weight: 900;
+  margin-right: 70px;
+}
+
+ ///////////// ANIMATED RED MAP /////////////////////////
+
+#icon-map-2 svg.animate {
+  .path-dashed {
+    animation: dash2 2s linear forwards;
+  }
+
+  .path {
+    animation: dash 5s linear forwards;
+  }
+
+  .path1 {
+    animation: dash 5s linear .25s forwards;
+  }
+
+  .path2 {
+    animation: dash 5s linear .5s forwards;
+  }
+
+  .fill2{
+    animation: fill .5s linear 1.75s forwards;
+  }
+}
+
+.fill2 {
+  fill: black;
+}
+
+ .icon{
+  float:left;
+  margin-right:20px;
+}
+
+.path, .path1, .path2, .path-dashed {
+  stroke: black;
+}
+
+.path, .path1, .path2, .fill1, .fill2, .fill3 {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+  stroke-width: 2.5;
+}
+
+.path, .path1, .path2 {
+  fill: none
+}
+
+.path-dashed {
+  fill: none;
+  stroke-miterlimit: 10;
+  stroke-width: 2.5;
+  stroke-opacity: 0;
+}
+
+.fill2{
+  stroke:none;
+  opacity:0;
+}
+
+#icon-map-2 {
+  width: 90px;
+}
+
+.animate {
+  width: 200px;
+  margin-left: 80px;
+}
+
+@keyframes fill {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 1100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash2 {
+  0% {
+    stroke-dashoffset: 1100;
+    stroke-opacity: 0;
+  }
+  50% {
+    stroke-opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+
 
 // Smallest device
 @media (min-width: 100px) and (max-width: 575px) {
