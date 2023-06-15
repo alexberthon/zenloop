@@ -29,11 +29,25 @@
         <% end %>
       </div>
     </div>
-    <div class="banner-map order-1 order-lg-2 col-12 col-lg-7 col-xl-8">
+    <div
+    class="banner-map order-1 order-lg-2 col-12 col-lg-7 col-xl-8"
+    data-controller="screenshot"
+    >
       <% if @journey.photo.attached? %>
-        <%= image_tag @journey.photo, crop: :fill %>
+        <div
+        class="screenshot"
+        data-screenshot-target="screenshot"
+        style="background-image: url('<%= cl_image_path @journey.photo.key %>')"
+        data-action="mousemove->screenshot#move"
+        >
+        </div>
       <% else %>
-        <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill %>
+        <div
+        class="screenshot"
+        data-screenshot-target="screenshot"
+        style="background-image: url('https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg')"
+        data-action="mousemove->screenshot#move"
+        >
       <% end %>
     </div>
   </div>

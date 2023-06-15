@@ -552,18 +552,17 @@ export default class extends Controller {
     this.#fitMapToMarkers(this.selectedStationsValue.features)
     setTimeout(() => {
       html2canvas(this.mapTarget.querySelector("canvas")).then((canvas) => {
-        const t = canvas.toDataURL().replace("data:image/jpeg;base64,", "");
         canvas.toBlob(data => {
           const file = new File([data], `${new Date().getTime()}.jpeg`, { type: "image/jpeg", lastModified: new Date().getTime() });
           const dt = new DataTransfer()
           dt.items.add(file)
           this.photoInputTarget.files = dt.files
           this.journeyFormTarget.submit();
-        })
+        }, "image/jpeg", 0.3)
         this.map.setLayoutProperty("reachableStations", "visibility", "visible");
         this.map.setLayoutProperty("currentStation", "visibility", "visible");
       })
-    }, 300);
+    }, 100);
     this.displayLoader()
   }
 

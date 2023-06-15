@@ -96,10 +96,10 @@ $transition-delay: 0.3s;
 .banner-map {
   height: 400px;
 
-  img {
-    object-fit: cover;
-    height: 100%;
+  .screenshot {
     width: 100%;
+    height: 100%;
+    background-size: cover;
   }
 }
 
