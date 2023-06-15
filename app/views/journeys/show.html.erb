@@ -24,13 +24,14 @@
             </div>
             <div>
               <h1 class="text-center fw-bold m-0"><%= @journey.name.capitalize %></h1>
-              <% duration = 0  %>
+              <% duration = 0 %>
               <% @journey.steps.each do |time| %>
                 <% duration += time.duration %>
               <% end %>
               <% duration_hours = duration / 60 %>
               <% duration_days = duration_hours / 24 %>
-             <h5 class="text-center text-white fw-bold mb-5px">Total time travelled : <%= duration_days %> days and <%= duration_hours - duration_days * 24 %> hours</h3>
+             <h6 class="text-center text-white fw-bold mb-5px">Total time travelled : <%= duration_days %> days and <%= duration_hours - duration_days * 24 %> hours</h6>
+             <h6 class="text-center text-white fw-bold mb-5px">Total distance travelled : <%= @journey.total_distance %> km !
             </div>
           </div>
         </div>

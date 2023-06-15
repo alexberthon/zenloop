@@ -41,7 +41,7 @@
         <div class="ticket-bottom">
           <div class="ticket-data">
             <p class="ticket-text-small text-distance">Distance</p>
-            <p style="font-size:14px"><strong><%=(Geocoder::Calculations.distance_between([step.line.station_start.latitude, step.line.station_start.longitude],[step.line.station_end.latitude,step.line.station_end.longitude])).round()%></strong>km</p>
+            <p style="font-size:14px"><strong><%= step.distance %></strong>km</p>
           </div>
           <div class="ticket-data">
             <p class="ticket-text-small text-duration">Duration </p>
