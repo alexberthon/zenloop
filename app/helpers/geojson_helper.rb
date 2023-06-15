@@ -19,8 +19,9 @@ module GeojsonHelper
       "#{integer % 60} #{minutes}"
     elsif journey_in_hours < 24
       "#{journey_in_hours} #{hours} and #{integer % 60} #{minutes}"
+    elsif "#{journey_in_days} #{days} and #{journey_in_hours % 24} #{modulo_hours}"
     else
-      "#{journey_in_days} #{days} and #{journey_in_hours % 24} #{modulo_hours}"
+      ""
     end
   end
 
