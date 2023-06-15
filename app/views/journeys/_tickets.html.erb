@@ -1,0 +1,9 @@
+<div class="tickets-container">
+  <div class="<%= class_names('d-flex', 'align-items-center', { 'd-none': journey.steps.empty? }) %>" data-journey-target="ticketsHeader">
+  </div>
+  <div class="tickets" data-journey-target="tickets">
+    <% journey.steps.each do |step| %>
+      <%= render "ticket", step: step, readonly: false %>
+    <% end %>
+  </div>
+</div>
