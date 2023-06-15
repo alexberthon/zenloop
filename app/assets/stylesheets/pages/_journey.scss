@@ -99,7 +99,7 @@ $transition-delay: 0.3s;
   img {
     object-fit: cover;
     height: 100vh;
-    width: 100%;
+    width: 133%;
   }
 }
 
@@ -122,6 +122,20 @@ $transition-delay: 0.3s;
       width: 310px;
     }
   }
+}
+
+.tickets::-webkit-scrollbar {
+  display: none!important;
+}
+
+.i-tag-text {
+  font-family: "DIN Pro" !important ;
+  color: white;
+  text-decoration: none;
+}
+
+.i-tag {
+  color: white
 }
 
 
