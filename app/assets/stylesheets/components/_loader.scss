@@ -1,11 +1,9 @@
 .train-loader {
-  width: 8em;
-  height: 10em;
-  font-size: 20px;
-  position: absolute;
+  font-size: 1em;
 }
 
 .train {
+  margin: 0 auto;
   width: 5em;
   height: 6em;
   background:
@@ -13,40 +11,38 @@
     radial-gradient(circle at 80% 80%, currentColor 0.6em, transparent 0.6em),
     black;
   border-radius: 1em;
-  position: relative;
-  left: 1px;
   color: white;
   animation: train-animate 1.5s infinite ease-in-out;
 }
 
 .train-background {
-  width: 12vw;
-  height: 27vh;
-  border-radius: 25%;
   position: absolute;
-  z-index: 200;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  border-radius: 25%;
   background-color: white;
-  left: 42vw;
-  top: 26vh;
+  overflow: hidden;
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.5s ease;
 }
 
-
 .train-text {
-  position: absolute;
-  top: 8px;
-  left: 38px;
-  width: 150px;
-  z-index: 1000;
+  text-align: center;
   letter-spacing: 0.4px;
   font-family: "DIN Pro";
+  font-weight: bold;
+  font-style: italic;
+  margin: 20px 0px;
 }
 
 .track {
+  margin: 0 auto;
   width: 8em;
   position: relative;
-  right: 29px;
   bottom: 3px;
 }
 
@@ -55,9 +51,6 @@
   left: 49px;
   top: 41px;
 }
-
-
-
 
 @keyframes train-animate {
 
