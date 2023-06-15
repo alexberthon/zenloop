@@ -14,3 +14,8 @@
 .main-app-content {
   min-height: calc(100vh - 50px);
 }
+
+.form-control,
+.form-control:focus {
+  background-color: white;
+}
