@@ -64,16 +64,16 @@ class StepsController < ApplicationController
     respond_to do |format|
       if @step.destroy
         @journey = @step.journey
-        if @step.kind == "line"
-          if @journey.steps.empty? || @journey.steps.where(kind: "line").empty?
-            station_end = @journey.station_start
-            current_step_id = ""
-          else
-            station_end = @journey.steps.where(kind: "line").last.line.station_end
-            current_step_id = @journey.steps.where(kind: "line").last.id.to_s
-          end
-          @journey.station_end = station_end
+
+        if @journey.steps.empty? || @journey.steps.where(kind: "line").empty?
+          station_end = @journey.station_start
+          current_step_id = ""
+        else
+          station_end = @journey.steps.where(kind: "line").last.line.station_end
+          current_step_id = @journey.steps.where(kind: "line").last.id.to_s
         end
+
+        @journey.station_end = station_end
         @journey.duration = @journey.duration - @step.duration
         @journey.save
         response = build_map_data(@journey)

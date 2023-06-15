@@ -103,7 +103,8 @@ export default class extends Controller {
 
     this.stayPopup = new mapboxgl.Popup({
       closeButton: false,
-      closeOnClick: false
+      closeOnClick: false,
+      anchor: "left"
     });
 
     this.#addStayPopup(this.currentStationValue);
@@ -324,25 +325,33 @@ export default class extends Controller {
     const html = `
       <div class="add-stay-popup">
         <a href="#" data-action="click->journey#openModal" data-journey-station-id-param="${station.id}">
-          Add a stay <i class="fa-solid fa-chevron-right ms-1"></i>
+          Add a stay in ${station.properties.city} <i class="fa-solid fa-chevron-right ms-1"></i>
         </a>
       </div>`;
-    this.stayPopup.setLngLat(coordinates)
-      .setHTML(html)
-      .addClassName("add-stay-popup-container")
-      .setOffset([60, 25])
-      .addTo(this.map);
+
+    // Add the popup only if the selected station is different than the starting point
+    if (station.id !== this.selectedStationsValue.features[0].id) {
+      this.stayPopup.setLngLat(coordinates)
+        .setHTML(html)
+        .addClassName("add-stay-popup-container")
+        .addTo(this.map);
+    }
   }
 
   #clearHoverStates() {
-    this.map.setFeatureState(
-      { source: "tripLines", id: this.hoveredTripId },
-      { hover: false }
-    );
-    this.map.setFeatureState(
-      { source: "reachableStations", id: this.hoveredStationId },
-      { hover: false }
-    );
+    if (this.hoveredTripId) {
+      this.map.setFeatureState(
+        { source: "tripLines", id: this.hoveredTripId },
+        { hover: false }
+      );
+    }
+
+    if (this.hoveredStationId) {
+      this.map.setFeatureState(
+        { source: "reachableStations", id: this.hoveredStationId },
+        { hover: false }
+      );
+    }
     this.hoveredTripId = null;
     this.hoveredStationId = null;
   }
@@ -439,7 +448,7 @@ export default class extends Controller {
         this.ticketsTarget.innerHTML = data.tickets;
         this.#updateTicketsHeader();
         this.modal.hide();
-        this.scrollRight()
+        this.scrollRight();
       })
   }
 
@@ -558,7 +567,7 @@ export default class extends Controller {
     this.displayLoader()
   }
 
-  autosave(event) {
+  autosave() {
     const url = `/journeys/${this.journeyValue.id}`;
     const csrfToken = document.head.querySelector("[name='csrf-token']").content;
 
