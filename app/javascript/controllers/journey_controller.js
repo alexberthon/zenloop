@@ -14,6 +14,7 @@ function debounce(callback, context, timeout = 300) {
 export default class extends Controller {
   static targets = [
     "stations",
+    "loader",
     "tickets",
     "ticketsHeader",
     "durationInput",
@@ -21,7 +22,7 @@ export default class extends Controller {
     "map",
     "journeyForm",
     "nameInput",
-    "photoInput"
+    "photoInput",
   ]
 
   static values = {
@@ -538,6 +539,13 @@ export default class extends Controller {
     this.stationInputTarget.value = event.params.stationId;
   }
 
+  displayLoader() {
+    this.loaderTarget.classList.remove("d-none");
+    setTimeout(() => { this.loaderTarget.classList.add("opacity-25"); }, 200);
+    setTimeout(() => { this.loaderTarget.classList.add("opacity-50"); }, 700);
+    setTimeout(() => { this.loaderTarget.classList.add("opacity-75"); }, 1200);
+  }
+
   validateJourney() {
     this.map.setLayoutProperty("reachableStations", "visibility", "none");
     this.map.setLayoutProperty("currentStation", "visibility", "none");
@@ -546,7 +554,7 @@ export default class extends Controller {
       html2canvas(this.mapTarget.querySelector("canvas")).then((canvas) => {
         const t = canvas.toDataURL().replace("data:image/jpeg;base64,", "");
         canvas.toBlob(data => {
-          const file =  new File([data], `${ new Date().getTime() }.jpeg`, { type: "image/jpeg", lastModified: new Date().getTime() });
+          const file = new File([data], `${new Date().getTime()}.jpeg`, { type: "image/jpeg", lastModified: new Date().getTime() });
           const dt = new DataTransfer()
           dt.items.add(file)
           this.photoInputTarget.files = dt.files
@@ -556,6 +564,7 @@ export default class extends Controller {
         this.map.setLayoutProperty("currentStation", "visibility", "visible");
       })
     }, 300);
+    this.displayLoader()
   }
 
   autosave() {
