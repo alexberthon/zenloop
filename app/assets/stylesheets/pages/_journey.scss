@@ -106,9 +106,14 @@ $transition-delay: 0.3s;
 .tickets-list {
   overflow: hidden;
   padding: 20px;
+
   h1 {
     color: white;
     margin: 20px 0px;
+  }
+
+  h5 {
+    margin-bottom: 20px;
   }
 
   .tickets {
@@ -130,7 +135,7 @@ $transition-delay: 0.3s;
 
 .i-tag-text {
   font-family: "DIN Pro" !important ;
-  color: white;
+  color:white;
   text-decoration: none;
 }
 
