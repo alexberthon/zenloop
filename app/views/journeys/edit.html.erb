@@ -18,7 +18,7 @@
     data-journey-steps-stays-value="<%= @steps_stays.to_json %>"
     >
     <div id="journey-map"></div>
-    <%= render "shared/name_form", journey: @journey %>
+    <%= render "sidebar", journey: @journey %>
     <div class="tickets-container">
       <div class="<%= class_names('d-flex', 'align-items-center', { 'd-none': @journey.steps.empty? }) %>" data-journey-target="ticketsHeader">
       </div>
