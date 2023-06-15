@@ -28,21 +28,18 @@
 
 .bgimg-1 {
   background-image: url("black-rails.jpg");
-  height: 100vh;
+  height: 85vh;
+  align-items: center;
 }
 
 .bgimg-2 {
   background-image: url("home-bottom.jpg");
-  height: 100vh;
+  justify-content: center;
 }
 
-.caption {
-  position: absolute;
-  left: 0;
-  top: 28%;
-  width: 100%;
-  text-align: center;
-  color: #000;
+.caption-bottom {
+  height: 100vh;
+  padding-top: 250px;
 }
 
 .caption span.border {
@@ -54,7 +51,7 @@
 }
 
 .first-section {
-  height: 500px;
+  height: 40vh;
   background-color: #ffffff;
   align-items: center;
   justify-content: space-around;
@@ -69,33 +66,42 @@
   margin-top: 0px;
 }
 
-.home-text {
-  font-size: 70px;
+.caption-bottom h2 {
+  font-size: 50px;
   font-weight: 900;
-  margin-right: 2em;
+  color: white;
+  margin-bottom: 45px;
+  text-shadow: black 0.1em 0.1em 0.2em
 }
 
-.caption h2 {
-  font-size: 70px;
-  font-weight: 900;
-  margin-bottom: 70px;
-  text-shadow: 2px 2px 3px rgba(31, 31, 31, 0.655);
+.caption-rails p {
+  font-size: 20px;
+  width: 50%;
   color: white;
+  margin-bottom: 35px;
+  font-size: 25px;
 }
 
 .text-black-screen {
   text-align: start;
-  margin-top: 1em;
-  margin-left: 2em;
+  margin-left: 87px;
 }
 
-.home-text-two {
-  font-size: 70px;
+.text-black-screen h2 {
+  font-size: 50px;
+  font-weight: 900;
+  color: white;
+  margin-bottom: 35px;
+}
+
+.home-text-map {
+  font-size: 50px;
   font-weight: 900;
   margin-right: 70px;
+  margin-left: 50px;
 }
 
- ///////////// ANIMATED RED MAP /////////////////////////
+ ///////////// ANIMATED SVG MAP /////////////////////////
 
 #icon-map-2 svg.animate {
   .path-dashed {
@@ -198,11 +204,68 @@
   }
 }
 
+/* Loader 2 */
 
-//////////////////////////////////////////////////////////////
+.loader-2:before,
+.loader-2:after {
+  content: '';
+}
+.loader-2:before {
+  border: 1px solid #1A65A5;
+  opacity: 0;
+  animation-name: loader2-1;
+}
+
+  @keyframes loader2-1 {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0; }
+      100% { transform: scale(1.3); opacity: 0; }
+  }
+
+.loader-2:after {
+  background-color: #1A65A5;
+  animation-name: loader2-2;
+}
+
+  @keyframes loader2-2 {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.7); }
+      100% { transform: scale(1); }
+  }
+
+/// RIP... ANIMATED DOT ///
+
+// <div class="loader loader-2"></div>
 
 
-// Smallest device
+// .loader {
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%;
+//   margin: 3em;
+//   display: inline-block;
+//   position: relative;
+//   vertical-align: middle;
+// }
+// .loader,
+// .loader:before,
+// .loader:after {
+//   animation: 1s infinite ease-in-out;
+// }
+// .loader:before,
+// .loader:after {
+//   width: 80%;
+//   height: 80%;
+//   border-radius: 50%;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// }
+
+
+/// RESPONSIVE ///
+
+/// Smallest device
 @media (min-width: 100px) and (max-width: 575px) {
   .cards {
     grid-template-columns: 1fr;

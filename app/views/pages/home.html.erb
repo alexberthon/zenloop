@@ -1,11 +1,13 @@
 <%= render "shared/banner" %>
 
 
-<div class="bgimg-1">
-  <div class="caption">
-    <h2 class="text-black-screen">Tailor-Made Train Trip:<br>Explore Europe Your Way!</h2>
+<div class="bgimg-1 d-flex">
+  <div class="caption-rails text-black-screen">
+    <h2>Tailor-Made Train Trip:<br>Explore Europe Your Way!</h2>
+    <p>Experience Europe like never before, take charge of your own adventure! The power to explore is in your hands. Get ready to embark on a journey that's truly yours, as you chart your personalized route, hopping on and off at picturesque stops along the way. Embark on an eco-friendly European journey. The train awaits – where will it take you next?</p>
   </div>
 </div>
+
 
 <div class="first-section d-flex">
   <div class="icon" id="icon-map-2">
@@ -40,12 +42,11 @@
       </circle>
     </svg>
   </div>
-  <h3 class="home-text-two">Some text and text again</h3>
-
+  <h3 class="home-text-map">Create Your Path, Embrace the Rails</h3>
 </div>
 
-<div class="bgimg-2">
-  <div class="caption">
+<div class="bgimg-2 d-flex">
+  <div class="caption-bottom">
     <h2>All Aboard Your Dream Voyage!</h2>
     <div class='search_home_container search-home' >
     <%= simple_form_for @journey do |f| %>
@@ -60,50 +61,5 @@
       <%= f.submit "Lets go!", class: "btn btn-primary my-2 my-sm-0 formcity" %>
     <% end %>
     </div>
+  </div>
 </div>
-
-
-<%# COMMENTED CODE BELOW / OLD INDEX CARDS CODE  %>
-
-<% if false %>
-
-<head>
-</head>
-<div class="container">
-  <h2 class="text-center home-loops-text">Some great loops</h2>
-  <ul id="journeys" class="list-unstyled row row-cols-lg-auto g-5">
-    <% @journeys.sort_by { |journey| -journey.likes.count }.each do |journey| %>
-      <li class="col">
-        <%= link_to journey_path(journey), class: "text-decoration-none text-black" do %>
-          <div class="card h-100">
-            <div>
-              <% if journey.photo.attached? %>
-                <%= image_tag journey.photo, crop: :fill, class: "card-img-top" %>
-              <% else %>
-                <%= image_tag "https://images.winalist.com/blog/wp-content/uploads/2021/02/26144939/shutterstock_535048540-scaled.jpg", crop: :fill, class: "card-img-top" %>
-              <% end %>
-              <%= image_tag "pigeon.png", crop: :fill, class: "card-avatar" %>
-            <% end %>
-          </div>
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <h5 class="card-title fw-bold"><%= journey.name.capitalize %></h5>
-              <span>
-                <%= link_to like_path(journey), method: 'get' do %>
-                  <i class="fas fa-heart" style="color: #ff0000;"></i>
-                <% end %>
-                <%= journey.likes.count %>
-              </span>
-            </div>
-            <p class="card-description">
-              From <strong><%= journey.station_start.name %></strong> <br>
-              to <strong><%= journey.station_end.name %></strong>
-            </p>
-          </div>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-</div>
-
-<% end %>
