@@ -20,7 +20,7 @@
         <div class="ticket-top">
           <div class="ticket-city-start">
             <p class="ticket-city-name"><strong><%= step.line.station_start.city.name.upcase.truncate(12) %></strong></p>
-            <p class="ticket-text-small"><%= step.line.station_start.name.truncate(15) %></p>
+            <p class="ticket-text-small"><%= step.line.station_start.name.truncate(13) %></p>
           </div>
           <div class="ticket-logo">
             <svg xmlns="http://www.w3.org/2000/svg" width="78" height="28" fill="none" viewBox="0 0 78 28">
@@ -34,7 +34,7 @@
           </div>
           <div class="ticket-city-end">
             <p class="ticket-city-name"><strong><%= step.line.station_end.city.name.upcase.truncate(12) %></strong></p>
-            <p class="ticket-text-small"><%= step.line.station_end.name.truncate(15) %></p>
+            <p class="ticket-text-small"><%= step.line.station_end.name.truncate(13) %></p>
           </div>
         </div>
         <div class="ticket-dotted-line"></div>
