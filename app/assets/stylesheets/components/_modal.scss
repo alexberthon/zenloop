@@ -1,0 +1,35 @@
+#stayModal {
+  .modal-content {
+    overflow: hidden;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .form-label {
+    text-align: center;
+    display: block;
+    font-weight: 600;
+    padding-top: 0.4em;
+    margin: 0;
+  }
+
+  .form-control {
+    border: 0;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 2em;
+    margin: 0 !important;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  button[type="submit"] {
+    margin: 0 !important;
+    border-radius: 0;
+    width: 100%;
+  }
+}

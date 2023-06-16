@@ -1,16 +1,14 @@
 <div class="modal fade" id="stayModal" tabindex="-1" aria-labelledby="Add a stay" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">New stay</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
       <div class="modal-body">
         <%= form_with url: journey_steps_path(journey), method: :post, data: { action: "submit->journey#addStayStepToJourney" } do |form| %>
           <%= form.label :duration, "How many days?", class: "form-label" %>
-          <%= form.number_field :duration, in: 1..90, class: "form-control mb-3", data: { journey_target: "durationInput" } %>
+          <%= form.number_field :duration, value: 2, in: 1..90, class: "form-control mb-3", data: { journey_target: "durationInput" } %>
           <%= form.number_field :station_id, class: "d-none", data: { journey_target: "stationInput" } %>
-          <%= form.submit "Add stay", class: "btn btn-primary mb-3" %>
+          <%= button_tag(type: "submit", class: "btn btn-primary mb-3") do %>
+            <i class="fa-solid fa-check"></i> Add
+          <% end %>
         <% end %>
       </div>
     </div>
