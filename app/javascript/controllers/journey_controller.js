@@ -558,11 +558,11 @@ export default class extends Controller {
           dt.items.add(file)
           this.photoInputTarget.files = dt.files
           this.journeyFormTarget.submit();
-        }, "image/jpeg", 0.3)
+        }, "image/jpeg", 0.5)
         this.map.setLayoutProperty("reachableStations", "visibility", "visible");
         this.map.setLayoutProperty("currentStation", "visibility", "visible");
       })
-    }, 100);
+    }, 300);
     this.displayLoader()
   }
 
