@@ -2,8 +2,6 @@
 <% content_for :meta_description, meta_description %>
 <% content_for :meta_image, cl_image_path(@journey.photo.key) if @journey.photo.attached? %>
 
-<div><%= cl_image_path(@journey.photo.key) %></div>
-
 <div class="bg-color">
   <div class="d-flex space-between row g-0">
     <div class="tickets-list order-2 order-lg-1 col-12 col-lg-5 col-xl-4">
