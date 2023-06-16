@@ -2,7 +2,7 @@ class JourneysController < ApplicationController
   include JourneyMapHelper
   include GeojsonHelper
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :show
   before_action :set_journey, only: %i[show edit update destroy like]
 
   def index
