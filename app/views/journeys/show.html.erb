@@ -2,6 +2,8 @@
 <% content_for :meta_description, meta_description %>
 <% content_for :meta_image, cl_image_path(@journey.photo.key) if @journey.photo.attached? %>
 
+<div><%= cl_image_path(@journey.photo.key) %></div>
+
 <div class="bg-color">
   <div class="d-flex space-between row g-0">
     <div class="tickets-list order-2 order-lg-1 col-12 col-lg-5 col-xl-4">
@@ -13,7 +15,7 @@
         </span>
         <span>
           <span class="mx-auto mb-3">
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" id="share" data-text="Hey! look at my journey on Zenloop!" data-hashtags="EcoTrip" data-lang="en" data-show-count="false" data-image="<%= cl_image_path(@journey.photo.key) %>">Tweet</a>
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" id="share" data-text="Hey! look at my journey on Zenloop!" data-hashtags="EcoTrip" data-lang="en" data-show-count="false" data-image="<%= cl_image_path(@journey.photo.key) if @journey.photo.attached? %>">Tweet</a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
           </span>
           <span class="m-1">
