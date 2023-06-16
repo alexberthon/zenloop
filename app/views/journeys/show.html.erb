@@ -13,7 +13,7 @@
         </span>
         <span>
           <span class="mx-auto mb-3">
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" id="share" data-text="Hey! look at my journey on Zenloop!" data-hashtags="EcoTrip" data-lang="en" data-show-count="false" data-image="<%= cl_image_path(@journey.photo.key) %>">Tweet</a>
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" id="share" data-text="Hey! look at my journey on Zenloop!" data-hashtags="EcoTrip" data-lang="en" data-show-count="false" data-image="<%= cl_image_path(@journey.photo.key) if @journey.photo.attached? %>">Tweet</a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
           </span>
           <span class="m-1">
