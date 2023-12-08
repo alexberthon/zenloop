@@ -1,1 +1,3 @@
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+Schedule a multi-destination train trip.
+
+80 000 european train stations fetched from the german railway company API. Javascript-heavy project to dynamically create and edit a train journey between countries by directly clicking on stations on the map. 
